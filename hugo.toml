@@ -1,3 +1,36 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+# Site settings
+baseurl = "https://blog-balashekhar.com/"
+title = "bala's random rumblings"
+pagination.pagerSize = 4
+buildFuture = true
+
+[[menu.social]]
+  name = "GitHub"
+  title = "fab fa-github-square"
+  url = "https://github.com/baala3/blog/"
+
+[[menu.main]]
+  name = "Talks"
+  title = "Talks"
+  url = "/talks/"
+
+[[menu.main]]
+  name = "Slides"
+  title = "Slides"
+  url = "/slides/"
+
+[[menu.main]]
+  name = "Archives"
+  title = "Archives"
+  url = "/archives/"
+
+[params]
+  author = "balashekhar"
+  twitter = "balashekhar_k"
+  classes = []
+
+[outputs]
+  home = ["HTML", "JSON", "RSS"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
