@@ -1,7 +1,7 @@
 {{- $hdr := cond (or (in .Site.Params.classes "feature-nohdr") (in .Params.classes "feature-nohdr")) false true -}}
-<div class="relative w-100">
-	<article>
-		<div class="db pv4 {{ cond $hdr "ph3" "" }} ph0-l no-underline dark-gray">
+<div class="relative w-100 mb4">
+	<article class="bg-white br3 shadow-1 pa3">
+		<div class="db {{ cond $hdr "ph3" "" }} ph0-l no-underline dark-gray">
 			<div class="flex flex-column flex-row-ns">
 				{{ if $hdr }}
 				<div class="mb4 mb0-ns w-100 h4 h4-m w4-m h5-ns w5-ns br3 cover {{ if lt .Date.Unix now.Unix }}hide-child{{ end }}" style="background-image: url('{{ absURL (default "img/default-header-img.tn-500x500.jpg" (default .Params.image .Params.thumbnail)) }}'); background-position: center;">
@@ -18,13 +18,13 @@
 					<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
 						{{ if eq .Section "slides" }}
 							{{ .Description | markdownify }}
-							<p class="pa0 sans-serif f7"><a class="ba br3 pa2 link" href="{{ .Permalink }}">View Slideshow <i class="fas fa-chevron-circle-right"></i></a></p>
+							<p class="pa0 sans-serif f7 mt3"><a class="ba br3 pa2 link" href="{{ .Permalink }}">View Slideshow <i class="fas fa-chevron-circle-right"></i></a></p>
 						{{ else if eq .Section "talks" }}
 							{{ .Summary }}
-							<p class="pa0 sans-serif f7"><a class="ba br3 pa2 link" href="{{ .Permalink }}">Talk Details <i class="fas fa-chevron-circle-right"></i></a></p>
+							<p class="pa0 sans-serif f7 mt3"><a class="ba br3 pa2 link" href="{{ .Permalink }}">Talk Details <i class="fas fa-chevron-circle-right"></i></a></p>
 						{{ else }}
 							{{ .Summary }}
-							<p class="pa0 sans-serif f7"><a class="ba br3 pa2 link" href="{{ .Permalink }}">Continue Reading <i class="fas fa-chevron-circle-right"></i></a></p>
+							<p class="pa0 sans-serif f7 mt3"><a class="ba br3 pa2 link" href="{{ .Permalink }}">Continue Reading <i class="fas fa-chevron-circle-right"></i></a></p>
 						{{ end }}
 					</div>
 				</div>
