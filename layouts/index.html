@@ -1,6 +1,6 @@
 {{ define "main" }}
-	<div class="pa3 pa4-ns w-100 w-70-ns center">
-		<section class="w-100 mw8">
+	<div class="pa3 pa4-ns w-100 center">
+		<section class="w-100 mw7 center">
 		{{ $pages := where .Paginator.Pages ".Params.skip" "ne" "true" }}
 		{{ range where (where $pages ".Date.Unix" "<" now.Unix) "Section" "ne" "slides" }}
 			{{ partial "li.html" . }}
