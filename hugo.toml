@@ -24,11 +24,6 @@ buildFuture = true
   title = "Archives"
   url = "/archives/"
 
-[[menu.main]]
-  name = "Authors"
-  title = "Authors"
-  url = "/authors/"
-
 [params]
   author = "bala"
   twitter = "balashekhar_k"
