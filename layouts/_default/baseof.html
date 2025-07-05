@@ -51,7 +51,7 @@
 		<script src="{{ "js/story.js" | absURL }}"></script>
 
 	</head>
-	<body class="ma0 bg-white {{ with .Section }}section-{{ . }}{{ end }} page-kind-{{ .Kind }} is-page-{{ .IsPage }} {{ with .Site.Params.classes }}{{ range . }} {{ . }}{{ end }}{{ end }}{{ with .Params.classes }}{{ range . }} {{ . }}{{ end }}{{ end }}">
+	<body class="ma0 bg-white flex flex-column min-vh-100 {{ with .Section }}section-{{ . }}{{ end }} page-kind-{{ .Kind }} is-page-{{ .IsPage }} {{ with .Site.Params.classes }}{{ range . }} {{ . }}{{ end }}{{ end }}{{ with .Params.classes }}{{ range . }} {{ . }}{{ end }}{{ end }}">
 		{{ block "header" . }}
 		<!--
 		You can set the title and header image in the "title/image" parameters of
@@ -119,16 +119,18 @@
 			</div>
 		</header>
 		{{ end }}
-		<main role="main">
-		{{ block "main" . }}
-		{{ end }}
-		</main>
-		{{ block "about" . }}
-			{{ partial "about.html" . }}
-		{{ end }}
-		{{ block "pagination" . }}{{ end }}
+		<div class="flex-auto">
+			<main role="main">
+			{{ block "main" . }}
+			{{ end }}
+			</main>
+			{{ block "about" . }}
+				{{ partial "about.html" . }}
+			{{ end }}
+			{{ block "pagination" . }}{{ end }}
+		</div>
 		{{ block "footer" . }}
-		<footer class="hide-print sans-serif f6 fw1 bg-black near-white bottom-0 w-100 pa3" role="contentinfo">
+		<footer class="hide-print sans-serif f6 fw1 bg-black near-white w-100 pa3" role="contentinfo">
 			<p class="w-50 fr tr">
 			<a class="no-underline near-white" href="https://github.com/xaprb/story"><img class="dib" title="Made with Hugo and Story" alt="Story logo" src="{{ "img/story-logo-white.svg" | absURL }}" style="width: 1.5rem; height: 1.5rem" /></a>
 			</p>
