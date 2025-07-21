@@ -7,7 +7,7 @@ buildFuture = true
 [[menu.social]]
   name = "GitHub"
   title = "fab fa-github-square"
-  url = "https://github.com/baala3/blog/"
+  url = "https://github.com/baala3"
 
 [[menu.social]]
   name = "Portfolio"
