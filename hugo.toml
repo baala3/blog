@@ -1,5 +1,5 @@
 # Site settings
-baseurl = "https://blog-balashekhar.com/"
+baseurl = "https://balashekhar-blog.netlify.app"
 title = "bala's random rumblings"
 pagination.pagerSize = 4
 buildFuture = true
@@ -8,6 +8,11 @@ buildFuture = true
   name = "GitHub"
   title = "fab fa-github-square"
   url = "https://github.com/baala3/blog/"
+
+[[menu.social]]
+  name = "Portfolio"
+  title = "fa fa-user"
+  url = "https://balashekhar.me/"
 
 [[menu.main]]
   name = "Talks"
