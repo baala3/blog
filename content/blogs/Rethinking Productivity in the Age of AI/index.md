@@ -1,6 +1,7 @@
 ---
 title: "Rethinking Productivity in the Age of AI"
 date: "2025-06-23T08:22:20Z"
+draft: true
 description: "How neural task managers and ambient interfaces are reshaping personal efficiency beyond traditional to-do lists."
 thumbnail: "https://images5.alphacoders.com/139/1395477.jpg"
 image: "https://images4.alphacoders.com/139/1395476.jpg"

@@ -1,6 +1,7 @@
 ---
 title: "Modern Data Visualization Techniques"
 date: "2023-11-15T14:30:00-05:00"
+draft: true
 url: "/slides/data-viz"
 image: "https://images7.alphacoders.com/134/1349848.jpeg"
 thumbnail: "https://images.alphacoders.com/134/1349850.jpeg"

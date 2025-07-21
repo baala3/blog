@@ -1,6 +1,7 @@
 ---
 title: "The Quiet Revolution of Ambient Computing"
 date: "2025-06-23T08:22:20Z"
+draft: true
 description: "How invisible interfaces are changing our relationship with technology without screens or commands."
 thumbnail: "https://images.alphacoders.com/135/1353722.jpeg"
 image: "https://images6.alphacoders.com/135/1358135.png"
