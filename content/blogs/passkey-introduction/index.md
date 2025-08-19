@@ -11,7 +11,6 @@ categories:
 - passkeys
 - webauth
 ---
-# Intro
 
 In this blog, I’m going to explain what passkeys are and how they came into picture in modern authentication and basic flow of passkey registration and authentication.
 
