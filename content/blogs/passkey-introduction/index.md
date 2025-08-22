@@ -118,7 +118,7 @@ https://github.com/baala3/passkeys
 <img src="./registration_overview.svg"/>
 
 ### _Typical flow chart_
-<img src="./registration_flow.png"/>
+<img src="./registration_flow.svg" style="display: block; margin: 0px auto;"/>
 
 ### a. Init webauthn credential registration
 1. User start webauthn credential registration process by submiting the details via sign-up page
@@ -286,7 +286,7 @@ Frontend confirms account creation and behave accordingly (like storing session 
 <img src="./authentication_overview.svg"/>
 
 ### _Typical flow chart_
-<img src="./authentication_flow.png"/>
+<img src="./authentication_flow.svg" style="display: block; margin: 0px auto;"/>
 
 ### a. Init WebAuthn Authentication Request
 

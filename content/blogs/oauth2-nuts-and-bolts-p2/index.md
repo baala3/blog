@@ -12,7 +12,7 @@ categories:
 - OpenId
 ---
 
-This is part2 of The nuts and bolts of oauth2.0, continuing [part1](https://balashekhar-blog.netlify.app/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1/). In this section we will OAuth for server-side apps, native apps, single-page apps and Internet of Things.
+This is part2 of The nuts and bolts of oauth2.0, continuing [part1](https://balashekhar-blog.netlify.app/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1/). In this section we will check OAuth flow for server-side apps, native apps, single-page apps and Internet of Things.
 
 Ok! let'z go..
 
@@ -43,7 +43,7 @@ Ok, let's see how OAuth flow goes in case of server side web-apps, Once you regi
 **Overview**
 
 Below is overview of the flow: 
-<img src="auth_flow_in_server_side_app.png" style="border: 1px solid black"/>
+<img src="auth_flow_in_server_side_app.svg" style="display: block; margin: 20px auto;"/>
 
 1. The user initiates the flow. The application server generates a secret called a `code verifier`, hashes it into a `code challenge`, and redirects the user to the Auth Server with this challenge and metadata (client ID, redirect URI, etc.).
 2. The user authenticates at the Auth Server and provide consent to share data with application. The Auth Server then returns an `authorization code` to the application via the front channel.
