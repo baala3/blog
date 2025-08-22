@@ -1,6 +1,6 @@
 ---
 title: 'The nuts and bolts of oauth2.0 (part1)'
-date: "2023-10-15T10:52:44+09:00"
+date: "2023-03-19T10:52:44+09:00"
 url: "/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1"
 description: ""
 tldr: ""
