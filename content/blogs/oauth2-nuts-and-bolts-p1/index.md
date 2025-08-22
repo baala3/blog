@@ -95,7 +95,7 @@ And when it comes to OAuth they are called roles and name will be changed like
 - Application → OAuth Client
 - API → Resource server
 
-<img src="oauth_roles.png"/>
+<img src="oauth_roles.svg" style="display: block; margin: 20px auto;"/>
 Along with above roles OAuth also introduces Role5 called `Authorisation server` Its job is to manage the API that it’s protecting from OAuth clients, So user can only login at auth server by entering the credentials and get access token to access the API. Depending on system architecture your software can combine Resource server and Auth server or can also depend on external auth server and whole bunch of micro-services that make various API’s.
 
 #### 2. <u>Application Types</u>
