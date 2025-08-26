@@ -1,6 +1,6 @@
 ---
 title: 'The nuts and bolts of oauth2.0 (part3)'
-date: "2023-08-15T10:52:44+09:00"
+date: "2023-06-15T10:52:44+09:00"
 url: "/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p3"
 description: ""
 tldr: ""
@@ -107,24 +107,6 @@ So in short: Access Token → lets app call APIs. ID Token → tells the app who
 
 
 #### 2. <u>Access Token vs ID Token</u>
-
-<!-- <div style="display: flex; font-size: 12px; flex-wrap: nowrap; width: 100%;">
-<div style="flex: 1; border: 1px solid #ddd; padding: 4px; background-color: #f9f9f9; border-radius: 5px;">
-<pre style="margin: auto 0px;">{
-  "access_token": {
-    "ver": 1,
-    "jti": "AT.9PhB7Kh81RRVRApHbS39eXhrphiHray46Rz5gAr5gbY..."
-}
-</pre>
-</div>
-<div style="flex: 1; border: 1px solid #ddd; padding: 4px; background-color: #f9f9f9; border-radius: 5px;">
-<pre style="margin: 0;">{
-  "id_token": {
-    "sub": "00ugi4dbxSUVca12X356",
-  }
-}</pre>
-</div>
-</div> -->
 
 <div style="display: flex; flex-wrap: wrap; gap: 2px; font-size: 12px; width: 100%; align-items: stretch;">
   <div style="flex: 1; display: flex; align-items: center; border-radius: 5px;">
