@@ -1,5 +1,5 @@
 # Site settings
-baseurl = "https://balashekhar-blog.netlify.app"
+baseurl = "https://blog.balashekhar.me/"
 title = "bala's random rumblings"
 pagination.pagerSize = 4
 buildFuture = true
@@ -12,7 +12,7 @@ buildFuture = true
 [[menu.social]]
   name = "Portfolio"
   title = "fa fa-user"
-  url = "https://balashekhar.me/"
+  url = "https://dev.balashekhar.me/"
 
 [[menu.main]]
   name = "Talks"

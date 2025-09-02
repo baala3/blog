@@ -2,7 +2,7 @@
 title: bala's random rumblings🌱
 subtitle: "echo $THOUGHTS > /dev/blog"
 ---
-[![Bala](/img/bala.png)](https://balashekhar.me/)
+[![Bala](/img/bala.png)](https://dev.balashekhar.me/)
 
 An ID Developer at Money Forward, Tokyo.
 Designing secure authentication solutions using OAuth2.0, OpenID, SAML, and Passkeys. Experienced in microservices, DevOps, and SRE optimizations. Passionate about building robust, secure identity systems.
