@@ -11,7 +11,7 @@ categories:
 - Productivity
 ---
 
-In this blog I want to share the tools I use on macOS that make my daily work easier and faster. I’ll skip the usual work related tools like Docker, VS Code, IntelliJ IDEA, and Xcode. 
+In this blog I want to share the tools I use on macOS that make my daily work easier and faster as Ruby and Go developer. I’ll skip the usual work related tools/IDEs like Docker, VS Code, IntelliJ IDEA, and Xcode. 
  <!--more--> Instead, focus on the ones that actually improve my Productivity.
 
 ---
@@ -20,7 +20,7 @@ In this blog I want to share the tools I use on macOS that make my daily work ea
 
 https://brew.sh/
 
-Homebrew is the first thing I install on any Mac. It’s an open-source package manager for macOS that makes installing apps and command-line tools simple.
+Homebrew is the first thing i installed on any Mac. It’s an open-source package manager for macOS that makes installing apps and command-line tools simple.
 
 ```bash
 # Search for formulas and casks
@@ -33,52 +33,49 @@ brew install formula
 brew install --cask cask
 ```
 
-You can install both formulas (CLI tools) and casks (full apps). A must-have for any developer.
+You can install both formulas (CLI tools) and casks (full apps). A must-have one for any developer.
 
 ---
 
-### 2. Fork (Git Client)
+### 2. Fork (git client)
 https://git-fork.com/
 
-I mostly use Git from the command line, but Fork helps me review changes visually before pushing changes. It reduces mistakes like committing to the wrong branch.
+I mostly use Git from the command line, but Fork helps me review changes visually before pushing changes. It reduces mistakes like committing wrong commits to the wrong branches.
 
 ---
 
-### 3. Warp (Terminal)
+### 3. Warp (terminal)
 
 https://www.warp.dev/
 
-Warp is a modern terminal with useful features:
-
-- Customization options
-- Workflows for automating common tasks
-- Built-in AI that remembers and suggests commands
+Warp is a modern terminal with useful features like Customization options Workflows for automating common tasks, recently has built-in AI that remembers and suggests commands.
 
 It’s fast, smart, and more user-friendly than the default terminal.
 
 ---
 
-### 4. Rectangle (Window manager)
+### 4. Rectangle (window manager)
 
 https://rectangleapp.com/
 
 Window management on macOS is limited compared to Windows. Rectangle solves this with simple keyboard shortcuts to snap and organize windows.
 
-I set custom shortcuts, so managing multiple apps is no longer a headache.
+I set custom shortcuts (see below), so managing multiple apps became simple after installing this tool.
 
 <img src="rectangle.png" style="display: block; margin: 0 auto;"/>
 
 ---
 
-### 5. AltTab (Windows alt-tab on macOS)
+### 5. AltTab (windows alt-tab on macOS)
 
 https://alt-tab-macos.netlify.app/
 
-By default, macOS only lets you switch between apps, not windows of the same app.
+By default, macOS's `cmd+tab` only lets you switch between apps, not windows of the same app.
 
-AltTab is a took just to fix this. So replaced `cmd+tab` with AltTab and also mapped `Cmd+`` to switch between windows in the current app. 
+AltTab is a tool just to fix this. I just replaced `cmd+tab` with AltTab and also mapped ` Cmd+` ` to switch between windows of the current app. 
 
-Huge time saver and something I consider very useful.
+Huge time saver and something I never imagined it exists.
+(Espically in arc browser, i couldn't find a shortcut to switch below windows)
 
 ---
 
@@ -86,7 +83,7 @@ Huge time saver and something I consider very useful.
 
 https://www.raycast.com/
 
-Raycast is a faster, cleaner replacement for Spotlight. I haven’t used all its features yet, but even basic search feels better than Spotlight.
+Raycast is a faster, cleaner replacement for Spotlight. I’d say it’s a bit of a heavy tool that exceeds my needs and requires many external extensions to be installed. I haven’t used all its features yet, but even basic search feels better than Spotlight.
 
 ---
 
@@ -94,7 +91,7 @@ Raycast is a faster, cleaner replacement for Spotlight. I haven’t used all its
 
 https://clipy-app.com/
 
-macOS didn’t have proper clipboard history for a long time. Even now, the built-in option in macOS26 is limited. Clipy keeps a full history of copied items.
+macOS didn’t have proper clipboard history for a long time. Even now, the built-in option in macOS26 is very limited. Clipy keeps full history of copied items.
 
 My shortcut is `Cmd+Shift+D` to quickly check the history and paste.
 
@@ -112,7 +109,7 @@ A simple countdown timer. Nothing fancy, just works when I need to focus or take
 
 https://www.pdfgear.com/
 
-I rarely need to edit PDFs, but when I do, PDF Gear is lightweight and easy to use.
+I sometimes need to edit PDFs, when I do, PDF Gear is lightweight and easy to use option for me.
 
 ---
 
@@ -120,7 +117,7 @@ I rarely need to edit PDFs, but when I do, PDF Gear is lightweight and easy to u
 
 https://bitwarden.com/
 
-My password manager of choice. It’s open source, secure, and works across all platforms. Not Mac-specific, but essential.
+My password manager of choice. It’s open source, secure, and syncs my credentials across all platforms.
 
 ---
 
@@ -128,7 +125,9 @@ My password manager of choice. It’s open source, secure, and works across all 
 
 https://ente.io/auth/
 
-For 2FA, I use Ente Authenticator. It’s open source, syncs across iOS, Android, and macOS, and even has a web app for codes. Very convenient compared to traditional authenticators.
+For 2FA, I use Ente Authenticator. It’s open source, syncs across iOS, Android, and macOS, and even has a website app for 2FA codes. Very convenient compared to traditional authenticators which are OS bound or device bound ones. 
+
+I found this one on reddit.
 
 ---
 
@@ -136,7 +135,7 @@ For 2FA, I use Ente Authenticator. It’s open source, syncs across iOS, Android
 
 https://calibre-ebook.com/
 
-If you use ebooks, Calibre is the best tool to manage and convert them. I use it mainly for my Kindle. Not pretty, but very powerful.
+If you use ebooks, Calibre is the best tool to manage and convert them. I use it mainly for my Kindle to convert my pdf's to .epub, .mobi formats. This is great and very powerful tools for such use cases.
 
 ---
 
@@ -148,4 +147,6 @@ On browsers (Arc, Chrome, Safari, Firefox), I use Vimium for Vim-style keyboard 
 
 ---
 
-That’s my current macOS setup tools. And i’ll update this list when I discover new ones.
+That’s my current macOS setup tools. Ofcourse you can use an many tools as you want to, but be careful on not to overwhelm yourself with so many tools at once. Always think twice before installing the tool whether it really solving your needs and at what cost?..
+
+That's all for now & i’ll update this list when I discover new ones.
