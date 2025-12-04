@@ -17,18 +17,19 @@ In this blog, I’m going to explain what passkeys are and how they came into pi
 Since many services like Apple, Google, GitHub and others have started deploying passkeys, <!--more--> It’s important to understand **what they are, why they exist, and whether you should use them**.
 
 
-A **passkey** is basically credential (like a password) which you can use to authenticate into server. which is much faster, more secure, and more user-friendly than traditional password authentication.
+A **passkey** is basically credential (like password) which you can use to authenticate into server. which is much faster, more secure, and more user-friendly than traditional password authentication.
 
 When I joined **MFID** (an identity service at MoneyForward), one of the milestones on my team’s roadmap was `passwordless authentication`.
 
 And my first reaction was like..
 
-> “Passwordless auth? How can I log in to web server without typing my credentials? Is this magic? Or is the authentication happening somewhere else?”
+> “Passwordless auth? How can I log in to web service without typing my credentials? Is this magic? Or is the authentication happening somewhere else?”
 > 
 
 These questions got me curious, and I had into learning more about passkeys. Eventually, I got hands on experience with integrating and deploying passkeys to production during my early days of my work.
 
-So This blog is to just cover higher level topics of passkeys and things that i learned in this about them.
+So in this blog I want to cover higher level topics of passkeys and things that i learned in this about them.
+
 What i'm gonna cover is:
 
 - What & Why Are Passkeys?
@@ -48,20 +49,20 @@ A **passkey** (in simple terms, a credential) is a way to authenticate to your a
 We know the pain points of using password auth both from end-user and server POV.
 
 **From the user’s POV:**
-- You need to remember or store them somewhere safe.
-- You’re expected to create a *strong* password, but not forget it.
-- When logging in, you might not remember whether you signed up with a password or a third-party provider (e.g., “Did I use Google sign-in here?”).
+- You need to remember or store them in safer way possible.
+- You’re expected to create *strong* password, but not forget it.
+- When logging in, you might not remember whether you signed up with password or third-party provider (e.g., “Did I use Google sign-in here?”).
 - etc, etc.
 
 **From the server’s POV:**
-- Securely hashing and storing passwords in a database.
+- Securely hashing and storing passwords in DB.
 - Blocking common or leaked credentials.
 - Enforcing extra authentication factors (like 2FA) based on risk.
 - Implementing rate limiting to prevent brute-force attacks.
 - Handling password leakage incidents.
 - Adding friction: email → password → 2FA → success.
 
-Passkeys address many of these problems and provide stronger security. Instead of sending a shared secret (like a password) to server, they use **asymmetric cryptography** meaning no plain secrets leave your device to internet and no more worrying of storing passwords securely on DB. (this also makes network and database layers less attractive targets for attackers).
+Passkeys address many of these problems and provide stronger security. Instead of sending shared secret (password) to server, they use **asymmetric cryptography** meaning no plain secrets leave your device to internet and no more worrying of storing passwords securely on DB. (this also makes network and database layers less attractive targets for attackers).
 
 Also with passkeys you no longer need to worry about weak passwords, password resets, remebering type of authencation you used before, no worries of password leakages etc.
 
@@ -69,46 +70,47 @@ Also with passkeys you no longer need to worry about weak passwords, password re
 
 **Note:**
 
-- The term **"passkey"** is mostly a marketing term popularized by Apple, Google, and other big tech companies. The technical term is **FIDO2/WebAuthn credential** since it’s implemented via the [WebAuthn standard](https://fidoalliance.org/specifications/). So, I sometime switch bw passkeys and webauth credential.
-- **WebAuthn** is a web standard that lets websites use public key cryptography for secure, passwordless authentication. It’s part of the **FIDO2 Project**, created by the W3C and the FIDO Alliance. (& with the participation of Google, Apple, Mozilla, Microsoft, Yubico, and others, servers can register and authenticate users using public key cryptography instead of a password).
+- The term **"passkey"** is mostly marketing term popularized by Apple, Google, and other big tech companies. The technical term is **FIDO2/WebAuthn credential** since it’s implemented via the [WebAuthn standard](https://fidoalliance.org/specifications/). So, I sometime switch b/w passkeys and webauth credential.
+- **WebAuthn** is a web standard that lets websites use public key cryptography for secure, passwordless authentication. It’s part of the **FIDO2 Project**, created by the W3C and the FIDO Alliance. (& with participation of Google, Apple, Mozilla, Microsoft, Yubico, and others, servers can register and authenticate users using public key cryptography instead of a password).
 
 ---
 
 # Why Passkeys Are More Secure Than Passwords
 
-security when it comes to authentication can generally be categorized into three factors:
+security when it comes to authentication, can generally be categorized into three factors:
 
 - **Something you know** → like a password 
 - **Something you have** → like an MFA token or your phone
 - **Something you are** → like a fingerprint or Face ID
 
-When using a password combined with MFA, you're relying on both "Something you know" (the password) and "Something you have" (the MFA token or device).
+When using password combined with MFA, you're relying on both "Something you know" (password) and "Something you have" (MFA token or device).
 
-Passkeys work differently. They involve a device bound private key (something you have), and access is granted using either a local PIN, fingerprint, or facial recognition (something you know or something you are).
+Passkeys work differently. They involve device bound private key (something you have), and access is granted using either a local PIN, fingerprint, or facial recognition (something you know or something you are).
 
-Therefore, you can say that passkeys are much more secure that combined password + 2FA auth (_if implemented correctly_), since it uses **asymmetric cryptography**, private key always stays secure in your device’s secure enclave or TPM and Authentication is done by signing a server challenge locally. The public key stored on the server verifies the signature.
+Therefore, you can say that passkeys are much more secure that combined password + 2FA auth (_if implemented correctly_), since it uses **asymmetric cryptography**, private key always stays secure in your device’s secure enclave or TPM and Authentication is done by signing server challenge locally. The public key stored on the server verifies the signature.
 
 Possible attack scenarios (in case of passkeys):
 1. Stealing your private key:
 Since the private key never leaves your device, an attacker cannot access it without having your physical device and your unlock method (PIN, fingerprint, etc.).
 
 2. Using intercepted challenges or responses:
-Even if an attacker captures the authentication challenge or response, they can’t reuse or forge a valid login because each challenge is unique and only your device’s private key can sign it correctly.
+Even if an attacker captures the authentication challenge or response, they can’t reuse or forge valid login because each challenge is unique and only your device’s private key can sign it correctly.
 
 3. Pretending to be the server:
-Attackers can’t impersonate the server because your device verifies the server’s identity and the challenge’s legitimacy before signing. Without a valid server challenge, your device won’t respond.
+Attackers can’t impersonate the server because your device verifies the server’s identity and the challenge’s legitimacy before signing. Without valid server challenge, your device won’t respond.
 
 ---
 **Notes:**
-Passkeys stored in the cloud are less secure than device-only passkeys:
-- Cloud storage can be targeted if the provider is hacked.
+Passkeys stored in cloud are less secure than device-only passkeys:
+- Cloud storage can be targeted if provider is hacked.
 - Data could be intercepted during sync.
-- Remote accessibility means more attack surfaces.
+- Remote accessibility means => more attack surfaces.
 
 ---
 
 # WebAuth flows
-Password based Authentication flows are simple, The browser collects data via form or some other means and submits to server. And server validates and stores credentials to inititate user session. But in WebAuthn Browser and Authenticator1 plays a crucial role in credential creation and on-device user verification.
+Password based Authentication flows are simple, The browser collects data via form or some other means & submits to server. And server validates, stores credentials to inititate user session. But in WebAuthn Browser and Authenticator plays a crucial role in credential creation and on-device user verification.
+
 Ok with that said let's start with webauthn credential creation and authentication ceremonies.
 
 I will explain both creation and authentication ceremonies using my demo project, so please ref:
@@ -167,7 +169,7 @@ func (pc *WebAuthnCredentialController) BeginRegistration() echo.HandlerFunc {
 }
 ```
 
-This public key object that we receicved from backend should follow
+This public key object that we received from backend should follow
 https://developer.mozilla.org/en-US/docs/Web/API/PublicKeyCredentialCreationOptions specifications.
 
 ```js
@@ -233,8 +235,8 @@ Here's what happens behind the scenes:
 
 Once the backend receives the PublicKeyCredential (basically on `FinishRegistration` endpoint)
 - First, the server checks `clientDataJSON` to confirm that the credential was created in response to the server’s request, on the correct site, and by the user.
--  It ensures the challenge matches, the origin is correct, and the type is "webauthn.create". Next, it validates the attestationObject, which comes from the authenticator and proves that a real device generated the key.
--  Next, it validates the `attestationObject`, which comes from the authenticator and proves that a real device generated the key. This includes checking the RP ID hash, flags like user presence and verification, the credential ID, the public key, and optionally verifying the attestation signature.
+-  It ensures the challenge matches, the origin is correct, and the type is "webauthn.create". Next, it validates the attestationObject, which comes from the authenticator and proves that real device generated the key.
+-  Next, it validates the `attestationObject`, which comes from the authenticator and proves that real device generated the key. This includes checking the RP ID hash, flags like user presence and verification, the credential ID, the public key, and optionally verifying the attestation signature.
 - Finally, after all checks are passed, the server extracts the credential ID & public key to stores them in DB for that user, completing registration. 
 
 All the above verification is handled by [Go Webauth Library](https://github.com/go-webauthn/webauthn) in our case.
@@ -435,21 +437,21 @@ Frontend confirms authentication and behave accordingly (like storing session ke
 Every choice has both pros and cons, and it's the same case with passkeys. Below are some drawbacks introduced by passkeys.
 
 ### Limited Adoption and UX inconsistancies
-Passkeys are harder to adopt, User are unfamiliar with passkeys might find the setup and concept confusing, lead to lockouts if not done carefully. So, it's not easy to adapt, it may takes some years or a generation. At moneyforward we conduct many promotion strategies to make user know about passkey authentication. Even so we didn't get enough increase in passkey registrations. And the UI for passkey Sign is also not consistence, If you see below there are different UI prompt screen depends on authenticator this introudces lot of inconsistence in UX especially if user has multiple passkeys associated with same account.
+Passkeys are harder to adopt, user are unfamiliar with passkeys & might find setup and concept confusing, leads to lockouts if not done carefully. So, it's not easy to adapt, it may takes some years or generations to adopt. At moneyforward we conduct many promotion strategies to make user know about passkey authentication. Even so we didn't get enough increase in passkey registrations. And the UI for passkey sign is also not consistence, If you see below there are different UI prompt screen depends on authenticator this introudces lot of inconsistence in UX especially if user has multiple passkeys associated with same account + different providers.
 
 | iCloud Keychain | Google Password Manager | onePassword | BitWarden |
 |--------|--------|--------|--------|
 | <img src="./icloudkeychain.png" /> | <img src="./google.png"/> | <img src="./onepassword.png"/> | <img src="./bitwarden.png"/> |
 
 ### Device and Platform Limitations
-Many passkey implementations are tied to vendor's ecosystem, so it's very hard to switch platforms or hard to migrate passkeys from one authenticator to another. Ofcourse password managers like `one password` solves such problems, but such cloud based authenticators are less secured compared to device bound ones.
+Many passkey implementations are tied to vendor's ecosystem, so it's very hard to switch platforms or hard to migrate passkeys from one authenticator to another. Ofcourse some password managers like `one password` solves such problems, but such cloud based authenticators are less secured compared to device bound ones.
 
 While major platforms like Apple, Google, and Microsoft have adopted them, some older devices or less popular software may not be compatible. This can create a fragmented experience for users who rely on multiple devices or software ecosystems.
 
 ### Recovery and Management Issues
-Unlike password, users need to put more effort on managing their passkeys. For ex: deleting passkey from the server doesn't automatically deletes passkeys from the password manager, user has to delete manually.
-Recovering a lost or forgotten passkey can be more complicated, there isn't a single, standardized recovery method that works across all services. This means users might have to follow different recovery procedures for each account, which can be confusing and inconvenient.
+Unlike password, users need to put more effort on managing their passkeys. For ex: deleting passkey from the server doesn't automatically deletes passkeys from the password manager, user has to delete manually. 
+Recovering lost or forgotten passkey can be more complicated, there isn't a single, standardized recovery method that works across all services. This means users might have to follow different recovery procedures for each account, which can be confusing and inconvenient.
 
 # conclusion
 
-Passkeys change the way we log in by using public-key cryptography instead of passwords. They cut out common risks like phishing and stolen passwords, and once set up, they’re faster to use. We still need to think about things like how users move keys between devices and what happens if they lose them, but big platforms already support them, and the WebAuthn standard makes them secure to build with. And i hope in future most of such drawbacks will have some solution. As developers, it’s worth adding passkey support, even as an optional login, so we can give users a safer and smoother way to sign in.
+Passkeys change the way we log in by using public-key cryptography instead of passwords. They cut out common risks like phishing and stolen passwords, and once set up, they’re faster to use. We still need to think about things like how users move keys between devices and what happens if they lose them, but big platforms already support them, and the WebAuthn standard makes them secure to build with. And i hope in future most of such drawbacks will have some solution. As developers, it’s worth adding passkey support, even as an optional login, so we can give users safer and smoother way to sign in.
