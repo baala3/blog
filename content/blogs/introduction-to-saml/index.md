@@ -267,7 +267,9 @@ discussed in next section
 | 8.StatusCode | as name indicates |
 
 # SAML Assertion Deep Dive
+SAML Assertion also has its own ID, IssueInstant & Version. Since Response and SAML Assertion are different XML Element, their IDs are different
 
+### SAML Response XML
 ```
 <saml2:Assertion 
 xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" 
@@ -338,8 +340,8 @@ Version="2.0">
   </saml2:Assertion>
 
 ```
-SAML Assertion also has its own ID, IssueInstant & Version. Since Response and SAML Assertion are different XML Element, their IDs are different
 
+### Parameters Breakdown
 | Field | Explanation |
 |-------|-------------|
 | 1.Issuer | Issuer of the SAML Assertion, In most cases, same with the one of the SAML Response |
