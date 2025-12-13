@@ -1,9 +1,9 @@
 ---
 title: 'SAML Concepts'
-date: "2025-12-09T17:49:34+09:00"
+date: "2024-11-09T17:49:34+09:00"
 url: "/blogs/introduction-to-saml/introduction-to-saml"
-description: ""
-tldr: ""
+description: "A deep dive into SAML 2.0 concepts, including federation patterns, binding types, XML structure of Requests and Responses, signature validation, and real-world SSO flows."
+tldr: "SAML is an XML-based federated identity protocol primarily used in enterprise environments for cross-domain Single Sign-On (SSO). It uses signed XML assertions passed via the front-channel (browser) to authenticate users. We detail its core components and flows."
 image: "https://www.macnica.co.jp/business/security/okta/image/okta_saml_draw06.png"
 credit: ""
 thumbnail: "https://miro.medium.com/1*HBkI_JpCgQqNCNxm7ULK2A.png"
@@ -11,9 +11,11 @@ categories:
 - SAML
 ---
 
-In this blog i will write about SAML concepts i learn during my work at MoneyForward. 
+In this blog i will write about SAML concepts i learn during my work at MoneyForward with deep dive into its XML structure and security mechanisms.
 
-what is SAML => A federated identity protocol where IDp issues signed XML assertions that applications use to authenticate users. <!--more-->
+**what is SAML ??**
+
+A federated identity protocol where IDp issues signed XML assertions that applications use to authenticate users. <!--more-->
 
 >SAML solves two problems **cross-domain SSO**, and **Identity federation**.
 It is used in many enterprise environments because it allows enterprise
@@ -34,12 +36,11 @@ So, the real situation is like
 
 ⇒ and OIDC really shines in the consumer identity federation (like the internal IDp for all you products).
 
-May be if world started fresh today, **SAML wouldn't exist,** everyone would use OIDC, making enterprise apps to trust OIDC [if we make them enterprise-grade] (Okta, Azure, Ping, Google Workspace Enterprise).
+May be if world started fresh today, **SAML wouldn't exist,** everyone would have used enterprise ready OIDC system (like Okta, Azure, Ping, Google Workspace Enterprise).
 
-Note:
-
-- OIDC-federated SaaS are also slightly increasing recently.
-- In a company these SaaS services are managed by IT management div and employees are forced to login using SAML.
+> **Note:**
+> * OIDC-federated SaaS is also increasing recently.
+> * In a company, these SaaS services are typically managed by the IT division, and employees are required to log in using SAML.
 
 # Identity management and federation
 
@@ -426,18 +427,30 @@ Note:
 
 ---
 
-# Bonus: Navis/MFID SAML Implementation
+# Bonus: 1. Navis/MFID SAML Implementation
 
-In MoneyForward, Navis is tenant management console where each tenant sets up SAML SSO by registering their IdP details, such as metadata, entity ID, and certificates. (and also mapping these settings to specific email domains which are configured for tenant)
+In MoneyForward, Navis is tenant management console where each tenant sets up SAML SSO by registering their IdP details (metadata, entity ID, and certificates) and mapping them to specific domains.
 
-MFID works as identity broker and plays actual SAML authentication by exposing necessary SAML endpoints like the SSO, ACS, and SLO.
+MFID acts as `Identity Broker` and plays the actual SAML authentication role by exposing necessary SAML endpoints (SSO, ACS, and SLO).
 
-When user signs in, MFID gets corresponding TenantUser SAML settings and builds tenant specific Authn Request using entity ID and ACS endpoint and redirects the user to their IdP. After IdP authenticates the user, it sends the SAML Response back to MFID, which validates the signature, audience, and assertion conditions using libsam ruby library. Once validated, MFID creates session and completes the login. 
+1. When a user signs in, MFID looks for corresponding tenant's SAML settings.
+2. Builds tenant-specific Authn Request and redirects the user to their IdP.
+3. After IdP authenticates user, it sends the SAML Response back to MFID's ACS URL.
+4. MFID validates the signature, audience, and assertion conditions (using library like libsaml).
+5. Once validated, MFID creates a session and completes the login.
 
-This setup allows each tenant to have domain based SAML SSO authentication for its users.
+This setup allows each tenant to have domain based SAML SSO authentications for its users.
 
-> This is kind of single-instance multi-tenant architecutre where we expose only one ACS endpoint when dealing with multiple IdPs.
+> This is an example of ingle-instance multi-tenant architecture where MFID exposes only one set of ACS endpoint while dealing with hundreds of IdPs.
 https://developer.okta.com/docs/concepts/saml/#single-idp-vs-multiple-idps
+
+---
+
+# Bonus: 2. SAML SSO with Okta
+
+Below is a minimal ruby implementation of SAML SSO with okta that i developed as a part of my SAML learning.
+
+https://github.com/baala3/ruby_saml_auth
 
 ---
 
