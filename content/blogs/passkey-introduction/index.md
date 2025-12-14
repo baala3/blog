@@ -433,6 +433,8 @@ func (pc *WebAuthnCredentialController) FinishLogin() echo.HandlerFunc {
 
 Frontend confirms authentication and behave accordingly (like storing session keys etc..)
 
+---
+
 # Drawbacks of using passkeys
 Every choice has both pros and cons, and it's the same case with passkeys. Below are some drawbacks introduced by passkeys.
 
@@ -451,6 +453,8 @@ While major platforms like Apple, Google, and Microsoft have adopted them, some 
 ### Recovery and Management Issues
 Unlike password, users need to put more effort on managing their passkeys. For ex: deleting passkey from the server doesn't automatically deletes passkeys from the password manager, user has to delete manually. 
 Recovering lost or forgotten passkey can be more complicated, there isn't a single, standardized recovery method that works across all services. This means users might have to follow different recovery procedures for each account, which can be confusing and inconvenient.
+
+---
 
 # conclusion
 

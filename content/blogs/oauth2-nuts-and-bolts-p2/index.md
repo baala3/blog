@@ -12,20 +12,20 @@ categories:
 - OpenId
 ---
 
-This is part 2 of nuts and bolts of OAuth 2.0, continuing [part 1](https://blog.balashekhar.me/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1/). In this section, we'll explore the client credentials flow for machine-to-machine communication<!--more-->,  dive deep into OAuth scopes and their proper usage, get introduced to OpenID Connect and ID tokens, learn different access token types (reference vs self-encoded), and see how to handle revoked or invalid tokens in OAuth flows that we learned.
+This is part 2 of nuts and bolts of OAuth 2.0, continuing [part 1](https://blog.balashekhar.me/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1/). In this section, I'll explore the client credentials flow for machine-to-machine communication<!--more-->,  dive deep into OAuth scopes and their proper usage, get introduced to OpenID Connect and ID tokens, learn different access token types (reference vs self-encoded), and see how to handle revoked or invalid tokens in OAuth flows that we learned.
 
 Ok! let'z go..
 
 # OAuth Client Credentials flow
 
 This flow is much simpler compared to authorization code, since there’s no user involved at all. 
-The app just exchanges its own credentials (`client_id` and `client_secre`) with the auth server to get an `access token`, and then uses that token to call APIs. You might thing, why not let API server just accept credentials directly? The idea is that the API server shouldn’t care about who the caller is, it should only focus on validating an access token and responding. It’s the auth server’s job to handle the credential exchange and issue tokens.
+The app just exchanges its own credentials (`client_id` and `client_secre`) with the auth server to get an `access token`, and then uses that token to call APIs. You might think, why not let API server just accept credentials directly? The idea is that API server shouldn’t care about who the caller is, it should only focus on validating an access token and responding. It’s the auth server’s job to handle the credential exchange and issue tokens.
 
-Typical use cases of this flow include machine-to-machine communication (like one backend service talking to another), or when an app needs credentials to call special endpoints such as the `token introspection` API. In such cases, client credentials act like a service account that represents the app itself rather than an individual user.
+Typical use cases of this flow include machine-to-machine communication (like one backend service talking to another), or when an app needs credentials to call special endpoints such as the `token introspection` API. In such cases, client credentials act like service account that represents the app itself rather than an individual user.
 
 **Client Credentials Flow**
 
-first, the app gets registered in auth server (usually as `machine-to-machine` or `service account` type). When the app needs an access token, it sends a request with `grant_type=client_credentials` and the required scope. The auth server returns an access token, and that’s it.
+First, the app gets registered in auth server (usually as `machine-to-machine` or `service account` type). When the app needs an access token, it sends a request with `grant_type=client_credentials` and the required scope. The auth server returns an access token, and that’s it.
 
 Since there’s no user in picture here, there’s no concept of refresh tokens. Whenever the app needs a new token, it just repeats the same request with credentials.
 
@@ -102,8 +102,6 @@ Contains claims about the user and the token itself, for example:
 
 So in short: Access Token → lets app call APIs. ID Token → tells the app who the user is.
 
-
-
 ### 2. <u>Access Token vs ID Token</u>
 
 <div style="display: flex; flex-wrap: wrap; gap: 2px; font-size: 12px; width: 100%; align-items: stretch;">
@@ -167,7 +165,6 @@ However, there is also another way: by requesting `response_type=id_token`, the 
 It’s also worth noting that when using the `openid` scope flow, the ID token often contains only minimal information, usually just the sub claim. To request more user details, OpenID Connect defines extra scopes such as `profile`, `email`, `address`, and `phone`. And in some cases, even these details aren’t fully included in the ID token itself, app must call the `/userinfo` endpoint with the `access token` to retrieve them. 
 
 Also with `response_type=id_token`, while apps can validate the token, the authorization server can’t always guarantee that the token reached the correct audience. Since ID tokens don’t provide access by themselves, this may not be a huge risk, but if sensitive information is being added in them, the safer approach is to stick with the auth code flow so that data is always delivered through the back-channel.
-
 
 ### 4. <u>Hybrid OpenID Connect flows</u>
 Till now, we’ve seen `response_type=code` (the standard authorization code flow) and `response_type=id_token` (directly receiving the ID token in the front channel). OpenID Connect also allows combining them, for ex: `response_type=code+id_token`, which delivers the access token via back channel, ID token via front channel. There’s also `response_type=token+id_token`, a legacy OAuth implicit flow. While OpenID Connect provides mechanisms to prevent access token injection attacks in this case, it is generally discouraged because access tokens should always be delivered through the back channel for better security.
@@ -349,7 +346,7 @@ User experience is as important as security when deciding access token lifetimes
 - In single-page applications (SPA) since we cannot use refresh tokens, very short access token lifetimes can harm UX. Even if the user is already logged in, they may need to be redirected back to the OAuth server just to refresh the token, which feels disruptive, though the flow may complete quickly. 
 - For browsers, the trade-off depends on the use case: shorter tokens may be acceptable when redirect happen silently in background, while longer tokens might be necessary when interaction is more visible to the user.
 
-*note*: access token lifetime is independent of user’s session on OAuth server. so even if user session is still valid, the token may expire, requires a fresh one.
+>Note: Access token lifetime is independent of user’s session on OAuth server. so even if user session is still valid, the token may expire, requires a fresh one.
 
 ### 2. <u>Contexually choosing token</u>
 Token lifetimes can be bind contextually by the authorization server, varying based on the client, user, group, or scope. For ex: admin users may receive shorter-lived tokens to prioritize security (with enforced logins or MFA), while regular customers might get longer sessions for better UX. However, sensitive actions like checkout—can trigger issuance of a short lived scope specific token (e.g., scope=checkout valid for 1 hour), requiring reauthentication with new OAuth flow.
@@ -361,9 +358,10 @@ lo
 
 Access tokens can be revoked before their expiration, for ex: when an admin or user deactivates an account, a user revokes an app’s access, or when an authorization server invalidates tokens after a password change. Because of this, applications must always be prepared for API calls to fail, even with tokens that appear valid. If the failure is due to expiration, the app can attempt to use a refresh token, but if that also fails, the only recovery path is to prompt the user to log in again. And API server should validate tokens and avoid serving data if the token is no longer valid. 
 
-*note:*
-- and as we know its importannt to indentify the sensitivity of API method and get judment whether we need to call for introspection endpoint or not (to filter out revoked tokens)
-- reducing token lfetime means reducing the burden of API to worry whether or not its reponsing to revoked tokens incase of local validation.
+> Note:
+>
+> - As we know its importannt to indentify the sensitivity of API method and get judment whether we need to call for introspection endpoint or not (to filter out revoked tokens)
+> - reducing token lfetime means reducing the burden of API to worry whether or not its reponsing to revoked tokens incase of local validation.
 
 
 *revocation endpoint*: OAuth 2.0 also defines a dedicated revocation endpoint, which allows apps to explicitly revoke access or refresh tokens. The exact behavior depends on the oauth server: for ex: revoking a refresh token may also cause all access tokens issued from it to be invalidated. This provides a centralized and standardized way for apps and servers to handle token invalidation securely.
