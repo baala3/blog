@@ -15,13 +15,13 @@ In this blog, I want to summarize whatever I learned from `the nuts and bolts of
 
  <!--more-->
 
-In this part, I will go through OAuth concepts in the most comprehensive way possible, mainly discussing Introduction to OAuth, API security concepts, and OAuth flows for different types of applications.
+In this part, I will go through OAuth concepts in the comprehensive way, mainly discussing Introduction to OAuth, API security concepts, and OAuth flows for different types of applications.
 
 # Intro
 
 ### 1. <u>history of OAuth  (OpenAuthentication)</u>
 
-Situation before OAuth came into existence: when it comes to securing APIs, before OAuth it was common for APIs to use Basic Auth everywhere, which is not secure. Also, third-party apps (like Twitter clients) used to ask users for their Google credentials in order to authenticate with Google.
+**Situation before OAuth came into existence:** when it comes to securing APIs, before OAuth it was common for APIs to use Basic Auth everywhere, which is not secure. Also, third-party apps (like Twitter clients) used to ask users for their Google credentials in order to authenticate with Google.
 
 Also, in case a third-party app wanted to use Twitter or Google authentication, they needed to ask the user for their Google credentials and call the Google auth endpoint with the user's credentials.
 
@@ -40,7 +40,7 @@ Then comes OAuth2.0 (in 2012) to solve such problems (even for nativeApps, smart
 
 ### 2. <u>How OAuth improve application security</u>
 
-Imagine in your company, you are not using oauth and multiple applications are depending on shared user DB. All applications handle user authentication by calling an API to authenticate with the auth server using Basic Auth. Its fine upto certain extent atleast for first-party, but when you want to also integrate third party apps to authenticate you have to somehow restrict sharing the credentials. also it quickly became problematic as systems scaled. 
+Imagine in your company, you are not using OAuth and multiple applications are depending on shared user DB. All applications handle user authentication by calling an API to authenticate with the auth server using Basic Auth. Its fine upto certain extent atleast for first-party, but when you want to also integrate third party apps to authenticate you have to somehow restrict sharing the credentials. also it quickly became problematic as systems scaled. 
 
 **Problems with Direct Credential Handling:**
 
@@ -73,9 +73,11 @@ The front desk is the OAuth authorization server, verifying your identity. The d
 
 If you see in the above example even without app does’t know the exact user in question, app can still do things.
 
-But if there are cases where application wants to know the user in question, oauth doesn’t provide such info(out of oauth’s scope). Here where **OpenId connect** comes in, which takes Oauth as foundation and adds user identity info on top. **OpenId connect** is just an extension of Oauth and the main way it does that is with a new kind of token called **ID token**.
+But if there are cases where application wants to know the user in question, oauth doesn’t provide such info(out of oauth’s scope). Here where OpenId connect comes in, which takes Oauth as foundation and adds user identity info on top. OpenId connect is just an extension of Oauth and the main way it does that is with a new kind of token called **ID token**.
 
-So remember: OAuth issues **access tokens** and OpenID Connect issues **ID tokens** to apps.
+https://openid.net/specs/openid-connect-core-1_0.html
+
+>Note: OAuth issues **access tokens** and OpenID Connect issues **ID tokens** to apps.
 
 ---
 
@@ -97,7 +99,8 @@ And when it comes to OAuth they are called roles and name will be changed like
 - API → Resource server
 
 <img src="oauth_roles.svg" style="display: block; margin: 20px auto;"/>
-Along with above roles OAuth also introduces Role5 called `Authorisation server` Its job is to manage the API that it’s protecting from OAuth clients, So user can only login at auth server by entering the credentials and get access token to access the API. Depending on system architecture your software can combine Resource server and Auth server or can also depend on external auth server and whole bunch of micro-services that make various API’s.
+
+Along with above roles OAuth also introduces Role5 called `Authorisation server`.  Its job is to manage the API that it’s protecting from OAuth clients, So user can only login at auth server by entering the credentials and get access token to access the API. Depending on system architecture your software can combine Resource server and Auth server or can also depend on external auth server and whole bunch of micro-services that make various API’s.
 
 ### 2. <u>Application Types</u>
 There are mainly two types of OAuth client define in OAuth2.0 → **confidential clients** and **public clients**. confidential client are client that are able manage secrets and send them to Auth server to authenticate themselves, While public clients(running on user controls) don’t have such mechanism of handling secrets (client like mobile Apps, or SPA’s where they run on device can’t able to manage credentials secretly).
@@ -151,7 +154,7 @@ But we are also sending **access token** back via front channel and its very ris
 
 We have `Authorization code flow` to deliver access token in backchannel, we will discuss more about this later on.
 
-note: back channel req → doesn’t necessarily needs to be from backend server, it’s just that all we need is certificated verification and encrypted connection
+> Note: back channel req → doesn’t necessarily needs to be from backend server, it’s just that all we need is certificated verification and encrypted connection
 
 ### 5. <u>Application Identity</u>
 Application or OAuth client have `ClientID`, which represent particular client in the scope of OAuth server. 
@@ -207,7 +210,7 @@ Below is overview of the flow:
 4. The Auth Server validates that the `code verifier` matches the original code challenge, confirming the request originates from same client that initiated the flow.
 5. Upon successful verification, Auth Server issues an `access token` (and optionally a refresh token).
 
-note: `PKCE(Proof Key for Code Exchange) code flow` is recommend even for server-side applications to avoid risks like `Authorization code injection` (where attacker sneaks their own login authorization code into the process, so the app ends up logging in the attacker instead of the real user)
+> Note: `PKCE(Proof Key for Code Exchange) code flow` is recommend even for server-side applications to avoid risks like `Authorization code injection` (where attacker sneaks their own login authorization code into the process, so the app ends up logging in the attacker instead of the real user)
 
 #### c. <u>Flow with Example</u>
 
@@ -297,7 +300,7 @@ client_secret=CLIENT_SECRET
 
 If the refresh token is invalid or user revoked access, account deleted, app removed, the client must restart the full OAuth flow.
 
-note: Even if the Auth Server doesn’t enforce PKCE, clients can still send `code_challenge` and `code_verifier`. Non-supporting servers will simply ignore them.
+> Note: Even if the Auth Server doesn’t enforce PKCE, clients can still send `code_challenge` and `code_verifier`. Non-supporting servers will simply ignore them.
  
 ---
 
@@ -341,7 +344,7 @@ The UX side isn’t perfect either. The classic flow requires an app switch: you
     
 5. Auth server verifies `code_verifier` → returns access token (and refresh token).
 
-note: PKCE replaces the client secret in native apps, and secure redirect handling (deep links + system browsers) is what makes the flow safe.
+> Note: PKCE replaces the client secret in native apps, and secure redirect handling (deep links + system browsers) is what makes the flow safe.
 
 
 #### d. <u>Refresh Tokens in Native Apps</u>
@@ -407,7 +410,7 @@ Instead of the SPA handling OAuth tokens directly:
     - With this setup, your SPA is no longer a **public client** (which can’t safely store secrets).
     - The backend effectively makes it a **confidential client**, fully aligned with OAuth specs.
 
- note: If you’re serving a static SPA from something like AWS S3 + CloudFront, you’d need to add a backend service (e.g., API Gateway + Lambda) to support this model.
+>Note: If you’re serving a static SPA from something like AWS S3 + CloudFront, you’d need to add a backend service (e.g., API Gateway + Lambda) to support this model.
 
 
 ---
@@ -416,7 +419,7 @@ Instead of the SPA handling OAuth tokens directly:
 
 Ever tried logging in on a TV, game console, or some IoT device with just a remote or limited keyboard? Typing usernames and passwords there is painful. That’s where the `OAuth Device Flow` comes in, it lets the device authenticate without requiring direct credential entry.
 
-#### a. <u>Flow Overview</u>
+#### Flow Overview
 
 1. Device asks for login → The IoT device shows a screen like:
     
@@ -430,32 +433,6 @@ Ever tried logging in on a TV, game console, or some IoT device with just a remo
 3. Meanwhile, the IoT device keeps **polling the Authorization Server** with the device code, waiting for success.
 4. Once the user approves on their phone, the Authorization Server returns tokens to the device, allowing it to access APIs on behalf of the user.
 
-notes:
-- Not all OAuth servers support Device Flow and you can still support it by running a **proxy OAuth server**, which implements Device Flow and bridges to a standard OAuth server behind the scenes.
-- `Device Flow` is part of the OAuth 2.0 spec (RFC 8628).
-
-#### b. <u>Flow with Example</u>
-
-1. Device make /auth request:
-    - Sends `client_id` (+ optional scopes) to `/device_authorization` endpoint.
-    - Gets back:
-        - `device_code` → long code, used by device to poll.
-        - `user_code` → short code, user enters on another device.
-        - `verification_uri` → URL user should visit.
-        - `interval`, `expires_in` → polling info.
-2. Device displays message:
-    - “Go to `example.com/device` and enter code `ABCD-1234`.”
-3. User login and approve:
-    - Opens `example.com/device`, enters **user_code**.
-    - Proceeds with normal login (password, MFA, etc.).
-    - Approves device access request.
-4. Device Polling:
-    - Repeatedly calls token endpoint with **device_code**.
-    - Waits until user finishes login + approves.
-5. Device gets access token:
-    - Returns **access_token** (and usually **refresh_token**).
-    - Device now calls APIs without needing user credentials.
-
----
-
-That’s all from part2… see yaa 👋
+>Notes:
+>1. Not all OAuth servers support Device Flow and you can still support it by running a **proxy OAuth server**, which implements Device Flow and bridges to a standard OAuth server behind the scenes.
+>2. `Device Flow` is part of the [OAuth 2.0 spec RFC 8628](https://datatracker.ietf.org/doc/html/rfc8628).
