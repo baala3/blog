@@ -14,9 +14,8 @@ categories:
 
 Hi, I’m Bala 👋
 
-I joined [Money Forward](https://moneyforward.com/) in 2022 and have been working closely with Ruby on the ID team ever since. This year, I got the opportunity to attend [RubyKaigi 2024](https://rubykaigi.org/2024/) in Okinawa as part of a company business trip. Huge thanks to Money Forward for making this possible!
+I joined [Money Forward](https://moneyforward.com/) in 2022 and have been working closely with Ruby on the ID team ever since. This year, I got the opportunity to attend [RubyKaigi 2024](https://rubykaigi.org/2024/)  <!--more-->in Okinawa as part of a company business trip. Huge thanks to Money Forward for making this possible!
 
- <!--more-->
 This was my first RubyKaigi, and I was honestly very excited. Not just because it was my first time attending, but also because I finally got to meet Ruby developers from all over the world, people who actively work on Ruby itself, popular gems, and large scale production systems.
 
 RubyKaigi felt like much more than just a series of talks. It was a deep dive into Ruby’s internals, performance, security, and future direction. I felt like almost every session like I had learned something new that I could take back and apply (or at least think about) in my daily work.
