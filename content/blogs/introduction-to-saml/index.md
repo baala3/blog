@@ -12,10 +12,10 @@ categories:
 ---
 
 In this blog i will write about SAML concepts i learn during my work at MoneyForward with deep dive into its XML structure and security mechanisms.
-
+<!--more-->
 **what is SAML ??**
 
-A federated identity protocol where IDp issues signed XML assertions that applications use to authenticate users. <!--more-->
+A federated identity protocol where IDp issues signed XML assertions that applications use to authenticate users. 
 
 >SAML solves two problems **cross-domain SSO**, and **Identity federation**.
 It is used in many enterprise environments because it allows enterprise

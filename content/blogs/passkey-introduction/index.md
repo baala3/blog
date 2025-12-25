@@ -13,8 +13,8 @@ categories:
 ---
 
 In this blog, I’m going to explain what passkeys are and how they came into picture in modern authentication and basic flow of passkey registration and authentication.
-
-Since many services like Apple, Google, GitHub and others have started deploying passkeys, <!--more--> It’s important to understand **what they are, why they exist, and whether you should use them**.
+<!--more-->
+Since many services like Apple, Google, GitHub and others have started deploying passkeys, It’s important to understand **what they are, why they exist, and whether you should use them**.
 
 
 A **passkey** is basically credential (like password) which you can use to authenticate into server. which is much faster, more secure, and more user-friendly than traditional password authentication.
