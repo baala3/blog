@@ -217,18 +217,18 @@ Below is overview of the flow:
 Step 1. Authorization Request
 The client generates: 
 - `code_verifier`: high-entropy random string (43–128 chars).
-```sh
+```bash
 4A6hBupTkatbaSq29ReSERtinDeiownvV1safdla
 ```
 - `code_challenge`
 
-```sh
+```bash
 base64url(sha256(code_verifier))
 ipSPt30y47140NGbljo26cdwlEQWqkjslereiE323
 ```
 
 Client redirects the user to the Auth Server:
-```sh
+```bash
 GET https://authorization-server.com/auth?
     response_type=code&
     client_id=CLIENT_ID&
@@ -244,13 +244,13 @@ GET https://authorization-server.com/auth?
 Step 2. User Authentication & Consent
 - The user signs in and approves access.
 - On success, the Auth Server redirects:
-```sh
+```bash
 https://example-app.com/redirect?
     code=AUTH_CODE_HERE&
     state=xyz123
 ```
 - On error:
-```sh
+```bash
 https://example-app.com/redirect?
     error=access_denied&
     state=xyz123
@@ -260,7 +260,7 @@ The client must verify the returned state to prevent CSRF.
 Step 3. Token Exchange
 The client exchanges the authorization code for tokens via back-channel:
 
-```sh
+```bash
 POST https://authorization-server.com/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -276,7 +276,7 @@ code_verifier=4A6hBupTkatbaSq29ReSERtinDeiownvV1safdla
 Step 4. Token Response
 If valid, the Auth Server responds:
 
-```sh
+```bash
 {
   "token_type": "Bearer",
   "access_token": "RsTdsajkl354985",
@@ -287,7 +287,7 @@ If valid, the Auth Server responds:
 ```
 
 Step 5. Refresh Token Flow
-```sh
+```bash
 POST https://authorization-server.com/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -317,7 +317,7 @@ The UX side isn’t perfect either. The classic flow requires an app switch: you
 1. App generates `code_verifier` → derives `code_challenge`.
 2. User redirected to system browser with:
     
-    ```sh
+    ```bash
     GET https://authorization-server.com/auth?
     response_type=code&
     client_id=CLIENT_ID&
@@ -330,7 +330,7 @@ The UX side isn’t perfect either. The classic flow requires an app switch: you
 3. User logs in on the Authorization Server → on `iOS SFSafariViewController` or `Android Chrome Custom Tabs` 
 4. App exchanges the authorization code for tokens:
     
-    ```sh
+    ```bash
     POST https://authorization-server.com/token?
       grant_type=authorization_code
       code=AUTH_CODE
@@ -423,7 +423,7 @@ Ever tried logging in on a TV, game console, or some IoT device with just a remo
 
 1. Device asks for login → The IoT device shows a screen like:
     
-    ```shell
+    ```bash
     Go to https://auth.example.com/device
     and enter code: ABCD-1234
     
