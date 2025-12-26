@@ -14,6 +14,11 @@ buildFuture = true
   title = "fa fa-user"
   url = "https://dev.balashekhar.me/"
 
+[[menu.social]]
+  name = "Gallery"
+  title = "fas fa-images"
+  url = "/gallery/"
+
 [[menu.main]]
   name = "Talks"
   title = "Talks"
