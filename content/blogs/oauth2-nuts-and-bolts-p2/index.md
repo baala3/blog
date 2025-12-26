@@ -183,7 +183,7 @@ When an application receives an ID token, the general rule is that it must valid
 
 **Validate the Claims**
 
-<pre>
+```json
 {
   "sub": "00ugi4dbxSUVcAi2X356",
   "name": "Balashekhar kamandla",
@@ -207,7 +207,7 @@ When an application receives an ID token, the general rule is that it must valid
   "auth_time": 1602104159,
   "c_hash": "ZZJZX3ikphV9YDhw793jTg"
 }
-</pre>
+```
 
 Key claims to check include:
 
@@ -274,7 +274,7 @@ The JWT specification defines set of standard claims, but it does not mandate th
 
 To bring consistency, OAuth defines the `JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens (RFC 9068)`. This  standardizes which claims should be included in access tokens, making it easier for APIs and clients to rely on a predictable set of fields. Many of fields in a JWT access token are standardized (“reserved claims”), but OAuth servers can also include custom claims depending on application needs. For ex: claims may include user details, group memberships, or application-specific metadata.
 
-<pre style="margin: 0; word-wrap: break-word;">
+```json
 {
   "access_token": {
     "iss": "https://bala-demo.okta.com/oauth2/default",
@@ -282,18 +282,19 @@ To bring consistency, OAuth defines the `JSON Web Token (JWT) Profile for OAuth 
     "iat": 1602029659,
     "aud": "api://default",
     "sub": "bala@example.com",
-    "client_id": "0oa5sso3mrYKdvde0357
+    "client_id": "0oa5sso3mrYKdvde0357",
     "jti": "9PhB7Kh81RRVRApHbS39eXhrphiHray46Rz5gAr5gbY...",
     "scope": [
      "offline_access",
-     "photo"
+     "photo",
      ],
      "auth_time": 1602029653,
      "acr": 0,
-     "amr" "pwd" 
+     "amr": "pwd" 
   }
 }
-</pre>
+
+```
 
 *Common Claims in Access Tokens*
 - iss (Issuer): Identifies the authorization server that issued the token.

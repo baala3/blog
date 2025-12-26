@@ -116,7 +116,7 @@ After that, IdP provides metadata XML that contains certificates, SSO URLs and s
 >note: RelayState is a parameter which can be sent along with SAML Request. The exact same value is returned along with SAML Response. In spec, it’s a opaque string, but URL-formatted value is used often. It exists outside of XML messages, thus not signed. Very similar to OIDC’s state parameter.
 
 ### metadata XML
-```saml
+```xml
 <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="http://www.okta.com/exk28a7aitJsRsWWR5d7">
   <md:IDPSSODescriptor WantAuthnRequestsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
     <md:KeyDescriptor use="signing">
@@ -154,7 +154,7 @@ After that, IdP provides metadata XML that contains certificates, SSO URLs and s
 Using this metadata, SP constructs the XML AuthRequest like below
 
 ### SAML Request XML
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <saml2p:AuthnRequest
 	xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"
@@ -197,7 +197,7 @@ However, SAML Responses and Assertions are almost always signed.
 <span>SAML assertion == ID token == user info </span>
 
 ### SAML Response XML
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <saml2p:Response
 version="2.0"
@@ -271,20 +271,20 @@ discussed in next section
 SAML Assertion also has its own ID, IssueInstant & Version. Since Response and SAML Assertion are different XML Element, their IDs are different
 
 ### SAML Response XML
-```
+```xml
 <saml2:Assertion 
 xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" 
 xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 ID="id15110531106260401222167389" 
 IssueInstant="2025-03-14T04:22:53.450Z" 
 Version="2.0">
-1 <-----------<saml2:Issuer
+1 <----------- <saml2:Issuer
  xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">http://www.okta.com/exkntdung4kWLqGMV5d7
 </saml2:Issuer>
     
 ======== start of signature ========
 
-2 <-----------<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+2 <----------- <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
       <ds:SignedInfo>
         <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
         <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
@@ -311,26 +311,26 @@ Version="2.0">
 
 ======== end of signature ========
 
-3 <-----------<saml2:Subject xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
+3 <----------- <saml2:Subject xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
       <saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">kamandla.b+bala@moneyforward.co.jp</saml2:NameID>
       <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
         <saml2:SubjectConfirmationData InResponseTo="unique-generated-id-1234" NotOnOrAfter="2025-03-14T04:27:53.450Z" Recipient="http://localhost:9292/acs"/>
       </saml2:SubjectConfirmation>
     </saml2:Subject>
 
-4 <-----------<saml2:Conditions xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" NotBefore="2025-03-14T04:17:53.450Z" NotOnOrAfter="2025-03-14T04:27:53.450Z">
+4 <----------- <saml2:Conditions xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" NotBefore="2025-03-14T04:17:53.450Z" NotOnOrAfter="2025-03-14T04:27:53.450Z">
       <saml2:AudienceRestriction>
         <saml2:Audience>http://localhost:9292/ruby_saml_auth</saml2:Audience>
       </saml2:AudienceRestriction>
     </saml2:Conditions>
 
-5 <-----------<saml2:AuthnStatement xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" AuthnInstant="2025-03-14T04:22:53.450Z" SessionIndex="unique-generated-id-1234">
+5 <----------- <saml2:AuthnStatement xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" AuthnInstant="2025-03-14T04:22:53.450Z" SessionIndex="unique-generated-id-1234">
       <saml2:AuthnContext>
         <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml2:AuthnContextClassRef>
       </saml2:AuthnContext>
     </saml2:AuthnStatement>
 
-6 <-----------<saml2:AttributeStatement xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
+6 <----------- <saml2:AttributeStatement xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
       <saml2:Attribute Name="firstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
         <saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">balashekhar</saml2:AttributeValue>
       </saml2:Attribute>

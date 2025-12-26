@@ -192,7 +192,7 @@ const fetchWebauthnAssertionOptions = async () => {
 ```
 backend returns an options object similar to following:
 
-```js
+```json
 {
   "publicKey": {
     "challenge": "DZ5BwnKQoeJK9RPrB0FEyjD7qnFLXUsEZ8lPKnK_jzU",
@@ -246,7 +246,7 @@ To actually display passkey suggestions, we must update input field.
 
 Browsers display passkey autofill suggestions only when input element includes webauthn in its autocomplete attribute.
 
-```js
+```react
 <input
     required
     type="email"
