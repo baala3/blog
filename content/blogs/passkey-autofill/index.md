@@ -94,5 +94,219 @@ This approach allows teams to adopt passkeys without forcing a “big switch” 
 
 # Autofill DeepDive
 
-<!-- TODO -->
-coming soon...
+Below is a simplified sequence diagram showing how passkey autofill works end to end.
+
+<img src="./autofill_flow.png" style="display: block; margin: 0px auto;"/>
+
+Here is the sample frontend code should be executed when the page loads (for example, using useEffect in React).
+
+```js
+const sendAuthenticatorResponseIfWebauthnAvailable = async () => {
+  try {
+    // if browser is webauthn-compatible, fetch options from server
+    if (!(navigator.credentials &&
+      navigator.credentials.create &&
+      navigator.credentials.get &&
+      window.PublicKeyCredential &&
+      await PublicKeyCredential.isConditionalMediationAvailable())) {
+      return false;
+    }
+
+    const optionsJSON = await backend.fetchWebauthnAssertionOptions();
+    if (optionsJSON != null) {
+      options = webauthn.parseRequestOptionsFromJSON(optionsJSON);
+    } else {
+      return null;
+    }
+
+    options['mediation'] = 'conditional';
+
+    const response = await navigator.credentials.get(options);
+    return await backend.postWebauthnAssertion(response.toJSON()); // send the authenticator response to the backend
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+```
+
+## TL;DR:
+- Check if WebAuthn and conditional mediation are supported
+- Fetch assertion options from the backend
+- Call `credentials.get()` with mediation: "conditional"
+- Enable browser autofill for passkeys
+
+## Step 1: Check availability of WebAuthn and conditional mediation
+
+First, we need to ensure that:
+1. browser supports WebAuthn
+2. browser supports conditional mediation (passkey autofill)
+
+Conditional mediation availability can be checked using async API:
+https://w3c.github.io/webauthn/#dom-publickeycredential-isconditionalmediationavailable
+
+```js
+if (!(navigator.credentials &&
+  navigator.credentials.create &&
+  navigator.credentials.get &&
+  window.PublicKeyCredential &&
+  await PublicKeyCredential.isConditionalMediationAvailable())) {
+  return false;
+}
+```
+
+If this check fails, application should fall back to normal password flow.
+
+## Step 2: Fetch assertion options from backend
+
+Next, frontend needs PublicKeyCredentialRequestOptions object.
+Since the challenge must be generated server side, frontend requests it from the backend.
+
+```js
+const optionsJSON = await backend.fetchWebauthnAssertionOptions();
+if (optionsJSON != null) {
+  options = webauthn.parseRequestOptionsFromJSON(optionsJSON);
+} else {
+  return null;
+}
+```
+backend call:
+```js
+const fetchWebauthnAssertionOptions = async () => {
+  const response = await fetch(options_webauthn_assertion_path(), {
+    method: 'POST',
+    body: {},
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+
+  switch (response.status) {
+    case 200:
+      return response.json();
+    default:
+      return null;
+  }
+};
+```
+backend returns an options object similar to following:
+
+```js
+{
+  "publicKey": {
+    "challenge": "DZ5BwnKQoeJK9RPrB0FEyjD7qnFLXUsEZ8lPKnK_jzU",
+    "timeout": 120000,
+    "extensions": {},
+    "allowCredentials": [],
+    "userVerification": "required"
+  }
+}
+
+```
+
+**Why is allowCredentials empty?**: For passkey autofill, we want browser to show all passkeys available on the device, not just those prefiltered by server.
+
+By setting allowCredentials to an empty array, browser can surface any matching passkey and users can sign in to any account associated with the device’s passkeys
+
+This is main difference from traditional WebAuthn flows.
+
+## Step 3: Call `credentials.get()` with conditional mediation
+If we call `credentials.get()` using the options above as-is, the browser will immediately show a biometric prompt exactly what we want to avoid.
+
+To enable autofill behavior, we must explicitly set:
+
+```js
+options['mediation'] = 'conditional';
+const response = await navigator.credentials.get(options);
+```
+
+The final `options` object looks like:
+
+```js
+{
+  "publicKey": {
+    "challenge": "DZ5BwnKQoeJK9RPrB0FEyjD7qnFLXUsEZ8lPKnK_jzU",
+    "timeout": 120000,
+    "extensions": {},
+    "allowCredentials": [],
+    "userVerification": "required"
+  },
+  "mediation": "conditional"
+}
+```
+with `mediation: "conditional"`:
+- No authentication prompt is shown on page load
+- The Promise returned by `credentials.get()` remains pending
+- It resolves only when user selects passkey and completes authentication
+
+## Step 4: Enable passkey suggestions via autocomplete
+Calling `credentials.get()` alone is not enough.
+To actually display passkey suggestions, we must update input field.
+
+Browsers display passkey autofill suggestions only when input element includes webauthn in its autocomplete attribute.
+
+```js
+<input
+    required
+    type="email"
+    name="email"
+    autoComplete="username webauthn"
+/>
+```
+Once this is set, available passkeys appear automatically when page loads.
+
+## Step 5: User selects a passkey (user involvment starts from here)
+When user clicks passkey suggestion and completes local authentication:
+- The previously pending `credentials.get()` Promise resolves
+- and authenticator response is returned to the frontend
+
+At this point, we forward the response to the backend for verification.
+
+```js
+const response = await navigator.credentials.get(options); // Promise will be resolved when local authentication succeeds
+return await backend.postWebauthnAssertion(response.toJSON()); // send the authenticator response to the backend
+// redirect, sign in user, etc...
+```
+If verification succeeds, user is signs in.
+
+## Step 6: No passkey is available (or user ignores autofill)
+If:
+- No passkeys exist on the device, or
+- The user ignores the passkey suggestions and submits the form manually
+
+Then the flow behaves like normal login form submission. In our case, user is redirected to a password entry page.
+
+---
+
+# Conclusion
+
+Passkey autofill is important step in making passkeys usable in real-world applications.
+While it doesn’t solve every problem in the passkey ecosystem, it removes the biggest UX challenges that previously slowed adoption.
+
+It enables <u>seamless transition</u> from passwords to passkeys by automatically checking best available sign in option, <u>avoids unnecessary authentication prompts</u>, and <u>unifies passkeys with the familiar browser autofill experience</u>, and when no passkey is available, the <u>flow gracefully falls back to passwords</u>.
+
+Overall, passkey autofill allows teams to adopt passkeys incrementally without breaking existing login flows or adding friction. But... there are some
+
+## Problems that still exist in passkey world
+
+- **Autofill depends on email/username input fields, so autofill does not work if**  
+  - There is no email/username input field
+  - The email is prefilled programmatically
+  - The email is displayed as plain text instead of an input element
+
+- **Password managers may override autofill behavior**  
+  Some password managers inject their own UI or autocomplete values, interfering with native passkey autofill.
+
+- **Limited developer control over browser behavior**  
+  Much of the autofill UX is browser and password manager control, leaving RPs with limited ability to customize or debug edge cases.
+
+- **Passkey deletion from server doesn't sync with password managers**  
+  Deleting a passkey from service does not delete from authenticators/password managers leaving  orphaned credentials or sometimes confuses the user.
+
+- **No standardized recovery story**  
+  Account recovery after device loss is still inconsistent and often falls back to passwords, email links, or manual support workflows.
+
+---
+
+I hope, the community moves fast on these gaps, so one day we can 100% use passkeys and completely forget the password method and “forgot password” tensions 😄.
