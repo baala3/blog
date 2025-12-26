@@ -1,0 +1,62 @@
+{{ define "title" }}Gallery &bullet; {{ .Site.Title }}{{ end }}
+
+{{ define "main" }}
+<section class="bg-white w-100">
+  <div class="gallery-container">
+    <div class="gallery-grid">
+      {{- range .Resources.ByType "image" -}}
+        <div class="gallery-item">
+          <img src="{{ .RelPermalink }}" alt="{{ .Title }}" class="gallery-image">
+        </div>
+      {{- end -}}
+    </div>
+  </div></section>
+
+  <style>
+    .gallery-container {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 0;
+      margin-bottom: 2rem;
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .gallery-item {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+    
+    .gallery-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      padding: 0;
+      border: 0.5px solid #e0e0e0;
+    }
+    
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .gallery-image {
+        height: 100%;
+      }
+    }
+  </style>
+</section>
+{{ end }}
+
+{{ define "pagination" }}
+<br>
+{{ end }}
