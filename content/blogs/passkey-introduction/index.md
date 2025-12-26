@@ -16,7 +16,6 @@ In this blog, I’m going to explain what passkeys are and how they came into pi
 <!--more-->
 Since many services like Apple, Google, GitHub and others have started deploying passkeys, It’s important to understand **what they are, why they exist, and whether you should use them**.
 
-
 A **passkey** is basically credential (like password) which you can use to authenticate into server. which is much faster, more secure, and more user-friendly than traditional password authentication.
 
 When I joined **MFID** (an identity service at MoneyForward), one of the milestones on my team’s roadmap was `passwordless authentication`.
