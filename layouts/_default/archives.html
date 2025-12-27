@@ -1,21 +1,93 @@
 {{ define "title" }}Archives &bullet; {{ .Site.Title }}{{ end }}
 
 {{ define "main" }}
-<section class="center bg-white br-3 pv1 ph4 nested-copy-line-height lh-copy f4 nested-links mw-100 measure-wide">
+<section class="center bg-white br-3 pv4 ph4 nested-copy-line-height lh-copy nested-links mw-100 measure-wide archive-section">
+  <div class="archive-header mb4">
+    <h2 class="f2 fw3 mb3 dark-gray">Archive</h2>
+  </div>
+  
   {{- range $i, $p := .Site.RegularPages -}}
   {{- $thisYear := $p.Date.Format "2006" }}
   {{- $lastPage := $i | add -1 | index .Site.RegularPages }}
   {{- if or (eq $i 0) ( ne ($lastPage.Date.Format "2006") $thisYear ) }}
-    <h3 class="archive-year">{{ $thisYear }}</h3>
+    <div class="archive-year-container mt3 mb2">
+      <h3 class="archive-year f3 fw6 mb2 dark-blue pb2">{{ $thisYear }}</h3>
+    </div>
   {{- end }}
   
-  <div>
-    {{ $p.Date.Format "01-02" }}
-    <a href="{{ $p.Permalink }}" class="no-underline dim link">
-      {{- cond (eq .Site.Params.titlecase true) (.Title | title | markdownify) (.Title | markdownify) -}}
-    </a>
-  </div>
+  <article class="archive-item pv1 ph3 mb1 br2 bg-near-white">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <time class="archive-date f6 fw6 gray mr3 mono" datetime="{{ $p.Date.Format "2006-01-02" }}">
+          {{ $p.Date.Format "Jan 02" }}
+        </time>
+        <a href="{{ $p.Permalink }}" class="archive-link no-underline dark-gray f5 fw5">
+          {{- cond (eq .Site.Params.titlecase true) (.Title | title | markdownify) (.Title | markdownify) -}}
+        </a>
+      </div>
+      <div class="archive-meta">
+        {{- if $p.Params.categories -}}
+        <span class="f7 gray">
+          {{- range $idx, $cat := $p.Params.categories -}}
+            {{- if gt $idx 0 -}}, {{ end -}}{{ $cat -}}
+          {{- end -}}
+        </span>
+        {{- end -}}
+      </div>
+    </div>
+  </article>
   {{- end -}}
+
+  <style>
+    .archive-section {
+      max-width: 50rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .archive-year {
+      position: relative;
+      padding-left: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    
+    .archive-year::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 2px;
+    }
+    
+    .archive-item {
+      border: 1px solid transparent;
+    }
+    
+    .archive-date {
+      min-width: 4rem;
+      text-align: left;
+    }
+    
+    @media (max-width: 768px) {
+      .archive-section {
+        margin: 0;
+        padding: 2rem 1rem;
+      }
+      
+      .archive-item .flex {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .archive-date {
+        margin-bottom: 0;
+        margin-right: 0;
+      }
+    }
+  </style>
 </section>
 {{ end }}
 
