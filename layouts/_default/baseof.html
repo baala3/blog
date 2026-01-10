@@ -83,6 +83,7 @@
 						{{- end }}
 						<a class="link f5 ml2 dim near-white fas fa-rss-square" href="{{ "index.xml" | absURL }}" title="RSS Feed"></a>
 						<a class="link f5 ml2 dim near-white fas fa-search" href="{{ "search/" | absURL }}" role="search" title="Search"></a>
+						<a id="ai-trigger" class="link f5 ml2 dim near-white fas fa-robot pointer" href="javascript:void(0)" title="AI Insight"></a>
 					</div>
 				</nav>
 
@@ -147,5 +148,42 @@
 		{{ end }}
 	{{ with .Site.Params.foot }}{{ range . }}
 	{{ . | safeHTML }}{{ end }}{{ end }}
+
+	<!-- AI Modal -->
+	<div id="ai-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;">
+		<div style="background: white; padding: 2rem; border-radius: 8px; max-width: 600px; width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+				<h3 style="margin: 0; color: #333; font-size: 1.4rem; font-weight: normal;">AI Insight</h3>
+				<div>
+					<button id="ai-regenerate" style="border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; color: #666; margin-right: 0.5rem; font-size: 0.9rem;" title="Generate new insight">
+						<i class="fas fa-sync-alt"></i>
+					</button>
+					<button id="ai-modal-close" style="border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; color: #666; font-size: 1rem;">&times;</button>
+				</div>
+			</div>
+			<div id="ai-modal-content" style="color: #444; line-height: 1.7; font-size: 1rem; min-height: 60px;">
+				<div style="text-align: center; padding: 2rem;">
+					<i class="fas fa-spinner fa-spin"></i> generating insight...
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<style>
+		#ai-modal-close:hover, #ai-regenerate:hover {
+			background: #e0e0e0;
+		}
+		#ai-regenerate.regenerating i {
+			animation: spin 1s linear infinite;
+		}
+		@keyframes spin {
+			from { transform: rotate(0deg); }
+			to { transform: rotate(360deg); }
+		}
+	</style>
+
+	<!-- LLM-powered on-demand generation -->
+	<script src="{{ "js/llm-config.js" | absURL }}"></script>
+	<script src="{{ "js/llm-subtitle.js" | absURL }}"></script>
 	</body>
 </html>
