@@ -1,13 +1,15 @@
-// LLM-powered subtitle generator
+// LLM-powered subtitle generator with history
 (function() {
   'use strict';
+
+  let currentIndex = 0;
 
   // Wait for config to load
   function getConfig() {
     return window.LLM_SUBTITLE_CONFIG || {
       enableAI: false,
       apiToken: '',
-      apiModel: 'mistralai/Mistral-7B-Instruct-v0.2',
+      apiModel: 'meta-llama/Llama-3.2-3B-Instruct',
       context: {
         role: 'senior engineer developer',
         interests: 'authentication and security',
@@ -31,16 +33,17 @@
   // Build prompt from template and context
   function buildPrompt(config) {
     let prompt = config.promptTemplate;
-    Object.keys(config.context).forEach(key => {
-      const placeholder = `{${key}}`;
-      prompt = prompt.replace(placeholder, config.context[key]);
-    });
+    if (config.context) {
+      Object.keys(config.context).forEach(key => {
+        const placeholder = `{${key}}`;
+        prompt = prompt.replace(placeholder, config.context[key]);
+      });
+    }
     return prompt;
   }
 
   // Generate AI subtitle using Hugging Face API
   async function generateWithAI(config, prompt) {
-    // Use CORS proxy to bypass browser restrictions
     const corsProxy = 'https://corsproxy.io/?';
     const apiUrl = `${corsProxy}https://router.huggingface.co/v1/chat/completions`;
 
@@ -48,7 +51,6 @@
       'Content-Type': 'application/json'
     };
 
-    // Add authorization if token is provided
     if (config.apiToken) {
       headers['Authorization'] = `Bearer ${config.apiToken}`;
     }
@@ -58,12 +60,7 @@
       headers: headers,
       body: JSON.stringify({
         model: config.apiModel,
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
+        messages: [{ role: "user", content: prompt }],
         max_tokens: 50,
         temperature: 0.7
       })
@@ -82,13 +79,44 @@
       throw new Error('No text generated');
     }
 
-    // Clean up the subtitle
     subtitle = subtitle
-      .replace(/^["']|["']$/g, '') // Remove quotes
-      .replace(/\n.*/g, '') // Take only first line
-      .substring(0, 800); // Limit length
+      .replace(/^["']|["']$/g, '')
+      .replace(/\n.*/g, '')
+      .substring(0, 500);
 
     return subtitle;
+  }
+
+  // Get all insights from localStorage
+  function getInsights() {
+    try {
+      const stored = localStorage.getItem('ai-insights-history');
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error('Error reading insights:', e);
+      return [];
+    }
+  }
+
+  // Save insights to localStorage (keep only last 10)
+  function saveInsights(insights) {
+    try {
+      const toSave = insights.slice(-10);
+      localStorage.setItem('ai-insights-history', JSON.stringify(toSave));
+    } catch (e) {
+      console.error('Error saving insights:', e);
+    }
+  }
+
+  // Add new insight
+  function addInsight(content) {
+    const insights = getInsights();
+    insights.push({
+      content: content,
+      timestamp: Date.now()
+    });
+    saveInsights(insights);
+    return insights.length - 1; // Return index of new insight
   }
 
   // Show modal
@@ -107,34 +135,73 @@
     }
   }
 
-  // Get cached AI insight from localStorage
-  function getCachedInsight() {
-    try {
-      const cached = localStorage.getItem('ai-insight-cache');
-      if (cached) {
-        const data = JSON.parse(cached);
-        // Return cached data if it exists
-        if (data.content) {
-          console.log('Using cached AI insight');
-          return data.content;
-        }
-      }
-    } catch (e) {
-      console.error('Error reading cache:', e);
+  // Update navigation UI
+  function updateNavigation() {
+    const insights = getInsights();
+    const nav = document.getElementById('ai-navigation');
+    const counter = document.getElementById('ai-counter');
+    const prevBtn = document.getElementById('ai-prev');
+    const nextBtn = document.getElementById('ai-next');
+    const regenerateBtn = document.getElementById('ai-regenerate');
+
+    if (!nav || !counter || !prevBtn || !nextBtn) return;
+
+    if (insights.length > 0) {
+      nav.style.display = 'flex';
+      counter.textContent = `${currentIndex + 1} of ${insights.length}`;
+
+      // Disable/enable buttons based on position
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === insights.length - 1;
+
+      prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
+      nextBtn.style.opacity = currentIndex === insights.length - 1 ? '0.3' : '1';
+    } else {
+      nav.style.display = 'none';
     }
-    return null;
+
+    // Disable regenerate button if we have 10 insights
+    if (regenerateBtn) {
+      if (insights.length >= 10) {
+        regenerateBtn.disabled = true;
+        regenerateBtn.style.opacity = '0.3';
+        regenerateBtn.title = 'Maximum insights reached (10)';
+      } else {
+        regenerateBtn.disabled = false;
+        regenerateBtn.style.opacity = '1';
+        regenerateBtn.title = 'Generate new insight';
+      }
+    }
   }
 
-  // Save AI insight to localStorage
-  function cacheInsight(content) {
-    try {
-      localStorage.setItem('ai-insight-cache', JSON.stringify({
-        content: content,
-        timestamp: Date.now()
-      }));
-      console.log('AI insight cached successfully');
-    } catch (e) {
-      console.error('Error saving cache:', e);
+  // Display current insight
+  function displayCurrentInsight() {
+    const insights = getInsights();
+    const modalContent = document.getElementById('ai-modal-content');
+
+    if (!modalContent || insights.length === 0) return;
+
+    const insight = insights[currentIndex];
+
+    modalContent.innerHTML = `<p>${insight.content}</p>`;
+    updateNavigation();
+  }
+
+  // Navigate to previous insight
+  function navigatePrev() {
+    const insights = getInsights();
+    if (currentIndex > 0) {
+      currentIndex--;
+      displayCurrentInsight();
+    }
+  }
+
+  // Navigate to next insight
+  function navigateNext() {
+    const insights = getInsights();
+    if (currentIndex < insights.length - 1) {
+      currentIndex++;
+      displayCurrentInsight();
     }
   }
 
@@ -144,6 +211,12 @@
     const regenerateBtn = document.getElementById('ai-regenerate');
     if (!modalContent) return;
 
+    // Check if we already have 10 insights
+    const insights = getInsights();
+    if (insights.length >= 10) {
+      return;
+    }
+
     // Add spinning animation to button
     if (regenerateBtn) {
       regenerateBtn.classList.add('regenerating');
@@ -151,39 +224,31 @@
     }
 
     // Show loading state
-    modalContent.innerHTML = '<div style="text-align: center; padding: 2rem; color: #555; font-family: Georgia, \'Times New Roman\', Times, serif;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #667eea;"></i><br><span style="margin-top: 1rem; display: inline-block; font-size: 1rem; opacity: 0.7;">Generating new insight...</span></div>';
+    modalContent.innerHTML = '<p style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Generating new insight...</p>';
 
     const config = getConfig();
 
-    // If AI is disabled or no API token, use fallback
-    if (!config.enableAI || !config.apiToken) {
-      const fallback = getRandomFallback(config);
-      modalContent.innerHTML = `<p style="font-size: 1.1rem; margin: 0; color: #555; font-family: Georgia, 'Times New Roman', Times, serif;">${fallback}</p>`;
-      if (regenerateBtn) {
-        regenerateBtn.classList.remove('regenerating');
-        regenerateBtn.disabled = false;
-      }
-      return;
-    }
-
-    // Try AI generation
     try {
-      const prompt = buildPrompt(config);
-      console.log('Calling Hugging Face API with prompt:', prompt);
-      const result = await generateWithAI(config, prompt);
-      console.log('Generated content:', result);
+      let content;
 
-      // Cache the successful result
-      cacheInsight(result);
+      if (!config.enableAI || !config.apiToken) {
+        content = getRandomFallback(config);
+      } else {
+        const prompt = buildPrompt(config);
+        console.log('Calling Hugging Face API with prompt:', prompt);
+        content = await generateWithAI(config, prompt);
+        console.log('Generated content:', content);
+      }
 
-      modalContent.innerHTML = `<p style="font-size: 1.1rem; margin: 0; color: #333; font-style: italic; font-family: Georgia, 'Times New Roman', Times, serif;">"${result}"</p>`;
+      // Add to history and set as current
+      currentIndex = addInsight(content);
+      displayCurrentInsight();
+
     } catch (error) {
       console.error('AI generation failed:', error);
-      console.error('Error details:', error.message, error.stack);
       const fallback = getRandomFallback(config);
-      modalContent.innerHTML = `<p style="font-size: 1rem; color: #d9534f; margin-bottom: 1rem; font-family: Georgia, 'Times New Roman', Times, serif;"><i class="fas fa-exclamation-triangle"></i> Generation failed</p><p style="font-size: 1.1rem; color: #555; margin: 0; font-family: Georgia, 'Times New Roman', Times, serif;">${fallback}</p>`;
+      modalContent.innerHTML = `<p><strong>Generation failed</strong></p><p>${fallback}</p>`;
     } finally {
-      // Remove spinning animation from button
       if (regenerateBtn) {
         regenerateBtn.classList.remove('regenerating');
         regenerateBtn.disabled = false;
@@ -191,49 +256,44 @@
     }
   }
 
-  // Main function to generate AI content on demand
-  async function generateOnDemand() {
+  // Main function to open modal
+  async function openModal() {
     const modalContent = document.getElementById('ai-modal-content');
     if (!modalContent) return;
 
     // Show modal
     showModal();
 
-    // Check for cached content first
-    const cached = getCachedInsight();
-    if (cached) {
-      modalContent.innerHTML = `<p style="font-size: 1.1rem; margin: 0; color: #333; font-style: italic; font-family: Georgia, 'Times New Roman', Times, serif;">"${cached}"</p><p style="font-size: 0.9rem; color: #999; margin-top: 1rem; text-align: right; font-family: Georgia, 'Times New Roman', Times, serif;"><i class="fas fa-clock"></i> Cached</p>`;
-      return;
-    }
+    const insights = getInsights();
 
-    // Show loading state if no cache
-    modalContent.innerHTML = '<div style="text-align: center; padding: 2rem; color: #555; font-family: Georgia, \'Times New Roman\', Times, serif;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #667eea;"></i><br><span style="margin-top: 1rem; display: inline-block; font-size: 1rem; opacity: 0.7;">Generating insight...</span></div>';
+    if (insights.length > 0) {
+      // Show the most recent insight
+      currentIndex = insights.length - 1;
+      displayCurrentInsight();
+    } else {
+      // No insights yet, generate first one
+      modalContent.innerHTML = '<p style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Generating insight...</p>';
 
-    const config = getConfig();
+      const config = getConfig();
 
-    // If AI is disabled or no API token, use fallback
-    if (!config.enableAI || !config.apiToken) {
-      const fallback = getRandomFallback(config);
-      modalContent.innerHTML = `<p style="font-size: 1.1rem; margin: 0; color: #555; font-family: Georgia, 'Times New Roman', Times, serif;">${fallback}</p>`;
-      return;
-    }
+      try {
+        let content;
 
-    // Try AI generation
-    try {
-      const prompt = buildPrompt(config);
-      console.log('Calling Hugging Face API with prompt:', prompt);
-      const result = await generateWithAI(config, prompt);
-      console.log('Generated content:', result);
+        if (!config.enableAI || !config.apiToken) {
+          content = getRandomFallback(config);
+        } else {
+          const prompt = buildPrompt(config);
+          content = await generateWithAI(config, prompt);
+        }
 
-      // Cache the successful result
-      cacheInsight(result);
+        currentIndex = addInsight(content);
+        displayCurrentInsight();
 
-      modalContent.innerHTML = `<p style="font-size: 1.1rem; margin: 0; color: #333; font-style: italic; font-family: Georgia, 'Times New Roman', Times, serif;">"${result}"</p>`;
-    } catch (error) {
-      console.error('AI generation failed:', error);
-      console.error('Error details:', error.message, error.stack);
-      const fallback = getRandomFallback(config);
-      modalContent.innerHTML = `<p style="font-size: 1rem; color: #d9534f; margin-bottom: 1rem; font-family: Georgia, 'Times New Roman', Times, serif;"><i class="fas fa-exclamation-triangle"></i> Generation failed</p><p style="font-size: 1.1rem; color: #555; margin: 0; font-family: Georgia, 'Times New Roman', Times, serif;">${fallback}</p>`;
+      } catch (error) {
+        console.error('AI generation failed:', error);
+        const fallback = getRandomFallback(config);
+        modalContent.innerHTML = `<p><strong>Generation failed</strong></p><p>${fallback}</p>`;
+      }
     }
   }
 
@@ -248,14 +308,14 @@
     // Add click handler to AI trigger
     const trigger = document.getElementById('ai-trigger');
     if (trigger) {
-      trigger.addEventListener('click', generateOnDemand);
+      trigger.addEventListener('click', openModal);
     }
 
     // Add click handler to regenerate button
     const regenerateBtn = document.getElementById('ai-regenerate');
     if (regenerateBtn) {
       regenerateBtn.addEventListener('click', function(e) {
-        e.stopPropagation(); // Prevent modal close
+        e.stopPropagation();
         forceGenerate();
       });
     }
@@ -264,6 +324,17 @@
     const closeBtn = document.getElementById('ai-modal-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', hideModal);
+    }
+
+    // Add navigation handlers
+    const prevBtn = document.getElementById('ai-prev');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', navigatePrev);
+    }
+
+    const nextBtn = document.getElementById('ai-next');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', navigateNext);
     }
 
     // Close modal when clicking outside

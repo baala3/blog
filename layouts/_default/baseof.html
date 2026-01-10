@@ -161,17 +161,29 @@
 					<button id="ai-modal-close" style="border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; color: #666; font-size: 1rem;">&times;</button>
 				</div>
 			</div>
-			<div id="ai-modal-content" style="color: #444; line-height: 1.7; font-size: 1rem; min-height: 60px;">
+			<div id="ai-modal-content" style="color: #444; line-height: 1.7; font-size: 1rem; min-height: 80px;">
 				<div style="text-align: center; padding: 2rem;">
 					<i class="fas fa-spinner fa-spin"></i> generating insight...
 				</div>
+			</div>
+			<div id="ai-navigation" style="display: none; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+				<button id="ai-prev" style="border: none; padding: 0.5rem; cursor: pointer; color: #666; font-size: 1rem;" title="Previous">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+				<span id="ai-counter" style="color: #999; font-size: 0.9rem;">1 of 1</span>
+				<button id="ai-next" style="border: none; padding: 0.5rem; cursor: pointer; color: #666; font-size: 1rem;" title="Next">
+					<i class="fas fa-arrow-right"></i>
+				</button>
 			</div>
 		</div>
 	</div>
 
 	<style>
-		#ai-modal-close:hover, #ai-regenerate:hover {
+		#ai-modal-close:hover, #ai-regenerate:hover:not(:disabled), #ai-prev:hover:not(:disabled), #ai-next:hover:not(:disabled) {
 			background: #e0e0e0;
+		}
+		#ai-prev:disabled, #ai-next:disabled, #ai-regenerate:disabled {
+			cursor: not-allowed;
 		}
 		#ai-regenerate.regenerating i {
 			animation: spin 1s linear infinite;
