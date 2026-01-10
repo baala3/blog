@@ -6,4 +6,4 @@ TZ = "America/Los_Angeles"
 
 [build]
 publish = "public"
-command = "git config core.quotepath false && hugo --gc --minify"
+command = "git config core.quotepath false && hugo --gc --minify && sed -i \"s/%%HF_API_TOKEN%%/$HF_API_TOKEN/g\" public/js/llm-config.js"
