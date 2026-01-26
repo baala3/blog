@@ -1,5 +1,5 @@
 ---
-title: 'passkey Introduction'
+title: 'Passkeys: The New Passwordless Login'
 date: "2023-05-12T15:54:38+09:00"
 url: "/blogs/passkey-introduction/passkey-introduction"
 description: ""

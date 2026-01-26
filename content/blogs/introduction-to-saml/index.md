@@ -1,5 +1,5 @@
 ---
-title: 'SAML Concepts'
+title: 'SAML Fundamentals and Deep Dive'
 date: "2024-11-09T17:49:34+09:00"
 url: "/blogs/introduction-to-saml/introduction-to-saml"
 description: "A deep dive into SAML 2.0 concepts, including federation patterns, binding types, XML structure of Requests and Responses, signature validation, and real-world SSO flows."
