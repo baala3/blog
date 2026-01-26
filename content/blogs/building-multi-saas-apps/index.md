@@ -2,13 +2,14 @@
 title: 'Building multi SaaS applications'
 date: "2026-01-19T21:59:30+09:00"
 url: "/blogs/building-multi-saas-apps/building-multi-saas-apps"
-description: ""
+description: "Building multi SaaS applications"
 tldr: ""
-image: ""
+image: "https://bionic-gpt.com/blog/confidential-saas/multi-tenancy.png"
 credit: ""
-thumbnail: ""
+thumbnail: "https://cdn.prod.website-files.com/5eca8a6b4966c2bfb15e67a5/67a8cecbd70415e20a6acba1_Image%20blog%20(1496%C2%A0%C3%97%C2%A01496%C2%A0px)%20(88).jpg"
 categories:
-- Uncategorized
+- SaaS
+- MultiTenant
 ---
 
 In this blog, I’m summarizing key concepts and ideas from book “Building Multi-Tenant SaaS Architectures” by Tod Golding, which I started reading while working on Tenant Management System at Money Forward.
