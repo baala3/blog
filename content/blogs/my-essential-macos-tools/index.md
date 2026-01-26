@@ -11,7 +11,8 @@ categories:
 - Productivity
 ---
 
-In this blog I want to share the tools i use on macOS that make my daily work easier and faster as Ruby and Go developer. I’ll skip the common or work related tools like Docker, VS Code, IntelliJ IDEA, and Xcode. 
+In this post, I’ll share the macOS tools I actually use and depend on. I’ll intentionally skip obvious, work specific tools like Docker, VS Code, IntelliJ IDEA, and Xcode. Instead, focus on tools that improve day-to-day work efficiency.
+
  <!--more--> Instead, focus on ones that actually improve my Productivity.
 
 ---
@@ -22,7 +23,9 @@ In this blog I want to share the tools i use on macOS that make my daily work ea
 
 https://brew.sh/
 
-Homebrew is first thing i will have on my Mac. It’s an open-source package manager for macOS that makes installing apps and command-line tools simple.
+Homebrew is first thing I install on new Mac. If you’re doing any kind of development on macOS, this is must i guess.
+
+It’s simple, reliable package manager for installing CLI tools and desktop apps without searching through websites.
 
 ```bash
 # Search for formulas and casks
@@ -35,14 +38,13 @@ brew install formula
 brew install --cask cask
 ```
 
-You can install both formulas (CLI tools) and casks (full apps). If you are a developer you must have known this.
-
 ---
 
 ### 2. Fork (git client)
 https://git-fork.com/
 
-I mostly use Git from command line, but Fork helps me review changes visually before pushing changes. It reduces mistakes like committing wrong commits to the wrong branches.
+I mostly use Git from command line, but Fork helps me review changes visually before pushing them. 
+It helps me review diffs before pushing, double-check branch history and avoid accidental commits.
 
 ---
 
@@ -50,7 +52,7 @@ I mostly use Git from command line, but Fork helps me review changes visually be
 
 https://www.warp.dev/
 
-Warp is modern terminal with useful features like Customization options Workflows for automating common tasks, recently has built-in AI that remembers and suggests commands.
+Warp is modern terminal with useful features like customization options Workflows for automating common tasks, recently has built-in AI that remembers and suggests commands.
 
 It’s fast, smart, and more user-friendly than the default terminal.
 
@@ -60,9 +62,9 @@ It’s fast, smart, and more user-friendly than the default terminal.
 
 https://rectangleapp.com/
 
-Window management on macOS is limited compared to Windows. Rectangle solves this with simple keyboard shortcuts to snap and organize windows.
+Window management on macOS is limited compared to Windows. Rectangle solves this for me with simple keyboard shortcuts to snap and organize windows.
 
-I set custom shortcuts (see below), so managing multiple apps became simple after installing this tool.
+I set custom shortcuts (see below img) which became muscle memory, so managing multiple apps became simple.
 
 <img src="rectangle.png" style="display: block; margin: 0 auto;"/>
 
@@ -74,9 +76,10 @@ https://alt-tab-macos.netlify.app/
 
 By default, macOS's `cmd+tab` only lets you switch between apps, not windows of the same app.
 
-AltTab is a tool just to fix this. I just replaced `cmd+tab` with AltTab and also mapped ` Cmd+` ` to switch between windows of the current app. 
+AltTab is tool just to fix this for me. 
+I just replaced `cmd+tab` with AltTab and also mapped ` Cmd+` ` to switch between windows of the current app. 
 
-Huge time saver and something I never imagined it exists.
+Huge time saver and something i never imagined this exists.
 (Espically in arc browser, i couldn't find shortcut to switch b/w different arc windows, AltTab really helped me here)
 
 ---
@@ -85,7 +88,7 @@ Huge time saver and something I never imagined it exists.
 
 https://www.raycast.com/
 
-Raycast is faster, cleaner replacement for Spotlight. It’s bit heavy tool that exceeds my needs and requires many external extensions to be installed. I haven’t used all its features yet, but even basic search feels better than Spotlight.
+Raycast is faster, cleaner replacement for Spotlight. It’s bit heavy tool that exceeds my needs and has many external extensions. I haven’t used all its features yet, but even basic search feels better than Spotlight.
 
 ---
 
@@ -95,7 +98,7 @@ https://clipy-app.com/
 
 macOS didn’t have proper clipboard history for a long time. Even now, the built-in option in macOS26 is very limited. Clipy keeps full history of copied items.
 
-My shortcut is `Cmd+Shift+D` to quickly check the history and paste.
+My shortcut is `Cmd+Shift+D` to quickly access the clipboard history and paste.
 
 ---
 
