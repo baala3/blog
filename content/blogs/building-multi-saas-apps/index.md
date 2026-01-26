@@ -1,6 +1,6 @@
 ---
 title: 'Building multi SaaS applications'
-date: "2026-01-19T21:59:30+09:00"
+date: "2025-01-19T21:59:30+09:00"
 url: "/blogs/building-multi-saas-apps/building-multi-saas-apps"
 description: "Building multi SaaS applications"
 tldr: ""
@@ -114,15 +114,15 @@ Tenants are grouped into pods, each running a shared stack with fixed capacity. 
 
 Onboarding and identity belong to the SaaS control plane. Before application features, the platform must reliably create tenants, provision required resources, and establish tenant boundaries.
 
-Onboarding is workflow, not a single operation. It is typically triggered either from an internal admin console or via self-service signup. The flow creates tenant metadata, assigns a plan or tier, provisions infrastructure depending on the deployment model (silo or pooled), initializes identity and access, and configures quotas or billing. Because onboarding is distributed and failure-prone, each step must be idempotent and tracked using explicit states.
+**Onboarding is workflow, not a single operation.** It is typically triggered either from an internal admin console or via self-service signup. The flow creates tenant metadata, assigns plan/tier, provisions infrastructure depending on deployment model (silo or pooled), initializes identity and access, and configures quotas or billing. Because onboarding is distributed and failure-prone, each step must be idempotent and tracked using explicit states.
 
 <img src="./auth_flow.png" style="display: block; margin: 0px auto;"/>
 
-**Identity in SaaS must be tenant-aware,** Most platforms use OIDC and issue JWTs that include both user identity and tenant context through custom claims. This allows services to enforce tenant-scoped authorization without additional lookups.
+**Identity in SaaS must be tenant-aware.** Most platforms use OIDC and issue JWTs that include both user identity and tenant context through custom claims. This allows services to enforce tenant-scoped authorization without additional lookups.
 
-In more flexible setups, tenant context is resolved separately from authentication. The IdP authenticates the user, while a tenant service resolves tenant membership and roles. This approach simplifies multi-tenant users and multi-IdP support.
+In more flexible setups, tenant context is resolved separately from authentication. The IdP authenticates the user, while deicated service resolves tenant membership and roles. This approach simplifies multi-tenant users and multi-IdP support.
 
-For enterprise customers, SaaS platforms often support federated identity using SAML or OIDC. Since external IdPs rarely include tenant identifiers, tenant context must be inferred from IdP configuration, issuer, or domain mappings. SCIM is commonly used alongside federation for user and group provisioning but does not handle authentication or tenant resolution.
+For enterprise customers, SaaS platforms often support federated identity using SAML or OIDC. Since external IdPs rarely include tenant identifiers, tenant context must be resolved from IdP configuration, issuer, or domain mappings. SCIM is commonly used alongside federation for user and group provisioning but does not handle authentication or tenant resolution.
 
 Some platforms derive tenant context from request metadata, such as subdomain-based tenancy. While simple, this model is limited when users belong to multiple tenants or when federation is required.
 
@@ -132,36 +132,62 @@ Some platforms derive tenant context from request metadata, such as subdomain-ba
 
 tenant management is core of part of control plane and it invloves lot of things like onboarding, offboarding, billing, Tenant attributes, Tenent identity configs, routing configs (based on silo and pool) and tenant user.
 
-### Core Constructs
-- **Tenant Identifier**
-  - A globally unique, immutable Tenant GUID should be the primary identifier.
-  - Avoid business identifiers (domain, org name) as keys — they change, GUIDs don’t.
-  - All downstream systems should reference tenants via this GUID.
+**Tenant Identifier**: should be globally unique, immutable (like GUID) and should avoid business identifiers like domain, org name which might change in future.
 
-- **Infrastructure Configuration**
-  - Stores tenant-specific infra state:
-  - Deployment model (silo / pooled / hybrid)
-  - Region, environment, cluster mapping
-  - Dedicated resources (DB, cache, queues) if applicable
-  - This data drives routing, provisioning, and isolation logic.
+**Lifecycle Management**
 
-- **Lifecycle Management**
-  - Explicit lifecycle states: provisioning → active → suspended → deactivated → decommissioned
-  - State transitions must be idempotent and auditable.
-  - Decommissioning is destructive:
-    - so it must be delayed, reversible (grace period), and compliant with retention policies
+- Explicit lifecycle states: provisioning → active → suspended → deactivated → decommissioned
+- State transitions must be idempotent and auditable.
+- Decommissioning should be compliant with retention policies
 
-- **Tier / Plan Changes**
-  - Tier changes are effectively infra + policy migrations, not just billing updates.
-  - Common challenges:
-    - Provisioning new resources (or moving to shared ones)
-    - Updating routing rules and
-    - Migrating existing tenant state safely
-  - Feature flags help decouple rollout from deployment, but:
-    - Data shape compatibility must be guaranteed
-    - Backward compatibility matters during gradual migrations
-  - Complexity increases significantly in hybrid or siloed models.
+**Tier / Plan Changes**
+- Tier changes are effectively infra + policy migrations, not just billing updates.
+- Common challenges include Provisioning new resources (or moving to shared ones) Updating routing rules and Migrating existing tenant state safely.
+- Feature flags help decouple rollout from deployment, but data shape and backward compatibility must be guaranteed
+- Complexity increases significantly in hybrid or siloed models.
 
 ---
 
-TODO...
+# Tenant Authentication and Routing
+
+Tenant authentication and routing constructs are generally at front door of the system. As this decides tenant context and downstream authentication, authorization, and shape routing decisions.
+
+Most SaaS platforms covers one of the following domain patters along with fully owned domain:
+
+**The subdomain per tenant model**
+
+Each tenant is mapped to a platform-managed subdomain (e.g, tenant-a.app.com).
+This suited for Simplifies certificate management, easy tenant resolution and for pooled architectures (with centralized routing).
+But this restricts the tenants brand ownership and stricter tenant isolations.
+
+**The vanity domain-per-tenant model**
+
+Here tenants bring their own custom domain (e.g., login.tenant-a.com).
+This requires DNS ownership verification, dynamic host-based routing, runtime lookup for tenant context etc.
+
+Also note that domain based tenant onboarding should be relatively lightweight and doesn't generally requires application redeploys/static routing rules.
+
+**tenant resolution**
+Some platforms tries tenant resolution via user identifiers (e.g., email domain → tenant). but this approach breaks when consultants or external users span multiple tenants, so generally production systems typically resolve tenant context before authentication. When tenant context cannot be derived deterministically (shared domains, cross-tenant users), the system must explicitly introduce tenant selection. 
+
+>note: Federated IdPs introduce additional constraints like Custom claim injection, Tenant-specific authorization logic may need to live outside the IdP.
+
+---
+
+### Routing Authenticated Tenants
+
+Once tenant context is established, routing becomes a function of architecture choice.
+
+**1. Serverless Routing**
+
+- API Gateway / Lambda can resolve tenant at the edge.
+- Enables per tenant throttling, auth policies, and even isolated execution paths.
+- Infrastructure per tenant is possible but increases provisioning complexity.
+
+**2. Container-Based Routing (Kubernetes)**
+- Ingress layer resolves domain and tenant context.
+- Envoy/Istio handles L7 routing, mTLS, and policy enforcement.
+- Tenant isolation can be achieved via namespaces, workload identity, or service mesh policies.
+- Scales well for mixed isolation requirements but demands strong platform governance.
+
+In all cases, the invariant remains: tenant context must be resolved early, propagated consistently, and enforced everywhere.
