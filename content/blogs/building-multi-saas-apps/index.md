@@ -12,9 +12,9 @@ categories:
 - MultiTenant
 ---
 
-In this blog, I’m summarizing key concepts and ideas from book “Building Multi-Tenant SaaS Architectures” by Tod Golding, which I started reading while working on Tenant Management System at Money Forward.
+In this blog, I’m summarizing key concepts and ideas i take way from book “Building Multi-Tenant SaaS Architectures” by Tod Golding, which I started reading while working on Tenant Management System at Money Forward.
 <!--more--> 
-To be honest this book provides a structured view of SaaS and multi-tenancy, it clearly connects business requirements with technical architecture decisions. It broadened my understanding of SaaS ecosystem, especially the non-obvious challenges engineers face when designing, scaling, and evolving multi-tenant systems.
+To be honest this book provides structured view of SaaS and multi-tenancy, it clearly connects business requirements with technical architecture decisions and broadened my understanding of SaaS ecosystem, especially the non-obvious challenges engineers face when designing, scaling, and evolving multi-tenant systems.
 
 This blog focuses on those architectural concepts from developer’s POV.
 
@@ -22,7 +22,7 @@ This blog focuses on those architectural concepts from developer’s POV.
 
 # Getting into SaaS
 ### Classic Software Model vs SaaS
-In the classic software model, applications were deployed on customer owned infrastructure. Each customer environment was independently configured, deployed, and operated. Vendors shipped versions; customers ran them.
+In classic software model, applications were deployed on customer owned infrastructure. Each customer environment was independently configured, deployed, and operated. Vendors shipped versions; customers ran them.
 
 This led to per-customer system administration, slow and risky upgrades, version fragmentation, and limited runtime visibility for vendors. Operational effort scaled linearly with the number of customers. The model optimized for delivery and sales, not for scalability or continuous operation.
 
@@ -32,7 +32,7 @@ SaaS moves applications to vendor-managed infrastructure and replaces customers 
 
 This enables centralized control, shared infrastructure, continuous delivery, faster feature rollout, and flexible pricing models. At the same time, complexity shifts into the platform. Every request must be tenant-aware. Isolation, noisy-neighbor prevention, tenant context resolution, and non-disruptive deployments become core engineering concerns.
 
-SaaS complexity is runtime and architectural, not deployment-time.
+>SaaS moved complexity to runtime and architectural, from deployment-time.
 
 ### SaaS Is More Than Shared Infrastructure
 SaaS is not just applications running on shared infrastructure.
@@ -57,13 +57,13 @@ If you see below image, I think you can easily get to know the diff.
 
 ### Control Plane Responsibilities
 
-The control plane handles cross-tenant and operational concerns. It owns tenant lifecycle and platform-wide policies but does not implement tenant-specific business logic.
+The control plane handles cross tenant and operational concerns. It owns tenant lifecycle and platform-wide policies but does not implement tenant specific business logic.
 
-Typical responsibilities include tenant onboarding and lifecycle management, identity and access management, billing and metering, entitlement and tier management, system-wide metrics, and governance. The control plane is tenant-aware but intentionally generic, allowing it to operate uniformly across all tenants.
+Typical responsibilities can be tenant onboarding and lifecycle management, identity and access management, billing and metering, entitlement and tier management, system wide metrics, and governance. The control plane is tenant aware but intentionally generic, allowing it to operate uniformly across all tenants.
 
 ### Application Plane Responsibilities
 
-The application plane delivers product functionality while enforcing tenant boundaries. This is where most multi-tenancy complexity surfaces at runtime.
+The application plane provides product functionality also enforcing tenant boundaries. This is where most multi-tenancy complexity surfaces at runtime.
 
 Key concerns include tenant context propagation, isolation guarantees, data partitioning, tenant-aware routing (especially in siloed or hybrid deployments), and context-aware business logic. In siloed models, the application plane may also manage tenant-specific deployments or routing to isolated stacks.
 
@@ -78,7 +78,7 @@ SaaS platforms typically define three distinct user categories:
 
 <img src="./saas_archi_overview.png" style="display: block; margin: 0px auto;"/>
 
-System admins usually require a dedicated admin interface to troubleshoot issues, manage tenants, and handle escalations. Tenant admins often use a separate admin console to manage users and settings across one or more SaaS applications. Depending on coupling and ownership, these admin interfaces may live in the control plane or the application plane.
+System admins usually require dedicated admin interface to troubleshoot issues, manage tenants, and handle escalations. Tenant admins often use separate admin console to manage users and settings across one or more SaaS applications. Depending on coupling and ownership, these admin interfaces may live in the control plane or the application plane.
 
 >note: There is no single correct multi-tenant architecture. Most SaaS systems evolve over time, shifting responsibilities between planes as scale, compliance, and operational constraints change.
 
@@ -112,7 +112,7 @@ Tenants are grouped into pods, each running a shared stack with fixed capacity. 
 
 # Onboarding and Identity
 
-Onboarding and identity belong to the SaaS control plane. Before application features, the platform must reliably create tenants, provision required resources, and establish tenant boundaries.
+Onboarding and identity belong to control plane. Before application goes into prod, the platform must reliably create tenants, provision required resources, and establish tenant boundaries.
 
 **Onboarding is workflow, not a single operation.** It is typically triggered either from an internal admin console or via self-service signup. The flow creates tenant metadata, assigns plan/tier, provisions infrastructure depending on deployment model (silo or pooled), initializes identity and access, and configures quotas or billing. Because onboarding is distributed and failure-prone, each step must be idempotent and tracked using explicit states.
 
@@ -150,9 +150,9 @@ tenant management is core of part of control plane and it invloves lot of things
 
 # Tenant Authentication and Routing
 
-Tenant authentication and routing constructs are generally at front door of the system. As this decides tenant context and downstream authentication, authorization, and shape routing decisions.
+Tenant authentication and routing constructs are generally at front door of the system. Bacause, this decides tenant context and downstream authentication, authorization, and shape routing decisions.
 
-Most SaaS platforms covers one of the following domain patters along with fully owned domain:
+Most SaaS platforms covers one of following domain patters along with fully owned domain:
 
 **The subdomain per tenant model**
 
@@ -191,3 +191,44 @@ Once tenant context is established, routing becomes a function of architecture c
 - Scales well for mixed isolation requirements but demands strong platform governance.
 
 In all cases, the invariant remains: tenant context must be resolved early, propagated consistently, and enforced everywhere.
+
+---
+
+# Building Multi-Tenant Services
+
+when building Multi-tenancy services, It is adivisible to start from the domain: SaaS systems usually align well with business subdomains, DDD, and event-driven patterns. Early decisions around compute (containers, serverless, dedicated) and storage (shared DB, schema-per-tenant, DB-per-tenant) directly define your service architecture, scalability, and isolation guarantees. The “noisy neighbor” problem is inevitable unless you explicitly identify services that need stronger isolation and design or deploy them separately.
+
+And inside service, tenant context is everywhere like request handling, logging, metrics, auth, and data access. Enforce isolation at the right layers (network, app, DB), but keep tenant resolution out of business logic. Centralize it using interception patterns like gateways, middleware, sidecars, or Lambda layers. If your metrics aren’t broken down per tenant, your multi-tenancy design is incomplete.
+
+---
+
+# Data Partitioning
+
+Data partitioning directly impacts **SLAs, tenant experience, blast radius, and operational complexity**. It is always better to default to **pooled model** and progressively move toward **siloed isolation** only when workloads, compliance, or performance demand it. Over isolating early leads to management overhead and poor storage right-sizing, while under-isolating increases noisy-neighbor risk. Throughput limits and throttling must be enforced per tenant regardless of model, or-else shared infrastructure becomes unpredictable under load.
+
+Partitioning strategies also varied by storage type:
+- **Relational databases** rely on pooled schemas, tenant-based sharding, or fully siloed databases; 
+- **NoSQL systems** favor partition keys, sharding, and tuning options to control hot tenants; 
+- **object storage** and **OpenSearch** introduce their own pooled vs siloed trade-offs around cost and query isolation. 
+
+In practice, most systems evolve into a **mixed-mode model**, combining pooled and siloed approaches based on tenant tier and data lifecycle. Throughout all models, enforce strong **multi-tenant data security**, controlled access paths, and clear ownership boundaries to prevent accidental cross-tenant exposure.
+
+---
+
+# Tenant Isolation
+
+Tenant isolation exists from full-stack isolation (dedicated infra per tenant) to resource-level and item level isolation within shared services. Strong isolation improves safety and blast-radius control but increases cost and operational complexity, so choosing the right model is business and technical trade-off. 
+
+At application layer, isolation is enforced through authorization, RBAC, and tenant-aware access controls, often implemented via interception patterns rather than business logic. Infrastructure isolation (separate clusters, namespaces, accounts) provides stronger guarantees but reduces flexibility. Effective systems combine deployment-time isolation (how services are deployed) with runtime isolation (how requests are handled), using middleware, gateways, or sidecars to centralize enforcement.
+
+As the platform scales, isolation policies must be explicitly managed, versioned, and observable to prevent drift and accidental cross-tenant exposure.
+
+---
+
+# Conclusion
+
+Building multi-tenant SaaS system is fundamentally about **owning complexity wantedly**. SaaS shifts responsibility from customers to platform, which means tenant awareness, isolation, data partitioning, routing, and lifecycle management are no longer optional, they are core system properties. 
+
+There is no single “correct” architecture. Real SaaS platforms evolve from pooled to hybrid and mixed models as scale, compliance, and customer value change. The key is to design for **explicit tenant boundaries, centralized control planes, early tenant resolution, and measurable isolation**, while keeping business logic clean and adaptable. If multi-tenancy is not observable, enforceable, and evolvable, it will eventually break usually at scale, and always at the worst possible time.
+
+>Most SaaS outages are process failures, not code failures.
