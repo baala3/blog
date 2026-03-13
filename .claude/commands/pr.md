@@ -6,7 +6,7 @@ Push the current branch and create a GitHub PR with an auto-generated title and 
 4. Push the branch: `git push -u origin <branch>`
 5. Generate a concise PR title (under 70 chars) and body from the commits:
    - Title: summarize the change in imperative mood
-   - Body: include a ## Summary section (bullet points of what changed and why) and a ## Test plan section
+   - Body: include a ##What (empty) ##why (empty) ## Summary by claude section (bullet points of what changed and why) and a ## Test plan section
 6. Create the PR:
    ```
    gh pr create --title "<title>" --body "<body>"
