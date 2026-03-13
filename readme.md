@@ -1,6 +1,6 @@
 ### Personal Blog
 
-This is the source code for my personal blog.
+This is source code for my personal blog.
 Live goes here [blog.balashekhar.me](https://blog.balashekhar.me/)
 
 Built with [Hugo](https://gohugo.io/) using the [Story theme](https://github.com/xaprb/story). & cursor also helped a bit too.  
