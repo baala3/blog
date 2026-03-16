@@ -1,10 +1,10 @@
 ---
-title: 'My Essential macOS Tools for Productivity'
+title: 'My Essential macOS Tools'
 date: "2023-03-27T19:00:18+09:00"
-url: "/blogs/my-essential-macos-tools/my-essential-macos-tools"
-description: "My Essential macOS Tools for Productivity"
-tldr: ""
 image: "https://www.atulhost.com/wp-content/uploads/2018/04/small-business-tools.jpg"
+url: "/blogs/my-essential-macos-tools"
+description: "A no-fluff list of macOS tools I actually use daily — covering terminal, window management, clipboard, and a few other gaps macOS doesn't fill well."
+tldr: "The macOS tools that actually make a difference in my daily workflow, beyond the obvious dev tools everyone already knows."
 credit: ""
 thumbnail: "https://cdn.pixabay.com/photo/2023/07/04/19/43/man-8106958_1280.png"
 categories:
@@ -13,34 +13,37 @@ categories:
 
 In this post, I’ll share the macOS tools I actually use and depend on. I’ll intentionally skip obvious, work specific tools like Docker, VS Code, IntelliJ IDEA, and Xcode. Instead, focus on tools that improve day-to-day work efficiency.
 
- <!--more--> Instead, focus on ones that actually improve my Productivity.
+<!--more-->
+
+I'm skipping the obvious dev tools like Docker, VS Code, IntelliJ, and Xcode. You already have those. This is about everything else.
 
 ---
 
 # Core Essentials
 
-### 1. Homebrew (package manager)
+### Homebrew
 
 https://brew.sh/
 
-Homebrew is first thing I install on new Mac. If you’re doing any kind of development on macOS, this is must i guess.
-
-It’s simple, reliable package manager for installing CLI tools and desktop apps without searching through websites.
+The first thing I install on any new Mac. If you're not using it, you're wasting time manually downloading and updating software.
 
 ```bash
-# Search for formulas and casks
-brew search bala
+# Install a CLI tool
+brew install ripgrep
 
-# Example: Install formula
-brew install formula
+# Install a desktop app
+brew install --cask rectangle
 
-# Example: Install cask
-brew install --cask cask
+# Keep everything up to date
+brew upgrade
 ```
+
+The `--cask` flag is the part people forget. It handles GUI apps too, not just CLI tools.
 
 ---
 
-### 2. Fork (git client)
+### Fork (git client)
+
 https://git-fork.com/
 
 I mostly use Git from command line, but Fork helps me review changes visually before pushing them. 
@@ -48,105 +51,104 @@ It helps me review diffs before pushing, double-check branch history and avoid a
 
 ---
 
-### 3. Warp (terminal)
+### Warp (terminal)
 
 https://www.warp.dev/
 
-Warp is modern terminal with useful features like customization options Workflows for automating common tasks, recently has built-in AI that remembers and suggests commands.
+Warp replaces the default Terminal with something that actually feels modern. Block-based output means you can select and copy command output without fighting the cursor. Workflows let you save and run command sequences. The built-in AI is useful for looking up flags without leaving the terminal.
 
-It’s fast, smart, and more user-friendly than the default terminal.
+It's faster and less frustrating than iTerm2 was for me.
 
 ---
 
-### 4. Rectangle (window manager)
+### Rectangle (window manager)
 
 https://rectangleapp.com/
 
-Window management on macOS is limited compared to Windows. Rectangle solves this for me with simple keyboard shortcuts to snap and organize windows.
+macOS window management is still embarrassingly basic. Rectangle fixes that with keyboard shortcuts to snap windows to halves, thirds, and corners.
 
-I set custom shortcuts (see below img) which became muscle memory, so managing multiple apps became simple.
+I set custom shortcuts that became muscle memory fast. Managing multiple windows across a wide monitor is now just a few keystrokes.
 
 <img src="rectangle.png" style="display: block; margin: 0 auto;"/>
 
 ---
 
-### 5. AltTab (windows alt-tab on macOS)
+### AltTab
 
 https://alt-tab-macos.netlify.app/
 
-By default, macOS's `cmd+tab` only lets you switch between apps, not windows of the same app.
+macOS `Cmd+Tab` switches between apps, not windows. If you have two browser windows or two terminal sessions open, you can't get to the right one with the default switcher.
 
-AltTab is tool just to fix this for me. 
-I just replaced `cmd+tab` with AltTab and also mapped ` Cmd+` ` to switch between windows of the current app. 
-
-Huge time saver and something i never imagined this exists.
-(Espically in arc browser, i couldn't find shortcut to switch b/w different arc windows, AltTab really helped me here)
+AltTab replaces `Cmd+Tab` with a real window switcher. I also mapped `Cmd+\`` to cycle windows within the current app. This was a bigger quality-of-life improvement than I expected. Arc browser in particular has no good built-in shortcut for switching between windows, so AltTab fills that gap.
 
 ---
 
-### 6. Raycast (app launcher)
+### Raycast (app launcher)
 
 https://www.raycast.com/
 
-Raycast is faster, cleaner replacement for Spotlight. It’s bit heavy tool that exceeds my needs and has many external extensions. I haven’t used all its features yet, but even basic search feels better than Spotlight.
+A faster, cleaner replacement for Spotlight. Basic search already feels better, and the extension ecosystem is large if you want to go further. I mostly use it for app launching and quick calculations, but it handles clipboard history, snippets, and window management if you want to consolidate tools.
 
 ---
 
-### 7. Clipy (clipboard extention)
+### Clipy (clipboard manager)
 
 https://clipy-app.com/
 
-macOS didn’t have proper clipboard history for a long time. Even now, the built-in option in macOS26 is very limited. Clipy keeps full history of copied items.
-
-My shortcut is `Cmd+Shift+D` to quickly access the clipboard history and paste.
+macOS clipboard history is still limited even in recent versions. Clipy keeps a full history of everything you copy, accessible with `Cmd+Shift+D`. Once you have clipboard history, you can't go back. It changes how you copy and paste.
 
 ---
 
-# Other helpful ones
+# Other Useful Ones
 
-### 1. AS Timer
+### AS Timer
 
 https://apps.apple.com/jp/app/as-timer/id512464723
 
-A simple countdown timer. Nothing fancy, just works.
+A simple countdown timer. Nothing fancy. I use it for Pomodoro-style focus blocks.
 
 ---
 
-### 2. PDF Gear (pdf editor)
+### PDF Gear
 
-https://www.pdfgear.com/ => to edit PDFs
+https://www.pdfgear.com/
+
+Free PDF editor for annotating, merging, and light editing. Does the job without a subscription.
 
 ---
 
-### 3. Bitwarden (password manager)
+### Bitwarden (password manager)
 
 https://bitwarden.com/
 
-Go to password manager. It’s open source, secure, and syncs my credentials across all platforms.
+Open source, cross-platform, and audited. It syncs across all my devices and has a solid browser extension. I trust it more than most alternatives because the code is public.
 
 ---
 
-### 4. Ente Authenticator (2FA)
+### Ente Auth (2FA)
 
 https://ente.io/auth/
 
-For 2FA, I use Ente Authenticator. It’s open source, syncs across iOS, Android, and macOS, and even have website for 2FA codes. Very convenient compared to traditional authenticators which are OS bound or device bound ones. 
+Most 2FA apps lock you to one platform or one device. Ente Auth is open source and syncs across iOS, Android, macOS, and the web. Moving to a new phone doesn't mean losing all your codes.
 
 ---
 
-### 5. Calibre (E-book manager)
+### Calibre (e-book manager)
 
-https://calibre-ebook.com/ => for ebooks
+https://calibre-ebook.com/
+
+If you have e-books in different formats or manage a library across devices, Calibre handles conversion and organization well. It's not pretty, but it works.
 
 ---
 
-### 6. Vimium browser extension
+### Vimium (browser extension)
 
-[https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl](https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en)
+https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb
 
-On any browser(Arc, Chrome, Safari, Firefox), I use Vimium for Vim-style keyboard shortcuts. It makes browsing faster and keeps my hands on keyboard most of the time.
+Works on Arc, Chrome, Safari, and Firefox. Vim-style keyboard shortcuts for navigation: `f` to open link hints, `j`/`k` to scroll, `H`/`L` for history. Once the bindings are in muscle memory, you reach for the mouse a lot less.
 
 ---
 
 # That's it
+
 That's it my current macOS setup tools. Ofcourse you can use an many tools as you want to, but be careful on not to overwhelm yourself with so many tools at once. Always think twice before installing the tool whether it really solving your needs and at what cost?..

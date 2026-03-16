@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="500" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.04" stroke-width="1">
+    <line x1="0" y1="100" x2="500" y2="100"/>
+    <line x1="0" y1="200" x2="500" y2="200"/>
+    <line x1="0" y1="300" x2="500" y2="300"/>
+    <line x1="0" y1="400" x2="500" y2="400"/>
+    <line x1="100" y1="0" x2="100" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="300" y1="0" x2="300" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+  </g>
+
+  <!-- Glow blobs -->
+  <ellipse cx="250" cy="180" rx="180" ry="120" fill="#6366f1" fill-opacity="0.08"/>
+  <ellipse cx="250" cy="380" rx="120" ry="80" fill="#8b5cf6" fill-opacity="0.06"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="500" height="4" fill="url(#accent)"/>
+
+  <!-- Shield icon (large, centered) -->
+  <g transform="translate(250, 155)">
+    <path d="M0,-70 L55,-45 L55,10 Q55,55 0,80 Q-55,55 -55,10 L-55,-45 Z"
+          fill="#6366f1" fill-opacity="0.15" stroke="url(#accent)" stroke-width="2"/>
+    <!-- Checkmark inside shield -->
+    <path d="M-22,8 L-8,24 L28,-18"
+          stroke="#a5b4fc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- SAML label -->
+  <text x="250" y="272" text-anchor="middle"
+        font-family="monospace" font-size="42" font-weight="700" fill="#f1f5f9" letter-spacing="6">SAML</text>
+
+  <!-- Divider -->
+  <rect x="100" y="285" width="300" height="2" fill="url(#accent)" rx="1"/>
+
+  <!-- Subtitle -->
+  <text x="250" y="318" text-anchor="middle"
+        font-family="system-ui, -apple-system, sans-serif" font-size="15" fill="#94a3b8">Fundamentals &amp; Deep Dive</text>
+
+  <!-- Tags row -->
+  <g transform="translate(250, 360)">
+    <!-- XML tag -->
+    <rect x="-155" y="-14" width="56" height="24" rx="12" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1"/>
+    <text x="-127" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#818cf8">XML</text>
+
+    <!-- SSO tag -->
+    <rect x="-88" y="-14" width="56" height="24" rx="12" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1"/>
+    <text x="-60" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#818cf8">SSO</text>
+
+    <!-- Federation tag -->
+    <rect x="-21" y="-14" width="88" height="24" rx="12" fill="#8b5cf6" fill-opacity="0.2" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="23" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#c4b5fd">Federation</text>
+
+    <!-- XSW tag -->
+    <rect x="79" y="-14" width="76" height="24" rx="12" fill="#ef4444" fill-opacity="0.15" stroke="#ef4444" stroke-width="1"/>
+    <text x="117" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#fca5a5">XSW Attack</text>
+  </g>
+
+  <!-- Flow mini diagram -->
+  <g transform="translate(0, 415)">
+    <!-- IdP box -->
+    <rect x="60" y="0" width="80" height="32" rx="6" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.2"/>
+    <text x="100" y="20" text-anchor="middle" font-family="monospace" font-size="12" fill="#c4b5fd">IdP</text>
+
+    <!-- Arrow -->
+    <line x1="143" y1="16" x2="197" y2="16" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrt)"/>
+    <defs>
+      <marker id="arrt" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L6,3 z" fill="#6366f1"/>
+      </marker>
+    </defs>
+    <text x="170" y="11" text-anchor="middle" font-family="monospace" font-size="9" fill="#475569">Assertion</text>
+
+    <!-- SP box -->
+    <rect x="200" y="0" width="80" height="32" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="1.2"/>
+    <text x="240" y="20" text-anchor="middle" font-family="monospace" font-size="12" fill="#818cf8">SP</text>
+
+    <!-- Arrow -->
+    <line x1="283" y1="16" x2="337" y2="16" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrt)"/>
+    <text x="310" y="11" text-anchor="middle" font-family="monospace" font-size="9" fill="#475569">Access</text>
+
+    <!-- App box -->
+    <rect x="340" y="0" width="80" height="32" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="1.2"/>
+    <text x="380" y="20" text-anchor="middle" font-family="monospace" font-size="12" fill="#818cf8">App</text>
+  </g>
+</svg>

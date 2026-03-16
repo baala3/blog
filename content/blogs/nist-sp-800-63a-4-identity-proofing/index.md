@@ -4,9 +4,9 @@ date: "2025-01-05T00:00:00+09:00"
 url: "/blogs/nist-sp-800-63a-4-identity-proofing"
 description: "A technical breakdown of NIST SP 800-63A-4's identity proofing model: assurance levels, evidence tiers, biometric requirements, deepfake defenses, and fraud management for engineers building or evaluating KYC systems."
 tldr: "SP 800-63A-4 defines a three-step proofing model (resolve, validate, verify) across three assurance levels, with specific rules for evidence quality, biometric thresholds, remote session types, and controls for AI-generated forgeries. Document scanning is not identity verification."
-image: "https://www.cyberark.com/wp-content/uploads/2020/09/NIST-blog-hero-1.jpg"
+image: "blogs/nist-sp-800-63a-4-identity-proofing/image.svg"
 credit: "https://pages.nist.gov/800-63-4/sp800-63a.html"
-thumbnail: "https://www.entrust.com/sites/default/files/2025-03/regulatory-nist-feature-1200x628.jpg"
+thumbnail: "blogs/nist-sp-800-63a-4-identity-proofing/thumbnail.svg"
 categories:
 - Identity
 - Security

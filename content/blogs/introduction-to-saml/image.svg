@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Left glow blob -->
+  <ellipse cx="150" cy="315" rx="200" ry="200" fill="#6366f1" fill-opacity="0.07"/>
+  <!-- Right glow blob -->
+  <ellipse cx="1050" cy="315" rx="200" ry="200" fill="#8b5cf6" fill-opacity="0.07"/>
+
+  <!-- ===== FLOW DIAGRAM ===== -->
+
+  <!-- User Box -->
+  <rect x="80" y="260" width="160" height="110" rx="10" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+  <circle cx="160" cy="293" r="18" fill="#6366f1" fill-opacity="0.3" stroke="#6366f1" stroke-width="1.5"/>
+  <circle cx="160" cy="290" r="8" fill="#a5b4fc"/>
+  <path d="M141 314 Q160 304 179 314" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <text x="160" y="347" text-anchor="middle" font-family="monospace" font-size="13" fill="#94a3b8">User</text>
+  <text x="160" y="363" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">Browser</text>
+
+  <!-- IdP Box -->
+  <rect x="510" y="210" width="180" height="210" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+  <path d="M600 237 L622 247 L622 265 Q622 282 600 292 Q578 282 578 265 L578 247 Z" fill="#8b5cf6" fill-opacity="0.25" stroke="#8b5cf6" stroke-width="1.5"/>
+  <path d="M592 265 L597 270 L610 257" stroke="#c4b5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="600" y="310" text-anchor="middle" font-family="monospace" font-size="14" fill="#c4b5fd">IdP</text>
+  <text x="600" y="328" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">Identity Provider</text>
+  <text x="600" y="348" text-anchor="middle" font-family="monospace" font-size="10" fill="#475569">(Okta, Azure AD)</text>
+  <text x="600" y="368" text-anchor="middle" font-family="monospace" font-size="10" fill="#475569">Issues assertions</text>
+  <text x="600" y="385" text-anchor="middle" font-family="monospace" font-size="10" fill="#475569">Signs XML</text>
+  <text x="600" y="402" text-anchor="middle" font-family="monospace" font-size="10" fill="#475569">Authenticates users</text>
+
+  <!-- SP Box -->
+  <rect x="960" y="260" width="160" height="110" rx="10" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+  <rect x="985" y="278" width="30" height="36" rx="3" fill="#6366f1" fill-opacity="0.25" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="990" y1="289" x2="1010" y2="289" stroke="#818cf8" stroke-width="1.5"/>
+  <line x1="990" y1="296" x2="1010" y2="296" stroke="#818cf8" stroke-width="1.5"/>
+  <line x1="990" y1="303" x2="1005" y2="303" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="1040" y="293" font-family="monospace" font-size="13" fill="#94a3b8">SP</text>
+  <text x="1040" y="309" font-family="monospace" font-size="11" fill="#64748b">Service</text>
+  <text x="1040" y="323" font-family="monospace" font-size="11" fill="#64748b">Provider</text>
+  <text x="1040" y="341" font-family="monospace" font-size="10" fill="#475569">Your App</text>
+
+  <!-- Arrow: User → IdP (AuthnRequest) -->
+  <line x1="245" y1="290" x2="505" y2="270" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arr1)"/>
+  <defs>
+    <marker id="arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#6366f1"/>
+    </marker>
+    <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect x="290" y="255" width="160" height="22" rx="4" fill="#0f172a" fill-opacity="0.8"/>
+  <text x="370" y="270" text-anchor="middle" font-family="monospace" font-size="11" fill="#818cf8">① AuthnRequest</text>
+
+  <!-- Arrow: IdP → User (SAMLResponse) -->
+  <line x1="505" y1="355" x2="248" y2="340" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <rect x="290" y="340" width="175" height="22" rx="4" fill="#0f172a" fill-opacity="0.8"/>
+  <text x="377" y="355" text-anchor="middle" font-family="monospace" font-size="11" fill="#c4b5fd">② SAMLResponse (XML)</text>
+
+  <!-- Arrow: User → SP (POST assertion) -->
+  <line x1="248" y1="360" x2="955" y2="340" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arr3)"/>
+  <rect x="530" y="438" width="170" height="22" rx="4" fill="#0f172a" fill-opacity="0.8"/>
+  <text x="615" y="453" text-anchor="middle" font-family="monospace" font-size="11" fill="#818cf8">③ POST to SP (via browser)</text>
+
+  <!-- XML snippet decoration -->
+  <rect x="80" y="460" width="340" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="100" y="483" font-family="monospace" font-size="11" fill="#475569">&lt;samlp:Response&gt;</text>
+  <text x="116" y="499" font-family="monospace" font-size="11" fill="#475569">&lt;Assertion&gt;</text>
+  <text x="132" y="515" font-family="monospace" font-size="11" fill="#6366f1">&lt;Subject&gt;</text>
+  <text x="148" y="531" font-family="monospace" font-size="11" fill="#94a3b8">user@corp.com</text>
+  <text x="132" y="547" font-family="monospace" font-size="11" fill="#6366f1">&lt;/Subject&gt;</text>
+  <text x="116" y="563" font-family="monospace" font-size="11" fill="#475569">&lt;/Assertion&gt;</text>
+
+  <!-- Signature badge -->
+  <rect x="780" y="460" width="360" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <circle cx="820" cy="500" r="14" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="834" y1="500" x2="856" y2="500" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="850" y1="500" x2="850" y2="510" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="843" y1="500" x2="843" y2="507" stroke="#f59e0b" stroke-width="2"/>
+  <text x="875" y="495" font-family="monospace" font-size="12" fill="#94a3b8">XML Signed</text>
+  <text x="875" y="511" font-family="monospace" font-size="12" fill="#94a3b8">with RSA/X.509</text>
+  <path d="M815 530 L830 556 L800 556 Z" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="828" y="551" font-family="monospace" font-size="11" fill="#64748b">XSW Attack surface</text>
+  <text x="828" y="566" font-family="monospace" font-size="10" fill="#475569">validate signatures carefully</text>
+
+  <!-- ===== TITLE AREA ===== -->
+  <rect x="0" y="0" width="1200" height="90" fill="#0f172a" fill-opacity="0.6"/>
+  <rect x="0" y="85" width="1200" height="2" fill="url(#accentGrad)"/>
+  <text x="60" y="56" font-family="system-ui, -apple-system, sans-serif" font-size="38" font-weight="700" fill="#f1f5f9">SAML Fundamentals</text>
+  <text x="60" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#64748b">XML · Federation · SSO · Signatures · XSW</text>
+  <rect x="1040" y="28" width="120" height="28" rx="14" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1"/>
+  <text x="1100" y="47" text-anchor="middle" font-family="monospace" font-size="13" fill="#818cf8">Deep Dive</text>
+</svg>
