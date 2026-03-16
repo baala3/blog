@@ -11,17 +11,19 @@ categories:
 - Identity
 - Security
 - NIST
+classes:
+- feature-mermaid
 ---
 
-If you've integrated a KYC provider, you've probably been told something like: "the user uploads their ID, we scan it, we do a selfie match, done." That description is not wrong, but it skips over several distinctions that matter when your threat model includes fraud at scale, synthetic media, <!--more--> or users who can't produce a standard government ID.
+If you've integrated a KYC provider, you've probably been told something like: "the user uploads their ID, we scan it, we do a selfie match, done." That description is not wrong, but it skips over several distinctions that matter when your threat model includes fraud at scale, synthetic media,<!--more-->or users who can't produce a standard government ID.
 
-[NIST SP 800-63A-4](https://pages.nist.gov/800-63-4/sp800-63a.html) is the identity proofing volume of the 800-63-4 suite. It defines exactly what "verified identity" means at each assurance level, what evidence qualifies, how to handle the cases that break the happy path, and what your fraud program needs to look like. This post walks through the model.
+[NIST SP 800-63A-4](https://pages.nist.gov/800-63-4/sp800-63a.html) is the identity proofing volume of the 800-63-4 suite. It defines exactly what "verified identity" means at each assurance level, what evidence qualifies, how to handle the cases that break the happy path, and what your fraud program needs to look like. This blog walks through the model.
 
 ---
 
 **Series: NIST SP 800-63-4**
 - Part 1: [SP 800-63-4 — The Framework, Assurance Levels, and Risk Management](/blogs/nist-sp-800-63-4-overview)
-- **Part 2 (this post):** SP 800-63A-4 — Identity Proofing and Enrollment
+- **Part 2 (this blog):** SP 800-63A-4 — Identity Proofing and Enrollment
 - Part 3: [SP 800-63B-4 — Authentication and Authenticator Management](/blogs/nist-sp-800-63b-4-authentication)
 - Part 4: [SP 800-63C-4 — Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
 
@@ -43,20 +45,12 @@ Identity proofing has three distinct failure modes, and they require three disti
 
 # The Three-Step Proofing Model
 
-```
-Applicant
-    │
-    ▼
-[1. Resolution]   ← collect evidence, establish candidate identity
-    │
-    ▼
-[2. Validation]   ← confirm evidence is authentic, accurate, and current
-    │
-    ▼
-[3. Verification] ← link this applicant to the validated identity
-    │
-    ▼
-Subscriber (enrolled, authenticator bound)
+```mermaid
+flowchart TD
+    A([Applicant]) --> B["1. Resolution\nCollect evidence, establish candidate identity"]
+    B --> C["2. Validation\nConfirm evidence is authentic, accurate, and current"]
+    C --> D["3. Verification\nLink applicant to the validated identity"]
+    D --> E([Subscriber — enrolled, authenticator bound])
 ```
 
 ## Resolution
@@ -208,6 +202,13 @@ In a remote proofing flow, the applicant typically opens a camera to capture the
 
 The attack surface is the gap between the applicant's physical camera and the CSP's receipt of the media. If that gap can be exploited, the rest of your proofing controls are checking a fabricated input.
 
+```mermaid
+flowchart LR
+    cam[Physical Camera] -->|legitimate| csp[CSP Proofing System]
+    cam -.->|intercepted| atk["Virtual camera / emulator /\ndeepfake injection"]
+    atk -.->|synthetic feed| csp
+```
+
 ## Required Controls
 
 For remote unattended proofing, the following controls are now normative (required, not recommended):
@@ -288,4 +289,4 @@ Most commercial KYC providers (Jumio, Onfido, Persona, Stripe Identity, etc.) co
 
 The spec applies to the CSP, which is you, not just the vendor you use. Third-party tools are inputs to your proofing process. The compliance responsibility doesn't transfer with the contract.
 
-Post 3 picks up where enrollment ends: once you have a subscriber, how do you authenticate them at AAL1, AAL2, and AAL3?
+Blog 3 picks up where enrollment ends: once you have a subscriber, how do you authenticate them at AAL1, AAL2, and AAL3?

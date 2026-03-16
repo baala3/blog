@@ -12,6 +12,8 @@ categories:
 - Security
 - Authentication
 - NIST
+classes:
+- feature-mermaid
 ---
 
 "We have MFA" is not a security posture. It's a starting point. SMS OTP is MFA. A hardware key is MFA. They are not equivalent, and treating them as equivalent is how you end up with a system that passes an audit but falls to a $10 phishing kit. <!--more-->
@@ -23,7 +25,7 @@ categories:
 **Series: NIST SP 800-63-4**
 - Part 1: [SP 800-63-4 — The Framework, Assurance Levels, and Risk Management](/blogs/nist-sp-800-63-4-overview)
 - Part 2: [SP 800-63A-4 — Identity Proofing and Enrollment](/blogs/nist-sp-800-63a-4-identity-proofing)
-- **Part 3 (this post):** SP 800-63B-4 — Authentication and Authenticator Management
+- **Part 3 (this blog):** SP 800-63B-4 — Authentication and Authenticator Management
 - Part 4: [SP 800-63C-4 — Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
 
 ---
@@ -35,6 +37,19 @@ Standard MFA was designed for a world where attackers tried to steal passwords. 
 That world still exists, but it's not the main threat anymore. The dominant attack patterns now are:
 
 **Phishing with real-time proxies.** Adversary-in-the-middle (AiTM) toolkits (Evilginx, Modlishka, and their commercial successors) sit between the user and the legitimate site. The user types their password and TOTP code into what looks like the real site. The proxy forwards those credentials to the real site in real time, logs in, and harvests the session token. The MFA code was valid, it was used, and the attacker is now authenticated. TOTP doesn't help here.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant P as AiTM Proxy<br/>(fake site)
+    participant S as Real Server
+
+    U->>P: Password + TOTP code
+    P->>S: Forward credentials in real time
+    S-->>P: Valid session token
+    P-->>U: Show fake success page
+    Note over P: Attacker holds a valid<br/>authenticated session
+```
 
 **Push notification fatigue.** Flood a user with MFA push requests until they approve one to make it stop. No phishing site required.
 
@@ -146,6 +161,19 @@ If an attacker sets up `yourbank-secure.com` and proxies the login, the passkey 
 
 This is how passkeys work. The private key is bound to the relying party ID at registration time. Authentication at a different origin produces a signature that the real server will reject, because the assertion was made for a different domain.
 
+```mermaid
+sequenceDiagram
+    participant U as User Browser
+    participant P as AiTM Proxy<br/>(fake.bank.com)
+    participant S as Real Server<br/>(bank.com)
+
+    U->>P: Navigate to fake.bank.com
+    P->>U: Relay passkey challenge
+    Note over U: Passkey checks origin:<br/>fake.bank.com ≠ bank.com
+    U--xP: Signing refused (origin mismatch)
+    Note over U,P: Proxy receives nothing.<br/>Attack fails.
+```
+
 ## Channel Binding
 
 The authenticator's output is bound to the specific TLS session between the client and the verifier. Even if an attacker proxies the connection, the binding breaks at the TLS layer: the client's session is with the proxy, not the real server, so the bound output won't verify.
@@ -180,7 +208,7 @@ At AAL2, you must offer a phishing-resistant authenticator option. At AAL3, the 
 
 In practice: if you're building a consumer-facing application that needs AAL2, passkeys are the right default. They're phishing-resistant, they don't require users to manage a hardware token, and they handle device migration better than most alternatives. For internal tools or high-stakes systems that need AAL3, you need hardware.
 
-If you want more depth on passkeys specifically, the [passkey introduction post](/blogs/passkey-introduction) covers the WebAuthn registration and authentication ceremonies.
+If you want more depth on passkeys specifically, the [passkey introduction blog](/blogs/passkey-introduction) covers the WebAuthn registration and authentication ceremonies.
 
 ---
 
@@ -212,7 +240,7 @@ The distinction between an **absolute timeout** (session expires after X hours f
 
 **Step-up authentication** is the right pattern for high-risk actions within a session. Rather than requiring the user to fully reauthenticate for every sensitive operation, you confirm they still control their authenticator at the moment of the sensitive action. Accessing payment settings, changing email address, or approving a large transaction are all candidates for step-up. The step-up challenge should be at the same AAL as the session.
 
-**Session binding** requirements: sessions must be bound to the assertion from the verifier, and the verifier must be the expected one (relevant for federated flows, covered in Post 4).
+**Session binding** requirements: sessions must be bound to the assertion from the verifier, and the verifier must be the expected one (relevant for federated flows, covered in Blog 4).
 
 ---
 
@@ -222,7 +250,7 @@ Account recovery is where authentication security most often collapses. The effo
 
 The rule is straightforward: recovery must not allow access at a higher assurance level than what the recovery mechanism itself provides. If you recover an account with an email link (roughly AAL1 equivalent), you shouldn't immediately have full AAL2 access to the account. The session established through recovery should be appropriately constrained until the subscriber re-establishes their full authenticator.
 
-**Knowledge-based verification (security questions) is prohibited.** The same reasoning that prohibits KBV in identity proofing (Post 2) applies here. The answers are often derivable from public records, social media, or previous data breaches. "What was your childhood pet's name?" is not a meaningful security control for account recovery.
+**Knowledge-based verification (security questions) is prohibited.** The same reasoning that prohibits KBV in identity proofing (Blog 2) applies here. The answers are often derivable from public records, social media, or previous data breaches. "What was your childhood pet's name?" is not a meaningful security control for account recovery.
 
 **Acceptable recovery at AAL2** looks like: a verified communication channel (email or phone number established during enrollment), combined with requiring the subscriber to register a new authenticator after access is restored. The recovery step proves they control the registered contact, not that they can authenticate at AAL2 immediately.
 
@@ -230,7 +258,7 @@ The rule is straightforward: recovery must not allow access at a higher assuranc
 
 ---
 
-# Putting It Together
+# Conclusion
 
 The practical takeaway from 800-63B-4 is a hierarchy of authenticator strength:
 
@@ -242,4 +270,4 @@ The practical takeaway from 800-63B-4 is a hierarchy of authenticator strength:
 
 If you're auditing an existing system: check whether your AAL2 offering includes a phishing-resistant option, verify your password policy doesn't enforce composition rules, confirm your session timeouts are correct for the AAL you're targeting, and make sure your recovery path doesn't undercut the assurance level you've built.
 
-Post 4 covers what happens after authentication: how that authentication event is conveyed across trust boundaries via federation, what the assertion security requirements look like, and how the new subscriber-controlled wallet model changes the IdP's role.
+Blog 4 covers what happens after authentication: how that authentication event is conveyed across trust boundaries via federation, what the assertion security requirements look like, and how the new subscriber-controlled wallet model changes the IdP's role.
