@@ -417,3 +417,7 @@ img[src~="3dbook"] {
 .hljs-link {
   text-decoration: underline;
 }
+.mermaid svg {
+  display: block;
+  margin: 0 auto;
+}
