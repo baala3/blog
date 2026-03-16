@@ -1,0 +1,265 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080412"/>
+      <stop offset="100%" style="stop-color:#110820"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="fal1g" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.02"/>
+    </linearGradient>
+    <linearGradient id="fal2g" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.04"/>
+    </linearGradient>
+    <linearGradient id="fal3g" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:0.26"/>
+      <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:0.06"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arrr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.025" stroke-width="1">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Glow blobs -->
+  <ellipse cx="270" cy="380" rx="210" ry="170" fill="#8b5cf6" fill-opacity="0.05"/>
+  <ellipse cx="920" cy="280" rx="200" ry="160" fill="#7c3aed" fill-opacity="0.05"/>
+  <ellipse cx="1060" cy="520" rx="130" ry="90" fill="#ef4444" fill-opacity="0.04"/>
+
+  <!-- Panel divider -->
+  <line x1="572" y1="100" x2="572" y2="615" stroke="#1e1040" stroke-width="1"/>
+
+  <!-- ===== TITLE BAR ===== -->
+  <rect x="0" y="0" width="1200" height="88" fill="#050210" fill-opacity="0.85"/>
+  <rect x="0" y="85" width="1200" height="3" fill="url(#accent)"/>
+  <text x="40" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#8b5cf6" letter-spacing="3">NIST SP 800-63C-4</text>
+  <text x="40" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="27" font-weight="700" fill="#faf5ff">How Identity Crosses Trust Boundaries</text>
+  <rect x="1020" y="26" width="150" height="26" rx="13" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="1095" y="43" text-anchor="middle" font-family="monospace" font-size="12" fill="#c4b5fd">Federation</text>
+
+  <!-- ===== LEFT: FAL COMPARISON ===== -->
+  <text x="282" y="114" text-anchor="middle" font-family="monospace" font-size="11" fill="#2e1065" letter-spacing="2">FEDERATION ASSURANCE LEVELS</text>
+
+  <!-- FAL1 col -->
+  <rect x="32" y="124" width="158" height="28" rx="7" fill="#8b5cf6" fill-opacity="0.12" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="111" y="143" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#c4b5fd">FAL1</text>
+
+  <rect x="32" y="156" width="158" height="400" rx="8" fill="url(#fal1g)" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="111" y="176" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">ASSERTION TYPE</text>
+  <text x="111" y="192" text-anchor="middle" font-family="monospace" font-size="11" fill="#7c3aed">Bearer token</text>
+  <line x1="42" y1="200" x2="180" y2="200" stroke="#1e1040" stroke-width="1"/>
+  <text x="111" y="218" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">RP BINDING</text>
+  <text x="111" y="234" text-anchor="middle" font-family="monospace" font-size="11" fill="#6b7280">None — usable by any RP</text>
+  <line x1="42" y1="242" x2="180" y2="242" stroke="#1e1040" stroke-width="1"/>
+  <text x="111" y="260" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">TRUST SETUP</text>
+  <text x="111" y="276" text-anchor="middle" font-family="monospace" font-size="11" fill="#6b7280">Dynamic or pre-agreed</text>
+  <line x1="42" y1="284" x2="180" y2="284" stroke="#1e1040" stroke-width="1"/>
+  <text x="111" y="302" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">KEY POSSESSION</text>
+  <text x="111" y="318" text-anchor="middle" font-family="monospace" font-size="11" fill="#6b7280">Not required</text>
+  <line x1="42" y1="326" x2="180" y2="326" stroke="#1e1040" stroke-width="1"/>
+  <text x="111" y="344" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">INJECTION DEFENSE</text>
+  <text x="111" y="360" text-anchor="middle" font-family="monospace" font-size="11" fill="#6b7280">Basic (nonce/state)</text>
+  <line x1="42" y1="368" x2="180" y2="368" stroke="#1e1040" stroke-width="1"/>
+  <text x="50" y="388" font-family="monospace" font-size="10" fill="#6b7280">· Standard OIDC / SAML</text>
+  <text x="50" y="404" font-family="monospace" font-size="10" fill="#6b7280">· ID token as bearer</text>
+  <text x="50" y="420" font-family="monospace" font-size="10" fill="#6b7280">· Auth code flow</text>
+  <text x="50" y="436" font-family="monospace" font-size="10" fill="#6b7280">· Multi-RP use ok</text>
+  <line x1="42" y1="448" x2="180" y2="448" stroke="#1e1040" stroke-width="1"/>
+  <text x="111" y="466" text-anchor="middle" font-family="monospace" font-size="10" fill="#4b5563">e.g. "Sign in with Google"</text>
+  <text x="111" y="482" text-anchor="middle" font-family="monospace" font-size="10" fill="#4b5563">consumer federation</text>
+  <rect x="48" y="494" width="126" height="18" rx="9" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="111" y="507" text-anchor="middle" font-family="monospace" font-size="9" fill="#f87171">Theft risk if intercepted</text>
+  <text x="111" y="540" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">Most consumer apps</text>
+
+  <!-- FAL2 col -->
+  <rect x="202" y="124" width="158" height="28" rx="7" fill="#8b5cf6" fill-opacity="0.2" stroke="#8b5cf6" stroke-width="1.2"/>
+  <text x="281" y="143" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#a78bfa">FAL2</text>
+
+  <rect x="202" y="156" width="158" height="400" rx="8" fill="url(#fal2g)" stroke="#8b5cf6" stroke-width="1.2" stroke-opacity="0.6"/>
+  <text x="281" y="176" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">ASSERTION TYPE</text>
+  <text x="281" y="192" text-anchor="middle" font-family="monospace" font-size="11" fill="#a78bfa">RP-bound assertion</text>
+  <line x1="212" y1="200" x2="350" y2="200" stroke="#1e1040" stroke-width="1"/>
+  <text x="281" y="218" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">RP BINDING</text>
+  <text x="281" y="234" text-anchor="middle" font-family="monospace" font-size="11" fill="#a78bfa">Single RP only</text>
+  <line x1="212" y1="242" x2="350" y2="242" stroke="#1e1040" stroke-width="1"/>
+  <text x="281" y="260" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">TRUST SETUP</text>
+  <text x="281" y="276" text-anchor="middle" font-family="monospace" font-size="11" fill="#a78bfa">Pre-established required</text>
+  <line x1="212" y1="284" x2="350" y2="284" stroke="#1e1040" stroke-width="1"/>
+  <text x="281" y="302" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">KEY POSSESSION</text>
+  <text x="281" y="318" text-anchor="middle" font-family="monospace" font-size="11" fill="#6b7280">Not required</text>
+  <line x1="212" y1="326" x2="350" y2="326" stroke="#1e1040" stroke-width="1"/>
+  <text x="281" y="344" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">INJECTION DEFENSE</text>
+  <text x="281" y="360" text-anchor="middle" font-family="monospace" font-size="11" fill="#a78bfa">Strong — required</text>
+  <line x1="212" y1="368" x2="350" y2="368" stroke="#1e1040" stroke-width="1"/>
+  <text x="220" y="388" font-family="monospace" font-size="10" fill="#a78bfa">· Audience-restricted JWT</text>
+  <text x="220" y="404" font-family="monospace" font-size="10" fill="#a78bfa">· DPoP binding</text>
+  <text x="220" y="420" font-family="monospace" font-size="10" fill="#a78bfa">· Manual key setup</text>
+  <text x="220" y="436" font-family="monospace" font-size="10" fill="#6b7280">· Stolen token useless</text>
+  <line x1="212" y1="448" x2="350" y2="448" stroke="#1e1040" stroke-width="1"/>
+  <text x="281" y="466" text-anchor="middle" font-family="monospace" font-size="10" fill="#4b5563">e.g. enterprise SSO</text>
+  <text x="281" y="482" text-anchor="middle" font-family="monospace" font-size="10" fill="#4b5563">high-value SaaS</text>
+  <rect x="218" y="494" width="126" height="18" rx="9" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="281" y="507" text-anchor="middle" font-family="monospace" font-size="9" fill="#c4b5fd">Injection-resistant</text>
+  <text x="281" y="540" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">Finance, healthcare</text>
+
+  <!-- FAL3 col -->
+  <rect x="372" y="124" width="158" height="28" rx="7" fill="#a78bfa" fill-opacity="0.22" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="451" y="143" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#ede9fe">FAL3</text>
+
+  <rect x="372" y="156" width="158" height="400" rx="8" fill="url(#fal3g)" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="451" y="176" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">ASSERTION TYPE</text>
+  <text x="451" y="192" text-anchor="middle" font-family="monospace" font-size="11" fill="#ede9fe">Holder-of-key</text>
+  <line x1="382" y1="200" x2="520" y2="200" stroke="#1e1040" stroke-width="1"/>
+  <text x="451" y="218" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">RP BINDING</text>
+  <text x="451" y="234" text-anchor="middle" font-family="monospace" font-size="11" fill="#ede9fe">Bound + subscriber key</text>
+  <line x1="382" y1="242" x2="520" y2="242" stroke="#1e1040" stroke-width="1"/>
+  <text x="451" y="260" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">TRUST SETUP</text>
+  <text x="451" y="276" text-anchor="middle" font-family="monospace" font-size="11" fill="#a78bfa">Pre-established only</text>
+  <line x1="382" y1="284" x2="520" y2="284" stroke="#1e1040" stroke-width="1"/>
+  <text x="451" y="302" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">KEY POSSESSION</text>
+  <text x="451" y="318" text-anchor="middle" font-family="monospace" font-size="11" fill="#a78bfa">Required — proven at RP</text>
+  <line x1="382" y1="326" x2="520" y2="326" stroke="#1e1040" stroke-width="1"/>
+  <text x="451" y="344" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">INJECTION DEFENSE</text>
+  <text x="451" y="360" text-anchor="middle" font-family="monospace" font-size="11" fill="#a78bfa">Maximum</text>
+  <line x1="382" y1="368" x2="520" y2="368" stroke="#1e1040" stroke-width="1"/>
+  <text x="390" y="388" font-family="monospace" font-size="10" fill="#a78bfa">· Subscriber signs at RP</text>
+  <text x="390" y="404" font-family="monospace" font-size="10" fill="#a78bfa">· Non-exportable key</text>
+  <text x="390" y="420" font-family="monospace" font-size="10" fill="#a78bfa">· Verif. credentials</text>
+  <text x="390" y="436" font-family="monospace" font-size="10" fill="#a78bfa">· Wallet model eligible</text>
+  <line x1="382" y1="448" x2="520" y2="448" stroke="#1e1040" stroke-width="1"/>
+  <text x="451" y="466" text-anchor="middle" font-family="monospace" font-size="10" fill="#4b5563">e.g. govt, national id</text>
+  <text x="451" y="482" text-anchor="middle" font-family="monospace" font-size="10" fill="#4b5563">critical infrastructure</text>
+  <rect x="388" y="494" width="126" height="18" rx="9" fill="#a78bfa" fill-opacity="0.15" stroke="#a78bfa" stroke-width="1"/>
+  <text x="451" y="507" text-anchor="middle" font-family="monospace" font-size="9" fill="#ede9fe">Holder-of-key</text>
+  <text x="451" y="540" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">Subscriber-controlled wallet</text>
+
+  <!-- ===== RIGHT: FLOW + ATTACKS ===== -->
+  <text x="882" y="114" text-anchor="middle" font-family="monospace" font-size="11" fill="#2e1065" letter-spacing="2">FEDERATION FLOW &amp; ATTACK SURFACES</text>
+
+  <!-- Federation flow -->
+  <rect x="590" y="122" width="580" height="170" rx="8" fill="#060210" stroke="#1e1040" stroke-width="1"/>
+  <text x="880" y="143" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">STANDARD FEDERATION FLOW (OIDC / SAML)</text>
+
+  <!-- Subscriber -->
+  <rect x="608" y="154" width="96" height="44" rx="7" fill="#110820" stroke="#8b5cf6" stroke-width="1.2"/>
+  <circle cx="628" cy="168" r="7" fill="#8b5cf6" fill-opacity="0.3" stroke="#8b5cf6" stroke-width="1"/>
+  <circle cx="628" cy="167" r="3.5" fill="#c4b5fd"/>
+  <path d="M622 177 Q628 174 634 177" stroke="#c4b5fd" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <text x="660" y="170" font-family="monospace" font-size="10" fill="#c4b5fd">Subscriber</text>
+  <text x="660" y="185" font-family="monospace" font-size="9" fill="#4b5563">authenticates</text>
+  <text x="660" y="196" font-family="monospace" font-size="9" fill="#4b5563">to IdP</text>
+
+  <!-- Arrow Subscriber → IdP -->
+  <line x1="707" y1="176" x2="756" y2="176" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+  <!-- IdP -->
+  <rect x="759" y="154" width="96" height="44" rx="7" fill="#110820" stroke="#a78bfa" stroke-width="1.5"/>
+  <path d="M779 170 L793 162 L793 174 Q793 182 779 186 Q765 182 765 174 L765 162 Z" fill="#a78bfa" fill-opacity="0.2" stroke="#a78bfa" stroke-width="1.2"/>
+  <path d="M774 173 L777 177 L784 169" stroke="#c4b5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="800" y="170" font-family="monospace" font-size="10" fill="#c4b5fd">IdP</text>
+  <text x="800" y="184" font-family="monospace" font-size="9" fill="#4b5563">issues signed</text>
+  <text x="800" y="196" font-family="monospace" font-size="9" fill="#4b5563">assertion</text>
+
+  <!-- Arrow IdP → RP (assertion over browser) -->
+  <line x1="858" y1="176" x2="907" y2="176" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrd)"/>
+  <!-- Assertion label -->
+  <rect x="845" y="152" width="76" height="16" rx="4" fill="#060210"/>
+  <text x="883" y="163" text-anchor="middle" font-family="monospace" font-size="9" fill="#8b5cf6">JWT / SAML</text>
+
+  <!-- RP -->
+  <rect x="910" y="154" width="96" height="44" rx="7" fill="#110820" stroke="#8b5cf6" stroke-width="1.2"/>
+  <rect x="920" y="160" width="16" height="20" rx="2" fill="#8b5cf6" fill-opacity="0.2" stroke="#8b5cf6" stroke-width="1"/>
+  <line x1="923" y1="166" x2="932" y2="166" stroke="#c4b5fd" stroke-width="1"/>
+  <line x1="923" y1="171" x2="932" y2="171" stroke="#c4b5fd" stroke-width="1"/>
+  <line x1="923" y1="176" x2="930" y2="176" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="944" y="170" font-family="monospace" font-size="10" fill="#c4b5fd">RP</text>
+  <text x="944" y="184" font-family="monospace" font-size="9" fill="#4b5563">validates +</text>
+  <text x="944" y="196" font-family="monospace" font-size="9" fill="#4b5563">grants session</text>
+
+  <!-- Trust boundary line -->
+  <line x1="745" y1="150" x2="745" y2="205" stroke="#3b0764" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="745" y="218" text-anchor="middle" font-family="monospace" font-size="8" fill="#3b0764">trust boundary</text>
+  <line x1="900" y1="150" x2="900" y2="205" stroke="#3b0764" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="900" y="218" text-anchor="middle" font-family="monospace" font-size="8" fill="#3b0764">trust boundary</text>
+
+  <!-- Wallet model note -->
+  <rect x="608" y="232" width="398" height="26" rx="6" fill="#110820" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="807" y="249" text-anchor="middle" font-family="monospace" font-size="10" fill="#a78bfa">NEW FAL3: Subscriber-controlled wallet — IdP not in assertion path</text>
+
+  <!-- Attack surface section -->
+  <rect x="590" y="312" width="580" height="62" rx="7" fill="#060210" stroke="#1e1040" stroke-width="1"/>
+  <text x="608" y="331" font-family="monospace" font-size="10" fill="#3b0764">FEDERATION ATTACK SURFACES:</text>
+  <rect x="722" y="320" width="100" height="18" rx="9" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1"/>
+  <text x="772" y="333" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">Assertion theft</text>
+  <rect x="832" y="320" width="106" height="18" rx="9" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1"/>
+  <text x="885" y="333" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">Assertion replay</text>
+  <rect x="948" y="320" width="110" height="18" rx="9" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1"/>
+  <text x="1003" y="333" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">Assertion injection</text>
+  <rect x="1068" y="320" width="90" height="18" rx="9" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1"/>
+  <text x="1113" y="333" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">Cross-RP track</text>
+  <text x="608" y="363" font-family="monospace" font-size="10" fill="#374151">Bearer tokens in URL fragments leak into browser history, server logs, and referrer headers. Use back-channel code exchange.</text>
+
+  <!-- Injection attack diagram -->
+  <rect x="590" y="386" width="280" height="180" rx="7" fill="#060210" stroke="#1e1040" stroke-width="1"/>
+  <text x="730" y="406" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">ASSERTION INJECTION SCENARIO</text>
+  <line x1="600" y1="412" x2="860" y2="412" stroke="#1e1040" stroke-width="1"/>
+  <!-- RP-A box -->
+  <rect x="614" y="424" width="72" height="30" rx="5" fill="#110820" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="650" y="444" text-anchor="middle" font-family="monospace" font-size="10" fill="#c4b5fd">RP-A</text>
+  <!-- Assertion arrow to attacker -->
+  <line x1="689" y1="439" x2="730" y2="439" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="710" y="432" text-anchor="middle" font-family="monospace" font-size="8" fill="#8b5cf6">assertion</text>
+  <!-- Attacker box -->
+  <rect x="733" y="424" width="80" height="30" rx="5" fill="#1a0505" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="773" y="444" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">Attacker</text>
+  <!-- Arrow attacker → RP-B -->
+  <line x1="773" y1="454" x2="773" y2="474" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrr)"/>
+  <text x="800" y="468" font-family="monospace" font-size="8" fill="#ef4444">injects</text>
+  <!-- RP-B box -->
+  <rect x="733" y="477" width="80" height="30" rx="5" fill="#110820" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="773" y="497" text-anchor="middle" font-family="monospace" font-size="10" fill="#c4b5fd">RP-B</text>
+  <!-- FAL2 blocks this -->
+  <rect x="614" y="520" width="232" height="26" rx="5" fill="#8b5cf6" fill-opacity="0.1" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="730" y="537" text-anchor="middle" font-family="monospace" font-size="10" fill="#c4b5fd">FAL2: aud restricted — RP-B rejects</text>
+  <text x="730" y="558" text-anchor="middle" font-family="monospace" font-size="9" fill="#4b5563">audience claim bound to RP-A's client_id only</text>
+
+  <!-- Privacy / PPID box -->
+  <rect x="882" y="386" width="288" height="180" rx="7" fill="#060210" stroke="#1e1040" stroke-width="1"/>
+  <text x="1026" y="406" text-anchor="middle" font-family="monospace" font-size="10" fill="#3b0764">PRIVACY CONTROLS</text>
+  <line x1="892" y1="412" x2="1160" y2="412" stroke="#1e1040" stroke-width="1"/>
+  <text x="900" y="430" font-family="monospace" font-size="11" font-weight="700" fill="#a78bfa">Pairwise Pseudonymous IDs</text>
+  <text x="900" y="448" font-family="monospace" font-size="10" fill="#6b7280">Different sub per RP — prevents</text>
+  <text x="900" y="464" font-family="monospace" font-size="10" fill="#6b7280">cross-RP user correlation</text>
+  <line x1="892" y1="474" x2="1160" y2="474" stroke="#1e1040" stroke-width="1"/>
+  <text x="900" y="492" font-family="monospace" font-size="11" font-weight="700" fill="#a78bfa">Trust Agreements</text>
+  <text x="900" y="510" font-family="monospace" font-size="10" fill="#6b7280">IdP-RP agreement must cover:</text>
+  <text x="900" y="526" font-family="monospace" font-size="10" fill="#6b7280">· Attribute sharing scope</text>
+  <text x="900" y="542" font-family="monospace" font-size="10" fill="#6b7280">· Data retention limits</text>
+  <text x="900" y="558" font-family="monospace" font-size="10" fill="#6b7280">· Subscriber notification</text>
+</svg>

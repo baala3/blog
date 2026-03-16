@@ -4,9 +4,9 @@ date: "2025-03-15T00:00:00+09:00"
 url: "/blogs/nist-sp-800-63b-4-authentication"
 description: "A technical breakdown of NIST SP 800-63B-4's authentication assurance levels, authenticator types, phishing resistance mechanisms, passkey support, and session management requirements for engineers building or auditing authentication systems."
 tldr: "SP 800-63B-4 defines three authentication assurance levels with precise requirements for authenticator types, session lifetimes, and phishing resistance. SMS OTP is not phishing-resistant. Passkeys are now explicitly supported at AAL2. Password complexity rules are prohibited."
-image: "https://www.cyberark.com/wp-content/uploads/2020/09/NIST-blog-hero-1.jpg"
+image: "blogs/nist-sp-800-63b-4-authentication/image.svg"
 credit: "https://pages.nist.gov/800-63-4/sp800-63b.html"
-thumbnail: "https://www.entrust.com/sites/default/files/2025-03/regulatory-nist-feature-1200x628.jpg"
+thumbnail: "blogs/nist-sp-800-63b-4-authentication/thumbnail.svg"
 categories:
 - Identity
 - Security

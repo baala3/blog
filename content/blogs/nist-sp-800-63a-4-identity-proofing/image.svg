@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060f09"/>
+      <stop offset="100%" style="stop-color:#0b1a0e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.18"/>
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.04"/>
+    </linearGradient>
+    <linearGradient id="verifyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#34d399;stop-opacity:0.22"/>
+      <stop offset="100%" style="stop-color:#34d399;stop-opacity:0.05"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.025" stroke-width="1">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Glow blobs -->
+  <ellipse cx="260" cy="370" rx="200" ry="180" fill="#10b981" fill-opacity="0.05"/>
+  <ellipse cx="920" cy="300" rx="200" ry="160" fill="#34d399" fill-opacity="0.04"/>
+  <ellipse cx="1050" cy="500" rx="120" ry="100" fill="#ef4444" fill-opacity="0.04"/>
+
+  <!-- Divider -->
+  <line x1="570" y1="100" x2="570" y2="615" stroke="#1a3320" stroke-width="1"/>
+
+  <!-- ===== TITLE BAR ===== -->
+  <rect x="0" y="0" width="1200" height="88" fill="#040c06" fill-opacity="0.85"/>
+  <rect x="0" y="85" width="1200" height="3" fill="url(#accent)"/>
+  <text x="40" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#10b981" letter-spacing="3">NIST SP 800-63A-4</text>
+  <text x="40" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="27" font-weight="700" fill="#f0fdf4">How to Prove Someone Is Who They Say They Are</text>
+  <rect x="1002" y="26" width="168" height="26" rx="13" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
+  <text x="1086" y="43" text-anchor="middle" font-family="monospace" font-size="12" fill="#6ee7b7">Identity Proofing</text>
+
+  <!-- ===== LEFT PANEL: 3-STEP PROOFING FLOW ===== -->
+
+  <text x="285" y="114" text-anchor="middle" font-family="monospace" font-size="11" fill="#374151" letter-spacing="2">THREE-STEP PROOFING MODEL</text>
+
+  <!-- Applicant -->
+  <rect x="60" y="122" width="450" height="36" rx="18" fill="#0b1a0e" stroke="#10b981" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <circle cx="90" cy="140" r="11" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1"/>
+  <circle cx="90" cy="138" r="5" fill="#6ee7b7"/>
+  <path d="M80 151 Q90 146 100 151" stroke="#6ee7b7" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <text x="285" y="145" text-anchor="middle" font-family="monospace" font-size="13" fill="#86efac">Applicant — seeking enrollment</text>
+
+  <line x1="285" y1="158" x2="285" y2="174" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 1: Resolution -->
+  <rect x="60" y="176" width="450" height="72" rx="9" fill="url(#stepGrad)" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="60" y="176" width="6" height="72" rx="3" fill="#10b981" fill-opacity="0.7"/>
+  <text x="82" y="198" font-family="monospace" font-size="12" font-weight="700" fill="#34d399">1  RESOLUTION</text>
+  <text x="82" y="216" font-family="monospace" font-size="11" fill="#6b7280">Collect attributes → establish unique candidate identity</text>
+  <text x="82" y="232" font-family="monospace" font-size="10" fill="#374151">Name · DOB · Address · Gov. identifier (SSN, passport no.)</text>
+  <text x="82" y="246" font-family="monospace" font-size="10" fill="#374151">Goal: resolve to a single, unambiguous individual</text>
+
+  <line x1="285" y1="248" x2="285" y2="264" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 2: Validation -->
+  <rect x="60" y="266" width="450" height="72" rx="9" fill="url(#stepGrad)" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="60" y="266" width="6" height="72" rx="3" fill="#10b981" fill-opacity="0.85"/>
+  <text x="82" y="288" font-family="monospace" font-size="12" font-weight="700" fill="#34d399">2  VALIDATION</text>
+  <text x="82" y="306" font-family="monospace" font-size="11" fill="#6b7280">Confirm evidence is authentic, accurate &amp; current</text>
+  <text x="82" y="322" font-family="monospace" font-size="10" fill="#374151">Check against authoritative source (DMV, passport authority)</text>
+  <text x="82" y="336" font-family="monospace" font-size="10" fill="#374151">Credible sources permitted for non-govt attributes (bank stmt)</text>
+
+  <line x1="285" y1="338" x2="285" y2="354" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 3: Verification -->
+  <rect x="60" y="356" width="450" height="72" rx="9" fill="url(#verifyGrad)" stroke="#34d399" stroke-width="1.5"/>
+  <rect x="60" y="356" width="6" height="72" rx="3" fill="#34d399"/>
+  <text x="82" y="378" font-family="monospace" font-size="12" font-weight="700" fill="#6ee7b7">3  VERIFICATION</text>
+  <text x="82" y="396" font-family="monospace" font-size="11" fill="#6b7280">Link applicant to the validated identity</text>
+  <text x="82" y="412" font-family="monospace" font-size="10" fill="#374151">Facial comparison · biometrics · live interaction</text>
+  <text x="82" y="426" font-family="monospace" font-size="10" fill="#374151">Proves: person holds a right to the document, not just the doc</text>
+
+  <line x1="285" y1="428" x2="285" y2="444" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Subscriber -->
+  <rect x="60" y="446" width="450" height="36" rx="18" fill="#0b2012" stroke="#34d399" stroke-width="1.5"/>
+  <text x="285" y="469" text-anchor="middle" font-family="monospace" font-size="13" fill="#6ee7b7">Subscriber — enrolled, authenticator bound</text>
+
+  <!-- Evidence note -->
+  <rect x="60" y="495" width="450" height="50" rx="7" fill="#060c07" stroke="#1a3320" stroke-width="1"/>
+  <text x="80" y="514" font-family="monospace" font-size="10" fill="#374151">EVIDENCE TIERS:  </text>
+  <rect x="168" y="503" width="90" height="18" rx="9" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-width="1"/>
+  <text x="213" y="516" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">SUPERIOR</text>
+  <rect x="268" y="503" width="70" height="18" rx="9" fill="#10b981" fill-opacity="0.10" stroke="#10b981" stroke-width="1"/>
+  <text x="303" y="516" text-anchor="middle" font-family="monospace" font-size="10" fill="#86efac">STRONG</text>
+  <rect x="348" y="503" width="60" height="18" rx="9" fill="#10b981" fill-opacity="0.07" stroke="#10b981" stroke-width="1"/>
+  <text x="378" y="516" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">FAIR</text>
+  <text x="80" y="535" font-family="monospace" font-size="10" fill="#334155">Combination required at IAL2+. One SUPERIOR or two STRONG minimum.</text>
+
+  <!-- ===== RIGHT PANEL: IAL LEVELS + THREATS ===== -->
+
+  <text x="885" y="114" text-anchor="middle" font-family="monospace" font-size="11" fill="#374151" letter-spacing="2">ASSURANCE LEVELS &amp; THREATS</text>
+
+  <!-- IAL1 -->
+  <rect x="588" y="124" width="182" height="140" rx="8" fill="#0b1a0e" stroke="#10b981" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="588" y="124" width="182" height="28" rx="8" fill="#10b981" fill-opacity="0.12"/>
+  <text x="679" y="142" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#34d399">IAL1</text>
+  <text x="679" y="162" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Self-asserted only</text>
+  <text x="679" y="178" text-anchor="middle" font-family="monospace" font-size="10" fill="#374151">No proofing required</text>
+  <text x="679" y="194" text-anchor="middle" font-family="monospace" font-size="10" fill="#374151">Attributes unverified</text>
+  <text x="679" y="210" text-anchor="middle" font-family="monospace" font-size="10" fill="#374151">Low-risk use cases</text>
+  <text x="679" y="226" text-anchor="middle" font-family="monospace" font-size="10" fill="#374151">No KYC required</text>
+  <text x="679" y="250" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">e.g. forums, low-stakes apps</text>
+
+  <!-- IAL2 -->
+  <rect x="786" y="124" width="182" height="140" rx="8" fill="#0b1a0e" stroke="#10b981" stroke-width="1.2" stroke-opacity="0.75"/>
+  <rect x="786" y="124" width="182" height="28" rx="8" fill="#10b981" fill-opacity="0.18"/>
+  <text x="877" y="142" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#34d399">IAL2</text>
+  <text x="877" y="162" text-anchor="middle" font-family="monospace" font-size="10" fill="#86efac">Remote proofing</text>
+  <text x="877" y="178" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Doc + selfie match</text>
+  <text x="877" y="194" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Attended or unattended</text>
+  <text x="877" y="210" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Liveness detection req.</text>
+  <text x="877" y="226" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Deepfake controls req.</text>
+  <text x="877" y="250" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">e.g. financial, healthcare</text>
+
+  <!-- IAL3 -->
+  <rect x="984" y="124" width="182" height="140" rx="8" fill="#0b1a0e" stroke="#34d399" stroke-width="1.5"/>
+  <rect x="984" y="124" width="182" height="28" rx="8" fill="#34d399" fill-opacity="0.18"/>
+  <text x="1075" y="142" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#6ee7b7">IAL3</text>
+  <text x="1075" y="162" text-anchor="middle" font-family="monospace" font-size="10" fill="#a7f3d0">In-person supervised</text>
+  <text x="1075" y="178" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">Biometrics collected</text>
+  <text x="1075" y="194" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">Multi-doc required</text>
+  <text x="1075" y="210" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">Trained CSP operator</text>
+  <text x="1075" y="226" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">SUPERIOR evidence</text>
+  <text x="1075" y="250" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">e.g. govt, high-value accounts</text>
+
+  <!-- Threat section -->
+  <text x="885" y="288" text-anchor="middle" font-family="monospace" font-size="11" fill="#374151" letter-spacing="2">FAILURE MODES &amp; CONTROLS</text>
+
+  <!-- Failure mode 1 -->
+  <rect x="588" y="298" width="182" height="88" rx="8" fill="#0f0a0a" stroke="#ef4444" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="679" y="318" text-anchor="middle" font-family="monospace" font-size="11" font-weight="700" fill="#fca5a5">Wrong Person</text>
+  <text x="679" y="336" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Real doc, wrong holder</text>
+  <text x="679" y="352" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Stolen / purchased ID</text>
+  <text x="600" y="374" font-family="monospace" font-size="10" fill="#374151">Control: facial biometric match</text>
+
+  <!-- Failure mode 2 -->
+  <rect x="786" y="298" width="182" height="88" rx="8" fill="#0f0a0a" stroke="#ef4444" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="877" y="318" text-anchor="middle" font-family="monospace" font-size="11" font-weight="700" fill="#fca5a5">Fake Document</text>
+  <text x="877" y="336" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Forged / altered doc</text>
+  <text x="877" y="352" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Passes visual check</text>
+  <text x="798" y="374" font-family="monospace" font-size="10" fill="#374151">Control: authoritative source check</text>
+
+  <!-- Failure mode 3 -->
+  <rect x="984" y="298" width="182" height="88" rx="8" fill="#100a08" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1075" y="318" text-anchor="middle" font-family="monospace" font-size="11" font-weight="700" fill="#fcd34d">Synthetic Media</text>
+  <text x="1075" y="336" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Deepfake face / virtual cam</text>
+  <text x="1075" y="352" text-anchor="middle" font-family="monospace" font-size="10" fill="#6b7280">Injected video replay</text>
+  <text x="996" y="374" font-family="monospace" font-size="10" fill="#374151">Control: injection detection (NEW v4)</text>
+
+  <!-- Biometric thresholds box -->
+  <rect x="588" y="400" width="578" height="70" rx="8" fill="#060c07" stroke="#1a3320" stroke-width="1"/>
+  <text x="608" y="420" font-family="monospace" font-size="11" font-weight="700" fill="#34d399">BIOMETRIC REQUIREMENTS (IAL2+)</text>
+  <text x="608" y="438" font-family="monospace" font-size="10" fill="#374151">FMR ≤ 1 in 10,000  ·  FNMR ≤ 5%  ·  PAD (Presentation Attack Detection) required</text>
+  <text x="608" y="454" font-family="monospace" font-size="10" fill="#374151">Liveness check must detect injected / synthetic media — not just printed-photo attacks</text>
+
+  <!-- Remote session types -->
+  <rect x="588" y="484" width="578" height="56" rx="8" fill="#060c07" stroke="#1a3320" stroke-width="1"/>
+  <text x="608" y="502" font-family="monospace" font-size="10" fill="#374151">REMOTE SESSION TYPES (IAL2):</text>
+  <rect x="730" y="490" width="130" height="18" rx="9" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="1"/>
+  <text x="795" y="503" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">Attended (operator)</text>
+  <rect x="872" y="490" width="136" height="18" rx="9" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="1"/>
+  <text x="940" y="503" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">Unattended (automated)</text>
+  <rect x="1020" y="490" width="126" height="18" rx="9" fill="#34d399" fill-opacity="0.1" stroke="#34d399" stroke-width="1"/>
+  <text x="1083" y="503" text-anchor="middle" font-family="monospace" font-size="10" fill="#a7f3d0">Wallet / VC (NEW v4)</text>
+  <text x="608" y="530" font-family="monospace" font-size="10" fill="#374151">Document scanning alone is not identity verification. Scan proves doc is real. Selfie proves person has a right to it.</text>
+
+  <!-- Fraud program badge -->
+  <rect x="588" y="552" width="578" height="38" rx="7" fill="#0f0e08" stroke="#f59e0b" stroke-width="1"/>
+  <text x="608" y="570" font-family="monospace" font-size="10" fill="#d97706" font-weight="700">FRAUD PROGRAM (REQUIRED):  </text>
+  <text x="730" y="570" font-family="monospace" font-size="10" fill="#374151">Active management · Synthetic fraud detection · Velocity checks · Continuous monitoring</text>
+  <text x="608" y="583" font-family="monospace" font-size="10" fill="#374151">CSPs must operate a fraud program — passive logging is not sufficient.</text>
+</svg>

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060f09"/>
+      <stop offset="100%" style="stop-color:#0b1a0e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    <marker id="arrt" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="500" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.025" stroke-width="1">
+    <line x1="0" y1="100" x2="500" y2="100"/>
+    <line x1="0" y1="200" x2="500" y2="200"/>
+    <line x1="0" y1="300" x2="500" y2="300"/>
+    <line x1="0" y1="400" x2="500" y2="400"/>
+    <line x1="100" y1="0" x2="100" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="300" y1="0" x2="300" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+  </g>
+
+  <!-- Glow -->
+  <ellipse cx="250" cy="178" rx="160" ry="110" fill="#10b981" fill-opacity="0.07"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="500" height="4" fill="url(#accent)"/>
+
+  <!-- Person icon with verification check -->
+  <g transform="translate(250, 148)">
+    <!-- Person silhouette -->
+    <circle cx="0" cy="-38" r="26" fill="#0b2012" stroke="#10b981" stroke-width="1.8"/>
+    <circle cx="0" cy="-40" r="13" fill="#34d399" fill-opacity="0.5"/>
+    <path d="M-28 -8 Q0 -22 28 -8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- ID card at bottom of person -->
+    <rect x="-26" y="2" width="52" height="34" rx="4" fill="#0a1a0d" stroke="#10b981" stroke-width="1.5"/>
+    <line x1="-18" y1="13" x2="18" y2="13" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.7"/>
+    <line x1="-18" y1="21" x2="12" y2="21" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.5"/>
+    <line x1="-18" y1="29" x2="16" y2="29" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.4"/>
+    <!-- Verified checkmark badge -->
+    <circle cx="22" cy="-10" r="12" fill="#0b2012" stroke="#34d399" stroke-width="1.5"/>
+    <path d="M16 -10 L20 -6 L29 -16" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- Main label -->
+  <text x="250" y="258" text-anchor="middle"
+        font-family="monospace" font-size="44" font-weight="700" fill="#f0fdf4" letter-spacing="5">63A</text>
+
+  <!-- Divider -->
+  <rect x="80" y="272" width="340" height="2" fill="url(#accent)" rx="1"/>
+
+  <!-- Subtitle -->
+  <text x="250" y="300" text-anchor="middle"
+        font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#86efac">Identity Proofing &amp; Enrollment</text>
+
+  <!-- Tag pills -->
+  <g transform="translate(250, 340)">
+    <rect x="-188" y="-14" width="84" height="24" rx="12" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
+    <text x="-146" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#6ee7b7">Resolution</text>
+
+    <rect x="-94" y="-14" width="80" height="24" rx="12" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
+    <text x="-54" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#6ee7b7">Validation</text>
+
+    <rect x="-4" y="-14" width="84" height="24" rx="12" fill="#34d399" fill-opacity="0.15" stroke="#34d399" stroke-width="1"/>
+    <text x="38" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#a7f3d0">Verification</text>
+
+    <rect x="90" y="-14" width="98" height="24" rx="12" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="1"/>
+    <text x="139" y="3" text-anchor="middle" font-family="monospace" font-size="11" fill="#fca5a5">Deepfake ctrl</text>
+  </g>
+
+  <!-- Mini flow: Resolve → Validate → Verify -->
+  <g transform="translate(0, 412)">
+    <rect x="30" y="0" width="110" height="34" rx="6" fill="#0b1a0e" stroke="#10b981" stroke-width="1.2"/>
+    <text x="85" y="14" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">Resolve</text>
+    <text x="85" y="27" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">Who is it?</text>
+
+    <line x1="143" y1="17" x2="178" y2="17" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrt)"/>
+
+    <rect x="181" y="0" width="110" height="34" rx="6" fill="#0b1a0e" stroke="#10b981" stroke-width="1.2"/>
+    <text x="236" y="14" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">Validate</text>
+    <text x="236" y="27" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">Is it real?</text>
+
+    <line x1="294" y1="17" x2="329" y2="17" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrt)"/>
+
+    <rect x="332" y="0" width="110" height="34" rx="6" fill="#0b2012" stroke="#34d399" stroke-width="1.5"/>
+    <text x="387" y="14" text-anchor="middle" font-family="monospace" font-size="10" fill="#a7f3d0">Verify</text>
+    <text x="387" y="27" text-anchor="middle" font-family="monospace" font-size="9" fill="#374151">Is it them?</text>
+  </g>
+
+  <!-- IAL badge row -->
+  <g transform="translate(250, 468)">
+    <rect x="-100" y="-10" width="56" height="20" rx="10" fill="#10b981" fill-opacity="0.08" stroke="#10b981" stroke-width="1" stroke-opacity="0.4"/>
+    <text x="-72" y="4" text-anchor="middle" font-family="monospace" font-size="10" fill="#374151">IAL1</text>
+
+    <rect x="-36" y="-10" width="56" height="20" rx="10" fill="#10b981" fill-opacity="0.14" stroke="#10b981" stroke-width="1" stroke-opacity="0.6"/>
+    <text x="-8" y="4" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">IAL2</text>
+
+    <rect x="28" y="-10" width="56" height="20" rx="10" fill="#34d399" fill-opacity="0.14" stroke="#34d399" stroke-width="1.2"/>
+    <text x="56" y="4" text-anchor="middle" font-family="monospace" font-size="10" fill="#a7f3d0">IAL3</text>
+  </g>
+</svg>

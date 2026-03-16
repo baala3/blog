@@ -4,9 +4,9 @@ date: "2025-06-05T00:00:00+09:00"
 url: "/blogs/nist-sp-800-63c-4-federation"
 description: "A technical breakdown of NIST SP 800-63C-4's federation assurance levels, assertion security requirements, injection attack defenses, pairwise pseudonymous identifiers, and the new subscriber-controlled wallet model."
 tldr: "SP 800-63C-4 defines three federation assurance levels covering bearer tokens through holder-of-key assertions, with specific requirements for trust agreements, injection defenses, and subscriber privacy. It also introduces subscriber-controlled wallets as a new federation model that removes the IdP from the assertion path entirely."
-image: "https://www.cyberark.com/wp-content/uploads/2020/09/NIST-blog-hero-1.jpg"
+image: "blogs/nist-sp-800-63c-4-federation/image.svg"
 credit: "https://pages.nist.gov/800-63-4/sp800-63c.html"
-thumbnail: "https://www.entrust.com/sites/default/files/2025-03/regulatory-nist-feature-1200x628.jpg"
+thumbnail: "blogs/nist-sp-800-63c-4-federation/thumbnail.svg"
 categories:
 - Identity
 - Security

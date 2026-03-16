@@ -4,9 +4,9 @@ date: "2024-12-04T00:00:00+09:00"
 url: "/blogs/nist-sp-800-63-4-overview"
 description: "A practical guide to NIST SP 800-63-4's digital identity model, assurance levels, and risk management process for engineers building or operating identity systems."
 tldr: "SP 800-63-4 gives you a risk-driven vocabulary and decision process for combining identity proofing strength (IAL), authentication strength (AAL), and federation trust (FAL). Understanding the model lets you make deliberate trade-offs instead of cargo-culting 'use MFA'."
-image: "https://www.cyberark.com/wp-content/uploads/2020/09/NIST-blog-hero-1.jpg"
+image: "blogs/nist-sp-800-63-4-overview/image.svg"
 credit: "https://pages.nist.gov/800-63-4/sp800-63.html"
-thumbnail: "https://www.entrust.com/sites/default/files/2025-03/regulatory-nist-feature-1200x628.jpg"
+thumbnail: "blogs/nist-sp-800-63-4-overview/thumbnail.svg"
 categories:
 - Identity
 - Security

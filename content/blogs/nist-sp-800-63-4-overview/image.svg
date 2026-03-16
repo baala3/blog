@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080f1a"/>
+      <stop offset="100%" style="stop-color:#0d1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="ialGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:0.05"/>
+    </linearGradient>
+    <linearGradient id="aalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.05"/>
+    </linearGradient>
+    <linearGradient id="falGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.05"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#0ea5e9"/>
+    </marker>
+    <marker id="arrw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Glow blobs -->
+  <ellipse cx="300" cy="380" rx="220" ry="160" fill="#0ea5e9" fill-opacity="0.05"/>
+  <ellipse cx="950" cy="350" rx="180" ry="140" fill="#6366f1" fill-opacity="0.06"/>
+
+  <!-- Vertical divider between axes and risk flow -->
+  <line x1="620" y1="100" x2="620" y2="610" stroke="#1e3a5f" stroke-width="1"/>
+
+  <!-- ===== TITLE BAR ===== -->
+  <rect x="0" y="0" width="1200" height="88" fill="#060d18" fill-opacity="0.8"/>
+  <rect x="0" y="85" width="1200" height="3" fill="url(#accent)"/>
+
+  <text x="40" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#0ea5e9" letter-spacing="3">NIST SP 800-63-4</text>
+  <text x="40" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#f0f9ff">The Framework Behind Modern Digital Identity</text>
+
+  <rect x="1030" y="26" width="138" height="26" rx="13" fill="#0ea5e9" fill-opacity="0.15" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="1099" y="43" text-anchor="middle" font-family="monospace" font-size="12" fill="#7dd3fc">Framework Overview</text>
+
+  <!-- ===== LEFT PANEL: THREE ASSURANCE AXES ===== -->
+
+  <!-- Section label -->
+  <text x="305" y="116" text-anchor="middle" font-family="monospace" font-size="11" fill="#475569" letter-spacing="2">ASSURANCE LEVELS</text>
+
+  <!-- IAL Column (center x=120) -->
+  <rect x="30" y="126" width="155" height="28" rx="6" fill="#0ea5e9" fill-opacity="0.2" stroke="#0ea5e9" stroke-width="1.2"/>
+  <text x="107" y="145" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#7dd3fc">IAL</text>
+  <text x="107" y="158" text-anchor="middle" font-family="monospace" font-size="9" fill="#0ea5e9">Identity Proofing</text>
+
+  <rect x="30" y="168" width="155" height="72" rx="7" fill="url(#ialGrad)" stroke="#0ea5e9" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="52" y="188" font-family="monospace" font-size="11" font-weight="700" fill="#38bdf8">IAL1</text>
+  <text x="52" y="203" font-family="monospace" font-size="10" fill="#64748b">Self-asserted</text>
+  <text x="52" y="217" font-family="monospace" font-size="10" fill="#64748b">No verification</text>
+  <text x="52" y="231" font-family="monospace" font-size="9" fill="#334155">Low-risk services</text>
+
+  <rect x="30" y="248" width="155" height="72" rx="7" fill="url(#ialGrad)" stroke="#0ea5e9" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="52" y="268" font-family="monospace" font-size="11" font-weight="700" fill="#38bdf8">IAL2</text>
+  <text x="52" y="283" font-family="monospace" font-size="10" fill="#94a3b8">Remote proofing</text>
+  <text x="52" y="297" font-family="monospace" font-size="10" fill="#94a3b8">Doc + selfie check</text>
+  <text x="52" y="311" font-family="monospace" font-size="9" fill="#475569">Most enterprise apps</text>
+
+  <rect x="30" y="328" width="155" height="72" rx="7" fill="url(#ialGrad)" stroke="#0ea5e9" stroke-width="1.5" stroke-opacity="0.9"/>
+  <text x="52" y="348" font-family="monospace" font-size="11" font-weight="700" fill="#7dd3fc">IAL3</text>
+  <text x="52" y="363" font-family="monospace" font-size="10" fill="#cbd5e1">In-person proofing</text>
+  <text x="52" y="377" font-family="monospace" font-size="10" fill="#cbd5e1">Biometrics + docs</text>
+  <text x="52" y="391" font-family="monospace" font-size="9" fill="#64748b">High-value accounts</text>
+
+  <!-- AAL Column (center x=305) -->
+  <rect x="215" y="126" width="155" height="28" rx="6" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1.2"/>
+  <text x="292" y="145" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#a5b4fc">AAL</text>
+  <text x="292" y="158" text-anchor="middle" font-family="monospace" font-size="9" fill="#6366f1">Authentication</text>
+
+  <rect x="215" y="168" width="155" height="72" rx="7" fill="url(#aalGrad)" stroke="#6366f1" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="237" y="188" font-family="monospace" font-size="11" font-weight="700" fill="#818cf8">AAL1</text>
+  <text x="237" y="203" font-family="monospace" font-size="10" fill="#64748b">Single factor</text>
+  <text x="237" y="217" font-family="monospace" font-size="10" fill="#64748b">Password or OTP</text>
+  <text x="237" y="231" font-family="monospace" font-size="9" fill="#334155">Low-assurance auth</text>
+
+  <rect x="215" y="248" width="155" height="72" rx="7" fill="url(#aalGrad)" stroke="#6366f1" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="237" y="268" font-family="monospace" font-size="11" font-weight="700" fill="#818cf8">AAL2</text>
+  <text x="237" y="283" font-family="monospace" font-size="10" fill="#94a3b8">MFA required</text>
+  <text x="237" y="297" font-family="monospace" font-size="10" fill="#94a3b8">Passkeys supported</text>
+  <text x="237" y="311" font-family="monospace" font-size="9" fill="#475569">Most use cases</text>
+
+  <rect x="215" y="328" width="155" height="72" rx="7" fill="url(#aalGrad)" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.9"/>
+  <text x="237" y="348" font-family="monospace" font-size="11" font-weight="700" fill="#a5b4fc">AAL3</text>
+  <text x="237" y="363" font-family="monospace" font-size="10" fill="#cbd5e1">Phishing-resistant</text>
+  <text x="237" y="377" font-family="monospace" font-size="10" fill="#cbd5e1">Hardware key</text>
+  <text x="237" y="391" font-family="monospace" font-size="9" fill="#64748b">Critical systems</text>
+
+  <!-- FAL Column (center x=490) -->
+  <rect x="400" y="126" width="155" height="28" rx="6" fill="#06b6d4" fill-opacity="0.2" stroke="#06b6d4" stroke-width="1.2"/>
+  <text x="477" y="145" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#67e8f9">FAL</text>
+  <text x="477" y="158" text-anchor="middle" font-family="monospace" font-size="9" fill="#06b6d4">Federation</text>
+
+  <rect x="400" y="168" width="155" height="72" rx="7" fill="url(#falGrad)" stroke="#06b6d4" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="422" y="188" font-family="monospace" font-size="11" font-weight="700" fill="#22d3ee">FAL1</text>
+  <text x="422" y="203" font-family="monospace" font-size="10" fill="#64748b">Bearer assertion</text>
+  <text x="422" y="217" font-family="monospace" font-size="10" fill="#64748b">Standard OIDC/SAML</text>
+  <text x="422" y="231" font-family="monospace" font-size="9" fill="#334155">Most federations</text>
+
+  <rect x="400" y="248" width="155" height="72" rx="7" fill="url(#falGrad)" stroke="#06b6d4" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="422" y="268" font-family="monospace" font-size="11" font-weight="700" fill="#22d3ee">FAL2</text>
+  <text x="422" y="283" font-family="monospace" font-size="10" fill="#94a3b8">Bound assertion</text>
+  <text x="422" y="297" font-family="monospace" font-size="10" fill="#94a3b8">Injected token guard</text>
+  <text x="422" y="311" font-family="monospace" font-size="9" fill="#475569">High-value federation</text>
+
+  <rect x="400" y="328" width="155" height="72" rx="7" fill="url(#falGrad)" stroke="#06b6d4" stroke-width="1.5" stroke-opacity="0.9"/>
+  <text x="422" y="348" font-family="monospace" font-size="11" font-weight="700" fill="#67e8f9">FAL3</text>
+  <text x="422" y="363" font-family="monospace" font-size="10" fill="#cbd5e1">Holder-bound</text>
+  <text x="422" y="377" font-family="monospace" font-size="10" fill="#cbd5e1">Verifiable credentials</text>
+  <text x="422" y="391" font-family="monospace" font-size="9" fill="#64748b">Subscriber wallets</text>
+
+  <!-- Threat callouts bottom-left -->
+  <rect x="30" y="418" width="525" height="54" rx="8" fill="#0a0f1a" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="50" y="438" font-family="monospace" font-size="10" fill="#475569">NEW IN v4:</text>
+  <rect x="120" y="424" width="110" height="20" rx="10" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="1"/>
+  <text x="175" y="438" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">Deepfake controls</text>
+  <rect x="240" y="424" width="120" height="20" rx="10" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="1"/>
+  <text x="300" y="438" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">Injection attack guards</text>
+  <rect x="370" y="424" width="100" height="20" rx="10" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-width="1"/>
+  <text x="420" y="438" text-anchor="middle" font-family="monospace" font-size="10" fill="#fcd34d">Fraud programs</text>
+  <text x="50" y="461" font-family="monospace" font-size="10" fill="#334155">Passkeys (syncable authenticators) explicitly supported at AAL2 · Subscriber-controlled wallets at FAL3</text>
+
+  <!-- ===== RIGHT PANEL: RISK MANAGEMENT FLOW ===== -->
+
+  <text x="910" y="116" text-anchor="middle" font-family="monospace" font-size="11" fill="#475569" letter-spacing="2">RISK MANAGEMENT PROCESS</text>
+
+  <!-- Step 1 -->
+  <rect x="700" y="126" width="420" height="60" rx="8" fill="#0d1e35" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="730" y="150" font-family="monospace" font-size="11" fill="#7dd3fc" font-weight="700">1  Conduct Impact Assessment</text>
+  <text x="730" y="167" font-family="monospace" font-size="10" fill="#64748b">Who is harmed if identity fails? What's the harm category?</text>
+
+  <line x1="910" y1="186" x2="910" y2="206" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 2 -->
+  <rect x="700" y="208" width="420" height="60" rx="8" fill="#0d1e35" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="730" y="232" font-family="monospace" font-size="11" fill="#7dd3fc" font-weight="700">2  Select Initial xAL</text>
+  <text x="730" y="249" font-family="monospace" font-size="10" fill="#64748b">Map risk to IAL + AAL + FAL independently per axis</text>
+
+  <line x1="910" y1="268" x2="910" y2="288" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 3 -->
+  <rect x="700" y="290" width="420" height="60" rx="8" fill="#0d1e35" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="730" y="314" font-family="monospace" font-size="11" fill="#7dd3fc" font-weight="700">3  Apply Tailoring &amp; Compensating Controls</text>
+  <text x="730" y="331" font-family="monospace" font-size="10" fill="#64748b">Adjust for privacy, equity, usability trade-offs</text>
+
+  <line x1="910" y1="350" x2="910" y2="370" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 4 -->
+  <rect x="700" y="372" width="420" height="60" rx="8" fill="#0d1e35" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="730" y="396" font-family="monospace" font-size="11" fill="#67e8f9" font-weight="700">4  Implement &amp; Document</text>
+  <text x="730" y="413" font-family="monospace" font-size="10" fill="#64748b">Deploy CSP + Verifier. Bind authenticators to subscribers</text>
+
+  <line x1="910" y1="432" x2="910" y2="452" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 5 -->
+  <rect x="700" y="454" width="420" height="60" rx="8" fill="#0d1e35" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="730" y="478" font-family="monospace" font-size="11" fill="#67e8f9" font-weight="700">5  Monitor &amp; Reassess</text>
+  <text x="730" y="495" font-family="monospace" font-size="10" fill="#64748b">Continuous fraud monitoring. Revisit xAL on threat changes</text>
+
+  <!-- Feedback arrow -->
+  <path d="M1120 490 Q1155 490 1155 300 Q1155 126 1120 143" stroke="#1e3a5f" stroke-width="1.2" fill="none" stroke-dasharray="4,3" marker-end="url(#arrw)"/>
+  <text x="1162" y="305" font-family="monospace" font-size="9" fill="#334155" transform="rotate(90, 1162, 305)">reassess</text>
+
+  <!-- Harm categories note -->
+  <rect x="700" y="528" width="420" height="52" rx="7" fill="#060d18" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="718" y="546" font-family="monospace" font-size="10" fill="#475569">HARM CATEGORIES:</text>
+  <text x="718" y="562" font-family="monospace" font-size="10" fill="#334155">Inconvenience · Financial loss · Health/safety · Unauthorized access · Civil/criminal liability</text>
+</svg>
