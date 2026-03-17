@@ -145,10 +145,10 @@
 			{{ block "main" . }}
 			{{ end }}
 			</main>
+			{{ block "pagination" . }}{{ end }}
 			{{ block "about" . }}
 				{{ partial "about.html" . }}
 			{{ end }}
-			{{ block "pagination" . }}{{ end }}
 		</div>
 		{{ block "footer" . }}
 		<footer class="hide-print sans-serif f6 fw1 bg-black near-white w-100 pa3" role="contentinfo">

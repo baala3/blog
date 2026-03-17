@@ -1,15 +1,15 @@
 ---
 title: 'Passkeys: The New Passwordless Login'
 date: "2023-05-12T15:54:38+09:00"
-url: "/blogs/passkey-introduction/passkey-introduction"
-description: ""
-tldr: ""
+url: "/blogs/passkey-introduction"
+description: "A technical look at passkeys: what they are, why they're more secure than passwords, and how WebAuthn registration and authentication ceremonies work under the hood."
+tldr: "Passkeys use public-key cryptography so your private key never leaves your device. They eliminate phishing and credential theft, but come with real trade-offs around device migration and UX consistency."
 image: "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?q=80&w=3260&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 credit: ""
 thumbnail: "https://plus.unsplash.com/premium_photo-1681487814165-018814e29155?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 categories:
-- passkeys
-- webauth
+- Passkeys
+- WebAuthn
 ---
 
 In this blog, I’m going to explain what passkeys are and how they came into picture in modern authentication and basic flow of passkey registration and authentication.
@@ -188,13 +188,12 @@ const publicKeyCredentialCreationOptions = {
     pubKeyCredParams: [{alg: -7, type: "public-key"}],
     authenticatorSelection: {
         requireResidentKey: true,
-        residentKey: "required"
+        residentKey: "required",
         userVerification: "required"
     },
     timeout: 60000,
     attestation: "direct"
 };
-
 ```
 
 I will go through some main key values here, but for details refer the docs
@@ -332,14 +331,13 @@ func (pc *WebAuthnCredentialController) BeginLogin() echo.HandlerFunc {
 The returned `publicKeyCredentialRequestOptions` object must follow:
 https://developer.mozilla.org/en-US/docs/Web/API/PublicKeyCredentialRequestOptions
 
-```jsx
+```js
 const publicKeyCredentialRequestOptions = {
     challenge: Uint8Array.from(
         challengeFromServer, c => c.charCodeAt(0)),
     allowCredentials: [
         {
-            id: Uint8Array.from(
-                credentialIdFromServer, c => c.charCodeAt(0)),
+            id: Uint8Array.from(credentialIdFromServer, c => c.charCodeAt(0)),
             type: "public-key",
             transports: ["internal"]
         }
@@ -361,7 +359,7 @@ I will go through some main key values here, but for details refer the [docs](ht
 
 After receiving the `publicKeyCredentialRequestOptions`, the frontend passes them to the browser using:
 
-```jsx
+```js
 const assertion = await navigator.credentials.get({
     publicKey: publicKeyCredentialRequestOptions
 });
@@ -440,7 +438,7 @@ Every choice has both pros and cons, and it's the same case with passkeys. Below
 ### Limited Adoption and UX inconsistancies
 Passkeys are harder to adopt, user are unfamiliar with passkeys & might find setup and concept confusing, leads to lockouts if not done carefully. So, it's not easy to adapt, it may takes some years or generations to adopt. At moneyforward we conduct many promotion strategies to make user know about passkey authentication. Even so we didn't get enough increase in passkey registrations. And the UI for passkey sign is also not consistence, If you see below there are different UI prompt screen depends on authenticator this introudces lot of inconsistence in UX especially if user has multiple passkeys associated with same account + different providers.
 
-| iCloud Keychain | Google Password Manager | onePassword | BitWarden |
+| iCloud Keychain | Google Password Manager | 1Password | Bitwarden |
 |--------|--------|--------|--------|
 | <img src="./icloudkeychain.png" /> | <img src="./google.png"/> | <img src="./onepassword.png"/> | <img src="./bitwarden.png"/> |
 
@@ -455,6 +453,10 @@ Recovering lost or forgotten passkey can be more complicated, there isn't a sing
 
 ---
 
-# conclusion
+# Conclusion
 
-Passkeys change the way we log in by using public-key cryptography instead of passwords. They cut out common risks like phishing and stolen passwords, and once set up, they’re faster to use. We still need to think about things like how users move keys between devices and what happens if they lose them, but big platforms already support them, and the WebAuthn standard makes them secure to build with. And i hope in future most of such drawbacks will have some solution. As developers, it’s worth adding passkey support, even as an optional login, so we can give users safer and smoother way to sign in.
+Passkeys are a genuine improvement over passwords. The cryptography is sound, phishing resistance is real, and the UX (when it works) is faster than typing a password.
+
+The problems are real too: adoption is slow, cross-platform migration is messy, and recovery flows need careful thought. These are solvable problems, and the ecosystem is moving quickly.
+
+If you're building an identity system today, adding passkey support (even as a secondary option alongside passwords) is worth the effort. The WebAuthn standard is stable, good libraries exist in most languages, and users who adopt it get meaningfully better security.
