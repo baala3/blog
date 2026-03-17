@@ -14,9 +14,9 @@ classes:
 - feature-mermaid
 ---
 
-In this blog, I’m summarizing key concepts and ideas from book “Building Multi-Tenant SaaS Architectures” by Tod Golding, which I started reading while working on Tenant Management System at Money Forward.
+In this blog, I’m summarizing key concepts and ideas i take way from book “Building Multi-Tenant SaaS Architectures” by Tod Golding, which I started reading while working on Tenant Management System at Money Forward.
 <!--more--> 
-To be honest this book provides a structured view of SaaS and multi-tenancy, it clearly connects business requirements with technical architecture decisions. It broadened my understanding of SaaS ecosystem, especially the non-obvious challenges engineers face when designing, scaling, and evolving multi-tenant systems.
+To be honest this book provides structured view of SaaS and multi-tenancy, it clearly connects business requirements with technical architecture decisions and broadened my understanding of SaaS ecosystem, especially the non-obvious challenges engineers face when designing, scaling, and evolving multi-tenant systems.
 
 This blog focuses on those architectural concepts from developer’s POV.
 
@@ -337,10 +337,8 @@ Every tenant-scoped authorization decision should emit an audit event carrying a
 
 # Conclusion
 
-Building a multi-tenant SaaS system means owning complexity intentionally. SaaS shifts responsibility from customers to the platform, which means tenant awareness, isolation, data partitioning, routing, and lifecycle management are not optional  core system properties.
+Building multi-tenant SaaS system is fundamentally about **owning complexity wantedly**. SaaS shifts responsibility from customers to platform, which means tenant awareness, isolation, data partitioning, routing, and lifecycle management are no longer optional, they are core system properties. 
 
-There is no single correct architecture. Real platforms evolve from pooled to hybrid and mixed models as scale, compliance, and customer requirements change. The goal is explicit tenant boundaries, a centralized control plane, early tenant resolution, and measurable isolation, while keeping business logic clean and adaptable.
+There is no single “correct” architecture. Real SaaS platforms evolve from pooled to hybrid and mixed models as scale, compliance, and customer value change. The key is to design for **explicit tenant boundaries, centralized control planes, early tenant resolution, and measurable isolation**, while keeping business logic clean and adaptable. If multi-tenancy is not observable, enforceable, and evolvable, it will eventually break usually at scale, and always at the worst possible time.
 
-If multi-tenancy is not observable, enforceable, and evolvable, it will break. Usually at scale, always at the worst possible time.
-
-> Most SaaS outages are process failures, not code failures.
+>Most SaaS outages are process failures, not code failures.
