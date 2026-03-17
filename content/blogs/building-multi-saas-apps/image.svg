@@ -1,0 +1,299 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#060d1a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+    <linearGradient id="topbar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#14b8a6"/>
+      <stop offset="50%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="tealgrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="greengrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#14b8a6"/>
+    </marker>
+    <marker id="arr2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#06b6d4"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.025" stroke-width="1">
+    <line x1="0" y1="60" x2="1200" y2="60"/>
+    <line x1="0" y1="120" x2="1200" y2="120"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/>
+    <line x1="0" y1="240" x2="1200" y2="240"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="360" x2="1200" y2="360"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="480" x2="1200" y2="480"/>
+    <line x1="0" y1="540" x2="1200" y2="540"/>
+    <line x1="0" y1="600" x2="1200" y2="600"/>
+    <line x1="60" y1="0" x2="60" y2="630"/>
+    <line x1="120" y1="0" x2="120" y2="630"/>
+    <line x1="180" y1="0" x2="180" y2="630"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="360" y1="0" x2="360" y2="630"/>
+    <line x1="420" y1="0" x2="420" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="540" y1="0" x2="540" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="660" y1="0" x2="660" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="780" y1="0" x2="780" y2="630"/>
+    <line x1="840" y1="0" x2="840" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+    <line x1="1020" y1="0" x2="1020" y2="630"/>
+    <line x1="1080" y1="0" x2="1080" y2="630"/>
+    <line x1="1140" y1="0" x2="1140" y2="630"/>
+  </g>
+
+  <!-- Glow blobs -->
+  <ellipse cx="250" cy="400" rx="300" ry="200" fill="#14b8a6" fill-opacity="0.05"/>
+  <ellipse cx="900" cy="300" rx="280" ry="180" fill="#10b981" fill-opacity="0.05"/>
+  <ellipse cx="600" cy="550" rx="250" ry="120" fill="#06b6d4" fill-opacity="0.04"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#topbar)"/>
+
+  <!-- ========== TITLE SECTION ========== -->
+  <rect x="0" y="4" width="1200" height="90" fill="#060e1c" fill-opacity="0.7"/>
+
+  <!-- Category pills -->
+  <rect x="40" y="18" width="46" height="20" rx="10" fill="#14b8a6" fill-opacity="0.2" stroke="#14b8a6" stroke-width="1"/>
+  <text x="63" y="32" text-anchor="middle" font-family="monospace" font-size="10" fill="#14b8a6">SaaS</text>
+
+  <rect x="92" y="18" width="90" height="20" rx="10" fill="#06b6d4" fill-opacity="0.2" stroke="#06b6d4" stroke-width="1"/>
+  <text x="137" y="32" text-anchor="middle" font-family="monospace" font-size="10" fill="#06b6d4">MultiTenant</text>
+
+  <rect x="188" y="18" width="100" height="20" rx="10" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1"/>
+  <text x="238" y="32" text-anchor="middle" font-family="monospace" font-size="10" fill="#10b981">Architecture</text>
+
+  <!-- Title -->
+  <text x="40" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="700" fill="#f1f5f9">Building Multi-Tenant SaaS Applications</text>
+
+  <!-- Subtitle -->
+  <text x="40" y="97" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b">Control Plane · Tenant Isolation · Data Partitioning · Routing · Lifecycle Management</text>
+
+  <!-- Divider -->
+  <rect x="0" y="94" width="1200" height="1" fill="#ffffff" fill-opacity="0.05"/>
+
+  <!-- ========== LEFT: ARCHITECTURE DIAGRAM ========== -->
+
+  <!-- Section label -->
+  <text x="40" y="125" font-family="monospace" font-size="10" fill="#475569" letter-spacing="2">PLATFORM ARCHITECTURE</text>
+
+  <!-- Tenant boxes (left column) -->
+  <!-- Tenant A -->
+  <rect x="40" y="135" width="90" height="36" rx="8" fill="#0d1e30" stroke="#14b8a6" stroke-width="1.5"/>
+  <text x="85" y="150" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">Tenant A</text>
+  <text x="85" y="163" text-anchor="middle" font-family="monospace" font-size="8" fill="#14b8a6">enterprise</text>
+
+  <!-- Tenant B -->
+  <rect x="40" y="183" width="90" height="36" rx="8" fill="#0d1e30" stroke="#14b8a6" stroke-width="1.5"/>
+  <text x="85" y="198" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">Tenant B</text>
+  <text x="85" y="211" text-anchor="middle" font-family="monospace" font-size="8" fill="#14b8a6">standard</text>
+
+  <!-- Tenant C -->
+  <rect x="40" y="231" width="90" height="36" rx="8" fill="#0d1e30" stroke="#14b8a6" stroke-width="1.5"/>
+  <text x="85" y="246" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">Tenant C</text>
+  <text x="85" y="259" text-anchor="middle" font-family="monospace" font-size="8" fill="#14b8a6">standard</text>
+
+  <!-- Arrows from tenants to router -->
+  <line x1="130" y1="153" x2="168" y2="200" stroke="#14b8a6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <line x1="130" y1="201" x2="168" y2="205" stroke="#14b8a6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <line x1="130" y1="249" x2="168" y2="215" stroke="#14b8a6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+  <!-- Router / Gateway box -->
+  <rect x="168" y="175" width="100" height="60" rx="10" fill="#0a1e35" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="218" y="197" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">Ingress /</text>
+  <text x="218" y="210" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">Gateway</text>
+  <text x="218" y="224" text-anchor="middle" font-family="monospace" font-size="8" fill="#06b6d4">X-Tenant-ID</text>
+
+  <!-- Arrow to control plane -->
+  <line x1="268" y1="195" x2="305" y2="175" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr3)"/>
+  <!-- Arrow to app plane -->
+  <line x1="268" y1="215" x2="305" y2="250" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Control Plane box -->
+  <rect x="305" y="135" width="155" height="80" rx="10" fill="#091c2e" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="382" y="157" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#06b6d4">CONTROL PLANE</text>
+  <text x="382" y="172" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Onboarding · Identity</text>
+  <text x="382" y="185" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Billing · Lifecycle</text>
+  <text x="382" y="198" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Metrics · Governance</text>
+
+  <!-- Application Plane box -->
+  <rect x="305" y="228" width="155" height="80" rx="10" fill="#091c2e" stroke="#10b981" stroke-width="1.5"/>
+  <text x="382" y="250" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#10b981">APP PLANE</text>
+  <text x="382" y="265" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Business Logic</text>
+  <text x="382" y="278" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Tenant Context</text>
+  <text x="382" y="291" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Isolation Enforcement</text>
+
+  <!-- Arrow from App Plane to data layer -->
+  <line x1="460" y1="268" x2="494" y2="268" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- Data layer: pooled + siloed -->
+  <!-- Pooled DB -->
+  <rect x="494" y="238" width="100" height="36" rx="8" fill="#0d1e30" stroke="#10b981" stroke-width="1.5"/>
+  <text x="544" y="254" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">Pooled DB</text>
+  <text x="544" y="267" text-anchor="middle" font-family="monospace" font-size="8" fill="#10b981">tenant_id col</text>
+
+  <!-- Siloed DB -->
+  <rect x="494" y="284" width="100" height="36" rx="8" fill="#0d1e30" stroke="#14b8a6" stroke-width="1.5"/>
+  <text x="544" y="300" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">Siloed DB</text>
+  <text x="544" y="313" text-anchor="middle" font-family="monospace" font-size="8" fill="#14b8a6">enterprise tier</text>
+
+  <!-- Lifecycle flow -->
+  <text x="40" y="305" font-family="monospace" font-size="10" fill="#475569" letter-spacing="2">TENANT LIFECYCLE</text>
+
+  <!-- Lifecycle states -->
+  <g transform="translate(40, 325)">
+    <rect x="0" y="0" width="78" height="28" rx="6" fill="#0d1e30" stroke="#14b8a6" stroke-width="1.5"/>
+    <text x="39" y="18" text-anchor="middle" font-family="monospace" font-size="9" fill="#14b8a6">provisioning</text>
+
+    <line x1="78" y1="14" x2="96" y2="14" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="96" y="0" width="56" height="28" rx="6" fill="#0d1e30" stroke="#10b981" stroke-width="1.5"/>
+    <text x="124" y="18" text-anchor="middle" font-family="monospace" font-size="9" fill="#10b981">active</text>
+
+    <line x1="152" y1="14" x2="170" y2="14" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="170" y="0" width="74" height="28" rx="6" fill="#0d1e30" stroke="#475569" stroke-width="1.5"/>
+    <text x="207" y="18" text-anchor="middle" font-family="monospace" font-size="9" fill="#64748b">suspended</text>
+
+    <line x1="244" y1="14" x2="262" y2="14" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="262" y="0" width="78" height="28" rx="6" fill="#0d1e30" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="301" y="18" text-anchor="middle" font-family="monospace" font-size="9" fill="#ef4444">deactivated</text>
+  </g>
+
+  <!-- ========== RIGHT: CODE SNIPPET + LABELS ========== -->
+
+  <!-- Vertical divider -->
+  <line x1="640" y1="105" x2="640" y2="615" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+
+  <!-- Code snippet panel -->
+  <rect x="660" y="115" width="510" height="265" rx="10" fill="#060e1a" stroke="#1e2d40" stroke-width="1.5"/>
+
+  <!-- Code panel header -->
+  <rect x="660" y="115" width="510" height="28" rx="10" fill="#0c1826"/>
+  <rect x="660" y="130" width="510" height="13" fill="#0c1826"/>
+  <circle cx="681" cy="129" r="5" fill="#ef4444" fill-opacity="0.7"/>
+  <circle cx="698" cy="129" r="5" fill="#f59e0b" fill-opacity="0.7"/>
+  <circle cx="715" cy="129" r="5" fill="#10b981" fill-opacity="0.7"/>
+  <text x="740" y="133" font-family="monospace" font-size="10" fill="#475569">tenant_context_middleware.rb</text>
+
+  <!-- Code content -->
+  <text x="676" y="163" font-family="monospace" font-size="11" fill="#475569">01</text>
+  <text x="700" y="163" font-family="monospace" font-size="11" fill="#7c3aed">class</text>
+  <text x="738" y="163" font-family="monospace" font-size="11" fill="#06b6d4">TenantContextMiddleware</text>
+
+  <text x="676" y="181" font-family="monospace" font-size="11" fill="#475569">02</text>
+  <text x="700" y="181" font-family="monospace" font-size="11" fill="#7c3aed">  def</text>
+  <text x="728" y="181" font-family="monospace" font-size="11" fill="#10b981">call</text>
+  <text x="756" y="181" font-family="monospace" font-size="11" fill="#f1f5f9">(env)</text>
+
+  <text x="676" y="199" font-family="monospace" font-size="11" fill="#475569">03</text>
+  <text x="700" y="199" font-family="monospace" font-size="11" fill="#94a3b8">    token = extract_jwt(env)</text>
+
+  <text x="676" y="217" font-family="monospace" font-size="11" fill="#475569">04</text>
+  <text x="700" y="217" font-family="monospace" font-size="11" fill="#94a3b8">    claims = JWT.decode(token)</text>
+
+  <text x="676" y="235" font-family="monospace" font-size="11" fill="#475569">05</text>
+  <text x="700" y="235" font-family="monospace" font-size="11" fill="#f1f5f9">    env[</text>
+  <text x="736" y="235" font-family="monospace" font-size="11" fill="#fbbf24">'tenant.id'</text>
+  <text x="813" y="235" font-family="monospace" font-size="11" fill="#f1f5f9">] = claims[</text>
+  <text x="882" y="235" font-family="monospace" font-size="11" fill="#fbbf24">'tenant_id'</text>
+  <text x="958" y="235" font-family="monospace" font-size="11" fill="#f1f5f9">]</text>
+
+  <text x="676" y="253" font-family="monospace" font-size="11" fill="#475569">06</text>
+  <text x="700" y="253" font-family="monospace" font-size="11" fill="#f1f5f9">    env[</text>
+  <text x="736" y="253" font-family="monospace" font-size="11" fill="#fbbf24">'tenant.tier'</text>
+  <text x="818" y="253" font-family="monospace" font-size="11" fill="#f1f5f9">] = claims[</text>
+  <text x="887" y="253" font-family="monospace" font-size="11" fill="#fbbf24">'tier'</text>
+  <text x="923" y="253" font-family="monospace" font-size="11" fill="#f1f5f9">]</text>
+
+  <text x="676" y="271" font-family="monospace" font-size="11" fill="#475569">07</text>
+  <text x="700" y="271" font-family="monospace" font-size="11" fill="#94a3b8">    @app.call(env)</text>
+
+  <text x="676" y="289" font-family="monospace" font-size="11" fill="#475569">08</text>
+  <text x="700" y="289" font-family="monospace" font-size="11" fill="#7c3aed">  end</text>
+
+  <text x="676" y="307" font-family="monospace" font-size="11" fill="#475569">09</text>
+  <text x="700" y="307" font-family="monospace" font-size="11" fill="#7c3aed">end</text>
+
+  <!-- Comment overlay -->
+  <text x="676" y="355" font-family="monospace" font-size="10" fill="#475569"># Never parse tokens in business logic</text>
+  <text x="676" y="370" font-family="monospace" font-size="10" fill="#475569"># Centralize via interception patterns</text>
+
+  <!-- ========== KEY CONCEPT CALLOUT BOXES ========== -->
+
+  <!-- Callout 1: Noisy Neighbor -->
+  <rect x="660" y="400" width="155" height="60" rx="8" fill="#1c0a0a" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="737" y="420" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#ef4444">Noisy Neighbor</text>
+  <text x="737" y="436" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">Rate-limit per tenant</text>
+  <text x="737" y="450" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">emit tenant_id metrics</text>
+
+  <!-- Callout 2: Tenant Context -->
+  <rect x="825" y="400" width="155" height="60" rx="8" fill="#081e20" stroke="#14b8a6" stroke-width="1.5"/>
+  <text x="902" y="420" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#14b8a6">Tenant Context</text>
+  <text x="902" y="436" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">JWT custom claims</text>
+  <text x="902" y="450" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">tenant_id · tier · roles</text>
+
+  <!-- Callout 3: Data Isolation -->
+  <rect x="990" y="400" width="155" height="60" rx="8" fill="#081e15" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1067" y="420" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#10b981">Data Isolation</text>
+  <text x="1067" y="436" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">RLS · schema-per-tenant</text>
+  <text x="1067" y="450" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">DB-per-tenant (silo)</text>
+
+  <!-- ========== BOTTOM: DEPLOYMENT MODELS ========== -->
+
+  <line x1="40" y1="395" x2="620" y2="395" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="40" y="415" font-family="monospace" font-size="10" fill="#475569" letter-spacing="2">DEPLOYMENT MODELS</text>
+
+  <!-- Full-Stack Pooled -->
+  <rect x="40" y="425" width="120" height="50" rx="8" fill="#0a1e18" stroke="#10b981" stroke-width="1.5"/>
+  <text x="100" y="444" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#10b981">Full Pooled</text>
+  <text x="100" y="459" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">shared stack</text>
+  <text x="100" y="469" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">cost optimized</text>
+
+  <!-- Full-Stack Siloed -->
+  <rect x="170" y="425" width="120" height="50" rx="8" fill="#0d1e30" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="230" y="444" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#06b6d4">Full Siloed</text>
+  <text x="230" y="459" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">isolated stack</text>
+  <text x="230" y="469" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">enterprise tier</text>
+
+  <!-- Hybrid -->
+  <rect x="300" y="425" width="100" height="50" rx="8" fill="#0d1e30" stroke="#14b8a6" stroke-width="1.5"/>
+  <text x="350" y="444" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#14b8a6">Hybrid</text>
+  <text x="350" y="459" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">pooled + silo</text>
+  <text x="350" y="469" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">most common</text>
+
+  <!-- Pod-Based -->
+  <rect x="410" y="425" width="100" height="50" rx="8" fill="#0d1e30" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="460" y="444" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#7c3aed">Pod-Based</text>
+  <text x="460" y="459" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">grouped tenants</text>
+  <text x="460" y="469" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">k8s clusters</text>
+
+  <!-- ========== BOTTOM BAR ========== -->
+  <rect x="0" y="590" width="1200" height="40" fill="#030810" fill-opacity="0.8"/>
+  <text x="40" y="614" font-family="monospace" font-size="11" fill="#14b8a6">tod golding</text>
+  <text x="128" y="614" font-family="monospace" font-size="11" fill="#475569">·  Building Multi-Tenant SaaS Architectures</text>
+  <text x="1100" y="614" text-anchor="middle" font-family="monospace" font-size="10" fill="#475569">Architecture &amp; Patterns</text>
+</svg>
