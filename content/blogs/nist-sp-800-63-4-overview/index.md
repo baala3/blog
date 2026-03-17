@@ -15,9 +15,9 @@ classes:
 - feature-mermaid
 ---
 
-Most engineers think about identity in binary terms: the user is authenticated or they aren't. If you've built a login system, you've probably made decisions like "we'll require MFA for sensitive actions" or "we'll use SSO." Those are reasonable calls, but they're incomplete. <!--more--> They answer *how* someone authenticates without asking *who* you need them to be or *how confident* you need to be about it.
+Most engineers think about identity in two terms: the user is authenticated or they aren't. If you've built a login system, you've probably made decisions like "we'll require MFA for sensitive actions" or "we'll use SSO". Those are reasonable decisions, but they're incomplete. <!--more--> They answer *how* someone authenticates without asking *who* you need them to be or *how confident* you need to be about it.
 
-[NIST SP 800-63-4](https://pages.nist.gov/800-63-4/) gives that question a formal structure. It breaks identity assurance into three independent axes, each with three levels, and wraps the whole thing in a risk management process. The result is a framework that forces you to be explicit about what you're actually protecting and why.
+[NIST SP 800-63-4](https://pages.nist.gov/800-63-4/) gives that explains such flows in a structured way. It divides identity assurance into three independent axes, each with three levels, and combines the whole thing in risk management process. The result is framework that forces you to be explicit about what you're actually protecting and why.
 
 ---
 
@@ -31,29 +31,29 @@ Most engineers think about identity in binary terms: the user is authenticated o
 
 # Why This Spec Exists
 
-Most organizations approach identity security as compliance exercise. You implement MFA because your auditor requires it. You add SSO because it's on the enterprise checklist. The security properties you actually get are an afterthought.
+Most organizations approach identity security as compliance issue. You implement MFA because your auditor requires it. You add SSO because it's on the enterprise checklist. The security properties you actually get are an afterthought.
 
 NIST's framing is different. Identity failure causes concrete harm: financial loss, unauthorized access to benefits or data, safety risks to individuals, erosion of public trust in digital services. The question isn't "did we check the MFA box?" but "what happens if we get this wrong, and for whom?"
 
-SP 800-63-4 is the fourth major version of these guidelines, published in July 2025 after nearly four years of revisions and roughly 6,000 public comments. The previous version (800-63-3, published in 2017) held up reasonably well, but the threat landscape shifted enough to warrant significant updates:
+SP 800-63-4 is the fourth major version of these guidelines, published in July 2025 after nearly four years of revisions and roughly 6,000 public comments. The previous version (800-63-3, published in 2017) held up reasonably well, but due to shift in threat landscape, significant updates were introduced:
 
-- **Fraud prevention** is now a first-class requirement, not a footnote. CSPs must run active fraud management programs.
+- **Fraud prevention** is now a first-class requirement, not an optional anymore. CSPs must run active fraud management programs.
 - **Deepfakes and injection attacks** are explicitly addressed. Remote identity proofing now has normative controls for synthetic media and virtual camera spoofing.
 - **Syncable authenticators** (passkeys) are explicitly supported at AAL2, resolving the ambiguity in 800-63-3 that made some teams avoid them.
 - **Subscriber-controlled wallets** are introduced as a new federation model, reflecting the growing verifiable credentials ecosystem.
 - **Privacy and customer experience** requirements are strengthened throughout.
 
-The spec is organized as a suite of four documents. This blog covers the main volume (SP 800-63-4), which defines the model and risk management process. The later blogs cover identity proofing (63A), authentication (63B), and federation (63C).
+The spec is organized as a suite of four documents. This blog covers the main volume (SP 800-63-4), which defines the digital identity model and risk management processes. The later blogs cover identity proofing (63A), authentication (63B), and federation (63C).
 
 ---
 
 # The Digital Identity Model
 
-Before getting to assurance levels, Let's understand some terms.
+Before getting to assurance levels, Let's understand some terms defined.
 
 ## The Cast
 
-**Applicant:** Someone seeking access to digital service. Before they're enrolled, they're an applicant.
+**Applicant:** Someone asking access to digital service. Before they're enrolled, they're an applicant.
 
 **Subscriber:** An applicant who has completed enrollment. The CSP has bound one or more authenticators to their account.
 
@@ -69,36 +69,17 @@ Before getting to assurance levels, Let's understand some terms.
 
 The spec describes three ways these entities can be arranged:
 
-**1. Non-federated:** The CSP, IdP, and RP are the same system. This is the classic "your app has a login page." The user registers, your app stores their credentials, your app authenticates them. Simple, but every RP has to manage the full identity lifecycle.
+**1. Non-federated:** The CSP, IdP, and RP are the same system. This is the classic "your app has a login page". The user registers, your app stores their credentials, your app authenticates them. Simple, but every RP has to manage the full identity lifecycle.
 
-```mermaid
-sequenceDiagram
-    actor A as Applicant / Subscriber
-    participant CSP as Credential Service Provider (CSP)
-    participant RP as Relying Party (RP) / Verifier
-
-    rect rgb(230, 245, 255)
-        Note over A, CSP: Enrollment
-        A->>CSP: Step 1: Submit identity evidence
-        CSP->>CSP: Identity proofing
-        CSP-->>A: Step 2: Bind authenticator, create subscriber account
-    end
-
-    rect rgb(255, 245, 230)
-        Note over A, RP: Authentication & Access
-        A->>RP: Step 3: Initiate session / request access
-        RP-->>A: Step 4: Authentication challenge
-        A->>RP: Step 5: Present authenticator
-        RP->>CSP: Verify authenticator binding + fetch attributes
-        CSP-->>RP: Confirm binding + subscriber attributes
-        RP->>RP: Authorization decision
-        RP-->>A: Establish authenticated session / grant access
-    end
-```
+<img src="non-federated.png" style="display: block; margin: 10px auto;"/>
 
 ---
 
 **2. General-purpose federation:** The CSP provisions a subscriber account; the IdP handles authentication and issues assertions to separate RPs. This is how enterprise SSO and consumer identity providers (Sign in with Google, GitHub OAuth) work.
+
+<img src="federated.png" style="display: block; margin: 10px auto;"/>
+
+more detailed flow:
 
 ```mermaid
 sequenceDiagram
@@ -131,6 +112,10 @@ sequenceDiagram
 ---
 
 **3. Subscriber-controlled wallet:** New in 800-63-4. The CSP issues signed attribute bundles (verifiable credentials) directly to the subscriber. The subscriber's wallet manages them and presents them directly to RPs, without the IdP being involved at assertion time.
+
+<img src="subscriber-controlled-wallet.png" style="display: block; margin: 10px auto;"/>
+
+more detailed flow:
 
 ```mermaid
 sequenceDiagram
@@ -217,7 +202,7 @@ The mistake is assuming that stronger authentication implies stronger identity p
 
 # Digital Identity Risk Management (DIRM)
 
-The framework doesn't just hand you a set of levels and say "pick one." It describes a five-step process for deciding which levels are right for your service.
+The framework doesn't just provide set of levels and "pick one." It describes a five-step process for deciding which levels are right for your service.
 
 ## Step 1: Define the Online Service
 
@@ -241,21 +226,21 @@ Based on the impact assessment, select baseline IAL, AAL, and FAL. The spec prov
 
 ## Step 4: Tailor Controls and Document Decisions
 
-The initial xAL selection is starting point. You can go higher or lower with documented justification. If your baseline analysis suggests IAL2 but the user population includes people who can't provide standard government ID (elderly users, recent immigrants, people experiencing homelessness), you might add trusted referee processes rather than simply requiring IAL2 and excluding those users.
+The initial xAL selection is starting point. You can go higher or lower with justification by documenting everything. If your baseline analysis suggests IAL2 but the some users includes people who can't provide standard government ID (elderly users, recent immigrants, people experiencing homelessness), you might add trusted referee processes rather than simply requiring IAL2 and excluding those users.
 
 Tailoring must be documented. The point is deliberate decision-making, not a shortcut to drop requirements.
 
 ## Step 5: Continuously Evaluate
 
-Identity assurance isn't set-and-forget. The spec requires ongoing measurement: fraud rates, failed enrollment rates, authentication failure rates, user support volume. If your dropout rate at IAL2 enrollment is 40%, that's a signal that either the process is broken or the assurance level is wrong for your population.
+Identity assurance isn't set and forget thing. The spec requires ongoing measurement: fraud rates, failed enrollment rates, authentication failure rates, user support volume. If your dropout rate at IAL2 enrollment is 40%, that's a signal that either the process is broken or the assurance level is wrong for your users.
 
-This loop matters. The threat landscape changes (deepfakes get better, new phishing kits emerge), your user base changes, and your service changes. The DIRM process is meant to be revisited, not completed once.
+This loop matters a lot. The threat landscape changes (deepfakes get better, new phishing kits emerge), your user base changes, and your service changes. The DIRM process is meant to be revisited again and again, not completed once.
 
 ---
 
 # Choosing xAL Combinations in Practice
 
-Some concrete examples of how this plays out:
+Some real world examples of how this works out:
 
 **Consumer app (e.g., a productivity tool with no sensitive data)**
 IAL1 + AAL1. You don't need to know who the user actually is, and the consequences of account compromise are low. Social login (Sign in with Google) covers both. FAL1 if you're using OIDC.
@@ -264,10 +249,10 @@ IAL1 + AAL1. You don't need to know who the user actually is, and the consequenc
 IAL2 + AAL2, at minimum. You need to know this is a real person with a valid identity (to prevent fraud), and you need reasonable confidence they're the account holder (to prevent account takeover). FAL2 if using a federated IdP like Login.gov.
 
 **Internal admin tool with access to production data**
-IAL1 + AAL3. You already know who your employees are. You don't need to re-proof their identity. But you do need strong authentication with a hardware key or platform authenticator to protect against phishing. FAL2+ if using your enterprise IdP.
+IAL1 + AAL3. You already know who your employees are. You don't need to reproof their identity. But you do need strong authentication with a hardware key or platform authenticator to protect against phishing. FAL2+ if using your enterprise IdP.
 
 **Healthcare portal with access to medical records**
-IAL2 + AAL2 at a minimum, likely with step-up to AAL3 for sensitive operations. You need a real identity (for HIPAA compliance and to ensure records belong to the right person), and strong authentication to prevent account takeover. The stakes around account recovery are high here.
+IAL2 + AAL2 at minimum, likely with step-up to AAL3 for sensitive operations. You need a real identity (for HIPAA compliance and to ensure records belong to the right person), and strong authentication to prevent account takeover. The stakes around account recovery are high here.
 
 The pattern: **IAL is about enrollment-time identity proofing, AAL is about runtime authentication strength.** They solve different problems. Upgrading AAL doesn't compensate for weak IAL if fraudulent enrollment is your actual threat.
 
@@ -277,7 +262,7 @@ The pattern: **IAL is about enrollment-time identity proofing, AAL is about runt
 
 If you're familiar with the 2017 version, here's what's materially different:
 
-**Fraud management is now normative.** CSPs must establish comprehensive fraud programs, including death record checks, device fingerprinting, transaction analytics, and insider threat controls. In 800-63-3, fraud controls were largely guidance. In 800-63-4, they're requirements.
+**Fraud management is now normative.** CSPs must establish comprehensive fraud programs, including death record checks, device fingerprinting, transaction analytics, and insider threat controls. In 800-63-3, fraud controls were largely guidance. In 800-63-4, they're requirements now.
 
 **Deepfake and injection attack controls are required.** Remote identity proofing must include detection of virtual cameras, device emulators, and AI-generated media. This is a direct response to how much synthetic media generation improved between 2017 and 2025.
 
@@ -291,7 +276,7 @@ If you're familiar with the 2017 version, here's what's materially different:
 
 # Conclusion
 
-The value of 800-63-4 isn't that it tells you exactly what to build. It's that it gives you common vocabulary and structured way to think about trade-offs. When someone says "we need stronger auth," the framework helps you ask: stronger in what way? For which users? Against which threats? With what impact if it fails?
+These guidelines don't exactlt tells you exactly what to build. But gives you common vocabulary and structured way to think about trade-offs. When someone says "we need stronger auth," the framework helps you ask: stronger in what way? For which users? Against which threats? With what impact if it fails?
 
 The compliance first instinct is to find minimum required level and implement that. The risk management approach is to understand what you're protecting, decide what level of confidence you actually need, and build accordingly, with documented reasoning you can revisit when things change.
 
