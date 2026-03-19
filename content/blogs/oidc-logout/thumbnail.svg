@@ -1,0 +1,119 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#818cf8"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#34d399"/>
+    </marker>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="500" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g stroke="white" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="50" x2="500" y2="50"/>
+    <line x1="0" y1="100" x2="500" y2="100"/>
+    <line x1="0" y1="150" x2="500" y2="150"/>
+    <line x1="0" y1="200" x2="500" y2="200"/>
+    <line x1="0" y1="250" x2="500" y2="250"/>
+    <line x1="0" y1="300" x2="500" y2="300"/>
+    <line x1="0" y1="350" x2="500" y2="350"/>
+    <line x1="0" y1="400" x2="500" y2="400"/>
+    <line x1="0" y1="450" x2="500" y2="450"/>
+    <line x1="50" y1="0" x2="50" y2="500"/>
+    <line x1="100" y1="0" x2="100" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="250" y1="0" x2="250" y2="500"/>
+    <line x1="300" y1="0" x2="300" y2="500"/>
+    <line x1="350" y1="0" x2="350" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="450" y1="0" x2="450" y2="500"/>
+  </g>
+
+  <!-- Glow blobs -->
+  <ellipse cx="250" cy="200" rx="220" ry="180" fill="#6366f1" fill-opacity="0.06"/>
+  <ellipse cx="380" cy="420" rx="160" ry="120" fill="#34d399" fill-opacity="0.05"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="500" height="4" fill="url(#accent)"/>
+
+  <!-- Shield icon (centered, top area) -->
+  <g transform="translate(250, 105)">
+    <path d="M0,-52 L42,-32 L42,8 Q42,40 0,58 Q-42,40 -42,8 L-42,-32 Z" fill="#1e1b4b" fill-opacity="0.8" stroke="#6366f1" stroke-width="2"/>
+    <!-- Lock body inside shield -->
+    <rect x="-14" y="-2" width="28" height="22" rx="4" fill="#6366f1" fill-opacity="0.7" stroke="#818cf8" stroke-width="1.5"/>
+    <path d="M-9,-2 L-9,-12 Q-9,-22 0,-22 Q9,-22 9,-12 L9,-2" fill="none" stroke="#818cf8" stroke-width="2"/>
+    <!-- Keyhole -->
+    <circle cx="0" cy="8" r="4" fill="#1e1b4b"/>
+    <rect x="-2" y="8" width="4" height="8" fill="#1e1b4b"/>
+  </g>
+
+  <!-- Main acronym -->
+  <text x="250" y="202" font-family="monospace" font-size="44" font-weight="700" letter-spacing="4" fill="white" text-anchor="middle">OIDC</text>
+
+  <!-- Divider -->
+  <line x1="50" y1="220" x2="450" y2="220" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Subtitle -->
+  <text x="250" y="248" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#94a3b8" text-anchor="middle">Sessions &amp; Logout</text>
+  <text x="250" y="268" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">Logout Is Harder Than Login</text>
+
+  <!-- Pill tags row -->
+  <rect x="38" y="285" width="96" height="24" rx="12" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1"/>
+  <text x="86" y="301" font-family="monospace" font-size="10" fill="#a5b4fc" text-anchor="middle">Back-Channel</text>
+
+  <rect x="142" y="285" width="96" height="24" rx="12" fill="#8b5cf6" fill-opacity="0.2" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="190" y="301" font-family="monospace" font-size="10" fill="#c4b5fd" text-anchor="middle">RP-Initiated</text>
+
+  <rect x="246" y="285" width="96" height="24" rx="12" fill="#f97316" fill-opacity="0.2" stroke="#f97316" stroke-width="1"/>
+  <text x="294" y="301" font-family="monospace" font-size="10" fill="#fdba74" text-anchor="middle">Front-Channel</text>
+
+  <rect x="350" y="285" width="112" height="24" rx="12" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-width="1"/>
+  <text x="406" y="301" font-family="monospace" font-size="10" fill="#fca5a5" text-anchor="middle">Session Mgmt</text>
+
+  <!-- Mini flow diagram -->
+  <text x="250" y="342" font-family="system-ui, sans-serif" font-size="11" fill="#475569" text-anchor="middle">LOGOUT FLOW</text>
+
+  <!-- RP box -->
+  <rect x="38" y="356" width="100" height="48" rx="8" fill="#1e1b4b" fill-opacity="0.8" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="88" y="377" font-family="system-ui, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">RP App</text>
+  <text x="88" y="393" font-family="monospace" font-size="9" fill="#818cf8" text-anchor="middle">clear session</text>
+
+  <!-- Arrow RP → OP -->
+  <line x1="140" y1="380" x2="196" y2="380" stroke="#818cf8" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="5,2"/>
+
+  <!-- OP box -->
+  <rect x="198" y="356" width="104" height="48" rx="8" fill="#1e1040" fill-opacity="0.8" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="250" y="377" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd" text-anchor="middle">OP / IdP</text>
+  <text x="250" y="393" font-family="monospace" font-size="9" fill="#a78bfa" text-anchor="middle">logout + notify</text>
+
+  <!-- Arrow OP → RP-B -->
+  <line x1="304" y1="380" x2="360" y2="380" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-g)"/>
+
+  <!-- RP-B box -->
+  <rect x="362" y="356" width="100" height="48" rx="8" fill="#1e1b4b" fill-opacity="0.8" stroke="#34d399" stroke-width="1.5"/>
+  <text x="412" y="377" font-family="system-ui, sans-serif" font-size="11" fill="#6ee7b7" text-anchor="middle">Other RPs</text>
+  <text x="412" y="393" font-family="monospace" font-size="9" fill="#34d399" text-anchor="middle">JWT logout</text>
+
+  <!-- Arrow labels -->
+  <text x="168" y="373" font-family="monospace" font-size="8" fill="#6366f1" text-anchor="middle">redirect</text>
+  <text x="332" y="373" font-family="monospace" font-size="8" fill="#34d399" text-anchor="middle">POST</text>
+
+  <!-- Bottom note -->
+  <text x="250" y="430" font-family="monospace" font-size="10" fill="#374151" text-anchor="middle">store sid at login · validate logout token</text>
+  <text x="250" y="448" font-family="monospace" font-size="10" fill="#374151" text-anchor="middle">replay prevention · 200 on success</text>
+
+  <!-- Bottom accent bar -->
+  <rect x="0" y="492" width="500" height="4" fill="url(#accent)" fill-opacity="0.6"/>
+</svg>

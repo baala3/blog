@@ -8,8 +8,8 @@ image: "https://i.ibb.co/dsmwGmhR/image.png"
 credit: ""
 thumbnail: "https://owncloud.com/wp-content/uploads/2020/10/openidconnect.png"
 categories:
-- Oauth
-- OpenId
+- OAuth
+- OpenID
 ---
 
 This is part 2 of nuts and bolts of OAuth 2.0, continuing [part 1](https://blog.balashekhar.me/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1/). In this section, I'll explore the client credentials flow for machine-to-machine communication<!--more-->,  dive deep into OAuth scopes and their proper usage, get introduced to OpenID Connect and ID tokens, learn different access token types (reference vs self-encoded), and see how to handle revoked or invalid tokens in OAuth flows that we learned.
