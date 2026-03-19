@@ -192,11 +192,11 @@ FAL only applies when federation is in use. If your app authenticates users dire
 
 This is the part that confuses people a lot. IAL, AAL, and FAL measure different things. You can have any combination:
 
-- **IAL1 + AAL3:** Anonymous user with a hardware key. Makes sense for high-security services where you don't need to know who the user is, just that they have the right key. A physical access system, for example.
-- **IAL2 + AAL1:** Verified identity with password-only authentication. Reasonable for a low-risk service that still needs to know who you are (a newsletter with paid tiers, say).
-- **IAL3 + AAL3:** Maximum assurance. Required for the highest-stakes government services.
+- **IAL1 + AAL3:** Anonymous user with hardware key. This makes sense for high-security services where you don't need to know who the user is, just that they have the right key.For ex: a physical access system.
+- **IAL2 + AAL1:** Verified identity with password only authentication. This is reasonable for low-risk service that still needs to know who you are. For ex: newsletter with paid tiers.
+- **IAL3 + AAL3:** Maximum assurance. Required for the highest stakes government services.
 
-The mistake is assuming that stronger authentication implies stronger identity proofing. A hardware key proves you have the key. It doesn't prove anything about who you are in the real world if that was never established.
+The mistake is assuming that stronger authentication means stronger identity proofing. A hardware key just only proves you have the key. It doesn't prove anything about who you are in the real world if that was never established.
 
 ---
 
@@ -254,7 +254,7 @@ IAL1 + AAL3. You already know who your employees are. You don't need to reproof 
 **Healthcare portal with access to medical records**
 IAL2 + AAL2 at minimum, likely with step-up to AAL3 for sensitive operations. You need a real identity (for HIPAA compliance and to ensure records belong to the right person), and strong authentication to prevent account takeover. The stakes around account recovery are high here.
 
-The pattern: **IAL is about enrollment-time identity proofing, AAL is about runtime authentication strength.** They solve different problems. Upgrading AAL doesn't compensate for weak IAL if fraudulent enrollment is your actual threat.
+The pattern: **IAL is about enrollment-time identity proofing, AAL is about runtime authentication strength.** They solve different problems. So upgrading AAL doesn't compensate for weak IAL if fraudulent enrollment is your actual threat.
 
 ---
 
@@ -262,13 +262,13 @@ The pattern: **IAL is about enrollment-time identity proofing, AAL is about runt
 
 If you're familiar with the 2017 version, here's what's materially different:
 
-**Fraud management is now normative.** CSPs must establish comprehensive fraud programs, including death record checks, device fingerprinting, transaction analytics, and insider threat controls. In 800-63-3, fraud controls were largely guidance. In 800-63-4, they're requirements now.
+**Fraud management is now mandatory.** CSPs must establish comprehensive fraud programs, including death record checks, device fingerprinting, transaction analytics, and insider threat controls. In 800-63-3, fraud controls were largely guidance. In 800-63-4, they're requirements now.
 
 **Deepfake and injection attack controls are required.** Remote identity proofing must include detection of virtual cameras, device emulators, and AI-generated media. This is a direct response to how much synthetic media generation improved between 2017 and 2025.
 
 **Syncable authenticators (passkeys) are explicitly supported.** 800-63-3 was ambiguous about whether exportable keys could meet authenticator requirements. 800-63-4 explicitly permits syncable authenticators at AAL2, with specific conditions around encrypted sync and device binding.
 
-**Subscriber-controlled wallets are a first-class model.** The verifiable credentials ecosystem didn't really exist in 2017. The wallet model in 800-63-4 reflects where decentralized identity is heading, even if adoption is still early.
+**Subscriber-controlled wallets are first class model.** The verifiable credentials ecosystem didn't really exist in 2017. The wallet model in 800-63-4 reflects where decentralized identity is heading, even if adoption is still early.
 
 **Privacy and customer experience requirements are stronger.** CSPs must assess their processes for access challenges, document mitigations, and periodically reassess. The spec explicitly requires that applicants not be penalized for needing accommodations.
 
@@ -276,7 +276,7 @@ If you're familiar with the 2017 version, here's what's materially different:
 
 # Conclusion
 
-These guidelines don't exactlt tells you exactly what to build. But gives you common vocabulary and structured way to think about trade-offs. When someone says "we need stronger auth," the framework helps you ask: stronger in what way? For which users? Against which threats? With what impact if it fails?
+Overall these guidelines don't exactlt tells you exactly what to build. But gives you common vocabulary and structured way to think about trade offs. When someone says "we need stronger auth," the framework helps you ask: stronger in what way? For which users? Against which threats? With what impact if it fails?
 
 The compliance first instinct is to find minimum required level and implement that. The risk management approach is to understand what you're protecting, decide what level of confidence you actually need, and build accordingly, with documented reasoning you can revisit when things change.
 

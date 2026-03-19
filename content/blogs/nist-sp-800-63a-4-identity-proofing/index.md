@@ -15,9 +15,11 @@ classes:
 - feature-mermaid
 ---
 
-If you've integrated a KYC provider, you've probably been told something like: "the user uploads their ID, we scan it, we do a selfie match, done." That description is not wrong, but it skips over several distinctions that matter when your threat model includes fraud at scale, synthetic media,<!--more-->or users who can't produce a standard government ID.
+If you have integrated a KYC provider, you've probably been told something like: "the user uploads their ID, we scan it, we do a selfie match, done." That description is not wrong, but it skips over several things that matter when your threat model includes fraud at scale, synthetic media,<!--more-->or users who can't produce a standard government ID.
 
-[NIST SP 800-63A-4](https://pages.nist.gov/800-63-4/sp800-63a.html) is the identity proofing volume of the 800-63-4 suite. It defines exactly what "verified identity" means at each assurance level, what evidence qualifies, how to handle the cases that break the happy path, and what your fraud program needs to look like. This blog walks through the model.
+[NIST SP 800-63A-4](https://pages.nist.gov/800-63-4/sp800-63a.html) is the identity proofing volume of the 800-63-4 suite. It defines exactly what "verified identity" means at each assurance level, what evidence qualifies, how to handle the cases that break the happy path, and what your fraud program needs to look like. 
+
+I will walks through the model in this blog.
 
 ---
 
@@ -47,7 +49,7 @@ Identity proofing has three distinct failure modes, and they require three disti
 
 ```mermaid
 flowchart TD
-    A([Applicant]) --> B["1. Resolution\nCollect evidence, establish candidate identity"]
+    A([Applicant]) --> B["1. Resolution\nCollect evidence, establish user identity"]
     B --> C["2. Validation\nConfirm evidence is authentic, accurate, and current"]
     C --> D["3. Verification\nLink applicant to the validated identity"]
     D --> E([Subscriber — enrolled, authenticator bound])
@@ -55,9 +57,9 @@ flowchart TD
 
 ## Resolution
 
-Collect evidence and attributes to establish a unique candidate identity. At this step you're asking: based on what the applicant has provided, who do we think this person is?
+Collect evidence and attributes to establish a unique user identity. At this step you're asking: based on what the applicant has provided, who do we think this person is?
 
-This means collecting core attributes: full name, date of birth, address, and a government identifier (SSN, passport number, etc.). The goal is to resolve to a single, unique individual. If your collected attributes match multiple records, you haven't resolved yet.
+This means collecting core attributes: full name, date of birth, address, and government identifier (SSN, passport number, etc). The goal is to resolve to a single, unique individual. If your collected attributes match multiple records, you haven't resolved yet.
 
 ## Validation
 
@@ -151,15 +153,15 @@ The combinations matter. If your IAL2 flow accepts a driver's license (STRONG) a
 
 # Proofing Delivery Models
 
-How the proofing session is conducted is a separate variable from the assurance level. The spec defines four delivery models:
+Identity proofing session is conducted and is separated from the assurance level. The spec defines four delivery models:
 
 **Remote unattended:** Fully automated. No CSP agent in the loop. The applicant submits documents and completes facial comparison through an app or web flow. This is what most consumer KYC products deliver. Permitted at IAL2, not IAL3.
 
 **Remote attended:** A video session with a CSP proofing agent or trusted referee. The agent watches the session in real time, can ask questions, and can make judgment calls. Permitted at IAL2 and IAL3.
 
-**On-site unattended:** A controlled kiosk or workstation where the applicant interacts with an automated system in person. Permitted at IAL2.
+**On-site unattended:** A controlled public booth or workstation where the applicant interacts with an automated system in person. Permitted at IAL2.
 
-**On-site attended:** A physical location with a proofing agent present. The classic DMV or bank branch model. Permitted at all IALs.
+**On-site attended:** A physical location with proofing agent present. The classic DMV or bank branch model. Permitted at all IALs.
 
 One practical consequence: if you're using a third-party KYC provider that operates a fully automated remote flow, you're in remote unattended territory. That model is legitimate for IAL2, but it has a ceiling. IAL3 requires an attended session, which most off-the-shelf KYC APIs don't offer. If you need IAL3, you need a provider that supports supervised video proofing or an in-person channel.
 
@@ -167,7 +169,7 @@ One practical consequence: if you're using a third-party KYC provider that opera
 
 # Biometrics: Requirements and Constraints
 
-Biometrics in identity proofing are used for two purposes: verification (1:1 match between the applicant and their document) and binding (establishing a biometric that can be used for future recognition). The requirements differ slightly, but the baseline performance thresholds apply to both.
+Biometrics in identity proofing are used for two purposes: **verification** (1:1 match between the applicant and their document) and **binding** (establishing a biometric that can be used for future recognition). The requirements differ slightly, but the baseline performance thresholds apply to both.
 
 **Performance thresholds:**
 - False match rate: no more than 1 in 10,000 (1:10,000)
@@ -184,13 +186,13 @@ The demographic threshold is not optional. A system that meets the false match r
 - Deletion policies must be documented and enforced
 - Exceptions for regulatory holds are permitted but must be documented
 
-If your KYC provider handles biometrics on your behalf, their performance documentation and testing reports become your compliance evidence. Request them.
+If your KYC provider handles biometrics on your behalf, their performance documentation and testing reports become your compliance evidence. You can request them.
 
 ---
 
 # Defending Against Deepfakes and Injection Attacks
 
-This section is largely new in 800-63-4. The previous version didn't address synthetic media because it wasn't a practical threat at scale in 2017. It is now.
+This section is mostly new in 800-63-4. The previous version didn't address synthetic media because it wasn't a practical threat at scale in 2017. but it is now.
 
 ## What "Digital Injection" Means
 
@@ -200,7 +202,7 @@ In a remote proofing flow, the applicant typically opens a camera to capture the
 - **Device emulator injection:** The proofing session runs inside an emulated device environment that can replay known-good session data.
 - **Manipulated media:** Real footage that has been altered (a deepfake overlay on a live feed, or a replay of a previous legitimate session).
 
-The attack surface is the gap between the applicant's physical camera and the CSP's receipt of the media. If that gap can be exploited, the rest of your proofing controls are checking a fabricated input.
+The attack surface is the gap between the applicant's physical camera and the CSP's receipt of the media. If that gap can be exploited, the rest of your proofing controls are checking a fabricated input (as shown in image below).
 
 ```mermaid
 flowchart LR
@@ -219,17 +221,17 @@ For remote unattended proofing, the following controls are now normative (requir
 
 Passive forgery detection is also required: the system should analyze media without requiring the applicant to perform active liveness tasks (though active liveness checks can be used in addition).
 
-This isn't about blocking a small number of sophisticated attackers. Deepfake tooling is cheap and widely available. If your remote proofing flow can be bypassed by a freely downloadable virtual camera app and a generated face image, it's not IAL2.
+The goal is not about blocking a small number of sophisticated attackers. Deepfake tooling is cheap and widely available. If your remote proofing flow can be bypassed by a freely downloadable virtual camera app and a generated face image, then it is not IAL2.
 
 ---
 
 # Exceptions: Trusted Referees, Minors, Edge Cases
 
-No proofing system that enforces standard requirements uniformly will work for everyone. The spec addresses this directly and frames equitable access as a requirement, not a courtesy.
+No proofing system that enforces standard requirements will work for everyone. The spec addresses this directly and frames equitable access as a requirement, not a courtesy.
 
 ## Trusted Referees
 
-A trusted referee is a vetted agent (either a CSP employee or a contracted third party) who can assist applicants who can't meet standard requirements. This includes:
+A trusted referee is trained and approved person (either a CSP employee or a contracted third party) who helps applicants who cannot meet the normal proofing requirements. This includes:
 
 - Disabled individuals who can't complete standard biometric capture
 - Unhoused individuals without a fixed mailing address
@@ -259,7 +261,7 @@ CSPs must establish written policies for applicants under 18. For applicants und
 
 # Fraud Management Program Requirements
 
-Individual proofing controls can be defeated in isolation. The spec requires CSPs to run a fraud management program, not just implement point controls.
+Individual proofing controls can fail if attackers target them one by one. The spec requires CSPs to run a fraud management program, not just implement point controls.
 
 **Required elements:**
 
@@ -272,13 +274,13 @@ Individual proofing controls can be defeated in isolation. The spec requires CSP
 
 **SIM swap detection** is recommended (not required) as part of the fraud program, given its use in account takeover attacks that can follow enrollment.
 
-**Knowledge-based verification (KBV) is prohibited for identity verification.** The spec explicitly bans using security questions or knowledge checks ("what was the make of your first car?") as a proofing mechanism. These have well-documented weaknesses: the answers are often derivable from public records, social media, or data breaches.
+**Knowledge-based verification (KBV) is prohibited for identity verification.** The spec explicitly bans using security questions or knowledge checks ("what was the name of your first car?") as a proofing mechanism. These have well-documented weaknesses: the answers are often derivable from public records, social media, or data breaches.
 
 KBV can still be used as a fraud signal (unusual answers might flag a suspicious session), but it cannot be a verification method. If your current IAL2 flow includes a KBV step as a primary verification control, that needs to change.
 
 ---
 
-# What This Means If You're Integrating a KYC Provider
+# Conclusion
 
 Most commercial KYC providers (Jumio, Onfido, Persona, Stripe Identity, etc.) cover a subset of what 800-63A-4 requires. They handle document scanning, OCR, facial comparison, and increasingly liveness detection. But compliance with the full spec requires more:
 
