@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#374151"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#1d4ed8"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arr-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#0f766e"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#15803d"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
+    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  </style>
+
+  <rect width="760" height="470" fill="white"/>
+
+  <!-- Actor positions: Browser=90, RP-A=250, OP=460, RP-B=660 -->
+
+  <!-- Actor: Browser -->
+  <rect x="30" y="12" width="120" height="55" rx="8" fill="#374151"/>
+  <text x="90" y="37" text-anchor="middle" font-size="12" font-weight="600" fill="white">Browser</text>
+  <text x="90" y="54" text-anchor="middle" font-size="10" fill="#9ca3af">(User)</text>
+  <line x1="90" y1="67" x2="90" y2="395" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Actor: RP-A -->
+  <rect x="183" y="12" width="135" height="55" rx="8" fill="#1d4ed8"/>
+  <text x="250" y="37" text-anchor="middle" font-size="12" font-weight="600" fill="white">RP-A</text>
+  <text x="250" y="54" text-anchor="middle" font-size="10" fill="#bfdbfe">app-a.example.com</text>
+  <line x1="250" y1="67" x2="250" y2="395" stroke="#bfdbfe" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Actor: OP -->
+  <rect x="393" y="12" width="135" height="55" rx="8" fill="#7c3aed"/>
+  <text x="460" y="37" text-anchor="middle" font-size="12" font-weight="600" fill="white">OP</text>
+  <text x="460" y="54" text-anchor="middle" font-size="10" fill="#ddd6fe">auth.example.com</text>
+  <line x1="460" y1="67" x2="460" y2="395" stroke="#ddd6fe" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Actor: RP-B -->
+  <rect x="598" y="12" width="135" height="55" rx="8" fill="#0f766e"/>
+  <text x="665" y="37" text-anchor="middle" font-size="12" font-weight="600" fill="white">RP-B</text>
+  <text x="665" y="54" text-anchor="middle" font-size="10" fill="#99f6e4">app-b.example.com</text>
+  <line x1="665" y1="67" x2="665" y2="395" stroke="#99f6e4" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ① User clicks logout → RP-A -->
+  <line x1="95" y1="105" x2="242" y2="105" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="168" y="99" text-anchor="middle" font-size="11" fill="#374151">① user clicks logout</text>
+
+  <!-- ② RP-A clears local session (self note) -->
+  <rect x="260" y="115" width="190" height="22" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="355" y="130" text-anchor="middle" font-size="10" fill="#92400e" font-style="italic">② clear local session cookie first</text>
+
+  <!-- ③ RP-A sends 302 redirect to browser -->
+  <line x1="245" y1="155" x2="98" y2="155" stroke="#1d4ed8" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <text x="172" y="149" text-anchor="middle" font-size="11" fill="#1d4ed8">302 Redirect</text>
+
+  <!-- Browser follows redirect to OP -->
+  <line x1="95" y1="175" x2="452" y2="175" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="273" y="169" text-anchor="middle" font-size="10" fill="#374151">③ GET /logout?id_token_hint=…&amp;state=…</text>
+
+  <!-- ④ OP terminates session (self-note) -->
+  <rect x="470" y="186" width="180" height="22" rx="4" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="560" y="201" text-anchor="middle" font-size="10" fill="#5b21b6" font-style="italic">④ validate hint, terminate OP session</text>
+
+  <!-- ⑤ OP → RP-B: back-channel POST (server-to-server) -->
+  <line x1="465" y1="230" x2="656" y2="230" stroke="#0f766e" stroke-width="2" marker-end="url(#arr-teal)"/>
+  <text x="560" y="223" text-anchor="middle" font-size="11" fill="#0f766e">⑤ POST /backchannel_logout</text>
+  <text x="560" y="240" text-anchor="middle" class="mono" font-size="10" fill="#0f766e">logout_token JWT</text>
+
+  <!-- server-to-server label -->
+  <text x="560" y="258" text-anchor="middle" font-size="9" fill="#0f766e" font-style="italic">server-to-server (no browser)</text>
+
+  <!-- ⑥ RP-B invalidates sessions → 200 OK -->
+  <rect x="560" y="265" width="160" height="22" rx="4" fill="#ccfbf1" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="640" y="280" text-anchor="middle" font-size="10" fill="#0f766e" font-style="italic">invalidate sessions by sid/sub</text>
+
+  <line x1="657" y1="295" x2="467" y2="295" stroke="#0f766e" stroke-width="1.5" marker-end="url(#arr-teal)"/>
+  <text x="562" y="289" text-anchor="middle" font-size="11" fill="#0f766e">⑥ 200 OK</text>
+
+  <!-- ⑦ OP redirects browser back -->
+  <line x1="454" y1="330" x2="98" y2="330" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <text x="276" y="324" text-anchor="middle" font-size="10" fill="#7c3aed">⑦ 302 → post_logout_redirect_uri?state=…</text>
+
+  <!-- Browser → RP-A -->
+  <line x1="95" y1="355" x2="242" y2="355" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="168" y="349" text-anchor="middle" font-size="10" fill="#374151">GET /logged-out?state=…</text>
+
+  <!-- ⑧ RP-A validates state -->
+  <rect x="183" y="366" width="190" height="22" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+  <text x="278" y="381" text-anchor="middle" font-size="10" fill="#166534" font-style="italic">⑧ validate state, render logged-out</text>
+
+</svg>

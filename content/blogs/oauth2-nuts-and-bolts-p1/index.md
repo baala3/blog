@@ -8,8 +8,8 @@ image: "https://i.ibb.co/dsmwGmhR/image.png"
 credit: ""
 thumbnail: "https://owncloud.com/wp-content/uploads/2020/10/openidconnect.png"
 categories:
-- Oauth
-- OpenId
+- OAuth
+- OpenID
 ---
 In this blog, I want to summarize whatever I learned from `the nuts and bolts of OAuth 2.0` by Aaron Parecki's Udemy course. This was one of the nicest things I have done when starting to learn OAuth myself (and I surely recommend this).
 

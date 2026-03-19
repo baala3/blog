@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 255" width="760" height="255">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#374151"/>
+    </marker>
+    <marker id="arr-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#0f766e"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#15803d"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#b91c1c"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
+    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  </style>
+
+  <rect width="760" height="255" fill="white"/>
+
+  <!-- OP Server -->
+  <rect x="10" y="30" width="175" height="200" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="97" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="#6d28d9">OP Server</text>
+  <text x="97" y="72" text-anchor="middle" font-size="10" fill="#8b5cf6">auth.example.com</text>
+  <text x="97" y="95" text-anchor="middle" font-size="10" fill="#374151">User logged out.</text>
+  <text x="97" y="110" text-anchor="middle" font-size="10" fill="#374151">Build signed logout</text>
+  <text x="97" y="125" text-anchor="middle" font-size="10" fill="#374151">token JWT, POST it</text>
+  <text x="97" y="140" text-anchor="middle" font-size="10" fill="#374151">to each registered</text>
+  <text x="97" y="155" text-anchor="middle" font-size="10" fill="#374151">backchannel_logout_uri</text>
+  <text x="97" y="178" text-anchor="middle" font-size="10" fill="#7c3aed" font-style="italic">No browser involved.</text>
+  <text x="97" y="193" text-anchor="middle" font-size="10" fill="#7c3aed" font-style="italic">Not affected by ITP</text>
+  <text x="97" y="208" text-anchor="middle" font-size="10" fill="#7c3aed" font-style="italic">or cookie blocking.</text>
+
+  <!-- Logout token JWT box (floating above the arrow) -->
+  <rect x="215" y="10" width="330" height="165" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="380" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#94a3b8">logout_token JWT</text>
+  <text x="380" y="46" text-anchor="middle" class="mono" font-size="9" fill="#64748b">typ: logout+jwt  (prevents cross-JWT confusion)</text>
+
+  <!-- Claims -->
+  <rect x="225" y="53" width="310" height="115" rx="5" fill="#0f172a"/>
+  <text x="235" y="70" class="mono" font-size="10" fill="#7dd3fc">iss<tspan fill="#94a3b8">: "https://auth.example.com"</tspan></text>
+  <text x="235" y="86" class="mono" font-size="10" fill="#7dd3fc">aud<tspan fill="#94a3b8">: "your-client-id"</tspan></text>
+  <text x="235" y="102" class="mono" font-size="10" fill="#7dd3fc">iat<tspan fill="#94a3b8"> / </tspan>exp<tspan fill="#94a3b8">: now / now+120s</tspan></text>
+  <text x="235" y="118" class="mono" font-size="10" fill="#7dd3fc">jti<tspan fill="#94a3b8">: "unique-token-id"  </tspan><tspan fill="#f97316"># replay prevention</tspan></text>
+  <text x="235" y="134" class="mono" font-size="10" fill="#7dd3fc">sub<tspan fill="#94a3b8">: "usr_123"   </tspan><tspan fill="#a3e635">sid</tspan><tspan fill="#94a3b8">: "sess_xyz"</tspan></text>
+  <text x="235" y="150" class="mono" font-size="10" fill="#7dd3fc">events<tspan fill="#94a3b8">: </tspan><tspan fill="#f9a8d4">{"…backchannel-logout": {}}</tspan></text>
+  <text x="235" y="166" class="mono" font-size="10" fill="#f87171">nonce<tspan fill="#94a3b8">: </tspan><tspan fill="#f87171">PROHIBITED  </tspan><tspan fill="#64748b"># prevents misuse as ID token</tspan></text>
+
+  <!-- POST arrow -->
+  <line x1="185" y1="130" x2="548" y2="130" stroke="#0f766e" stroke-width="2.5" marker-end="url(#arr-teal)"/>
+  <text x="366" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#0f766e">POST /backchannel_logout</text>
+  <text x="366" y="212" text-anchor="middle" font-size="10" fill="#0f766e">Content-Type: application/x-www-form-urlencoded</text>
+
+  <!-- RP Server -->
+  <rect x="552" y="30" width="198" height="200" rx="10" fill="#f0fdf4" stroke="#15803d" stroke-width="2"/>
+  <text x="651" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">RP Server</text>
+  <text x="651" y="72" text-anchor="middle" font-size="10" fill="#16a34a">app-b.example.com</text>
+
+  <!-- Validation checklist -->
+  <text x="562" y="94" font-size="10" font-weight="600" fill="#374151">Validate:</text>
+  <text x="567" y="110" font-size="10" fill="#15803d">✓ verify JWT signature (JWKS)</text>
+  <text x="567" y="125" font-size="10" fill="#15803d">✓ iss, aud, exp</text>
+  <text x="567" y="140" font-size="10" fill="#15803d">✓ events claim present</text>
+  <text x="567" y="155" font-size="10" fill="#15803d">✓ no nonce claim</text>
+  <text x="567" y="170" font-size="10" fill="#15803d">✓ jti not seen before</text>
+  <text x="567" y="185" font-size="10" fill="#15803d">✓ find session by sid / sub</text>
+  <text x="567" y="200" font-size="10" fill="#15803d">✓ invalidate session</text>
+
+  <!-- 200 OK response arrow -->
+  <line x1="550" y1="240" x2="187" y2="240" stroke="#15803d" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <text x="368" y="234" text-anchor="middle" font-size="11" fill="#15803d">200 OK  +  Cache-Control: no-store</text>
+
+</svg>
