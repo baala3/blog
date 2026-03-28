@@ -1,6 +1,6 @@
 ---
 title: 'OAuth 2.0 Dynamic Client Registration: RFC 7591, 7592'
-date: "2026-03-28T00:00:00Z"
+date: "2026-02-28T00:00:00Z"
 url: "/blogs/oauth2-dynamic-client-registration"
 description: "Static OAuth client registration breaks at scale. RFC 7591 and 7592 define how clients register and manage themselves at runtime, with no admin portal required."
 tldr: "RFC 7591 defines a single HTTP endpoint where clients register themselves with an authorization server at runtime. RFC 7592 adds read, update, and delete operations on that registration. Together they remove the human from client provisioning."
