@@ -1,0 +1,95 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="at" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0, 6 2.5, 0 5" fill="#22d3ee"/>
+    </marker>
+    <marker id="ai" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0, 6 2.5, 0 5" fill="#6366f1"/>
+    </marker>
+    <pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0L0 0 0 30" fill="none" stroke="white" stroke-width="0.5" stroke-opacity="0.03"/>
+    </pattern>
+    <linearGradient id="topbar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="500" fill="#0d1117"/>
+  <rect width="500" height="500" fill="url(#g)"/>
+
+  <!-- Glow blobs -->
+  <ellipse cx="250" cy="190" rx="220" ry="160" fill="#6366f1" fill-opacity="0.07"/>
+  <ellipse cx="360" cy="390" rx="160" ry="110" fill="#8b5cf6" fill-opacity="0.05"/>
+
+  <!-- Top accent bar -->
+  <rect width="500" height="4" fill="url(#topbar)"/>
+
+  <!-- Icon: Client doc + arrow + Auth Server -->
+  <!-- Client document shape -->
+  <rect x="154" y="62" width="52" height="64" rx="5" fill="#161b22" stroke="#6366f1" stroke-width="2"/>
+  <line x1="164" y1="79" x2="197" y2="79" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.55"/>
+  <line x1="164" y1="90" x2="197" y2="90" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.55"/>
+  <line x1="164" y1="101" x2="192" y2="101" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.55"/>
+  <line x1="164" y1="112" x2="185" y2="112" stroke="#6366f1" stroke-width="1.5" stroke-opacity="0.35"/>
+  <!-- Registration badge -->
+  <circle cx="154" cy="62" r="12" fill="#0d1117" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="154" y="67" font-family="monospace" font-size="14" fill="#6366f1" text-anchor="middle" font-weight="700">+</text>
+
+  <!-- Arrow -->
+  <line x1="209" y1="94" x2="278" y2="94" stroke="#22d3ee" stroke-width="2" marker-end="url(#at)"/>
+  <text x="244" y="86" font-family="monospace" font-size="9" fill="#67e8f9" text-anchor="middle">POST</text>
+  <text x="244" y="106" font-family="monospace" font-size="9" fill="#67e8f9" text-anchor="middle">/register</text>
+
+  <!-- Auth Server box -->
+  <rect x="282" y="65" width="60" height="58" rx="5" fill="#161b22" stroke="#8b5cf6" stroke-width="2"/>
+  <line x1="290" y1="78" x2="334" y2="78" stroke="#8b5cf6" stroke-width="1.5" stroke-opacity="0.55"/>
+  <line x1="290" y1="88" x2="334" y2="88" stroke="#8b5cf6" stroke-width="1.5" stroke-opacity="0.55"/>
+  <line x1="290" y1="98" x2="334" y2="98" stroke="#8b5cf6" stroke-width="1.5" stroke-opacity="0.55"/>
+  <line x1="290" y1="108" x2="334" y2="108" stroke="#8b5cf6" stroke-width="1.5" stroke-opacity="0.35"/>
+
+  <!-- Main acronym -->
+  <text x="250" y="213" font-family="monospace" font-size="60" font-weight="700" fill="#f0f6fc" text-anchor="middle" letter-spacing="6">DCR</text>
+
+  <!-- Divider -->
+  <line x1="100" y1="232" x2="400" y2="232" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Subtitle -->
+  <text x="250" y="260" font-family="system-ui,-apple-system,sans-serif" font-size="16" fill="#8b949e" text-anchor="middle" font-weight="500">Dynamic Client Registration</text>
+
+  <!-- Tag pills -->
+  <rect x="74" y="278" width="80" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="114" y="294" font-family="monospace" font-size="11" fill="#818cf8" text-anchor="middle">RFC 7591</text>
+  <rect x="164" y="278" width="80" height="24" rx="12" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="204" y="294" font-family="monospace" font-size="11" fill="#a78bfa" text-anchor="middle">RFC 7592</text>
+  <rect x="254" y="278" width="62" height="24" rx="12" fill="#22d3ee" fill-opacity="0.1" stroke="#22d3ee" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="285" y="294" font-family="monospace" font-size="11" fill="#67e8f9" text-anchor="middle">OAuth</text>
+  <rect x="326" y="278" width="76" height="24" rx="12" fill="#3fb950" fill-opacity="0.1" stroke="#3fb950" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="364" y="294" font-family="monospace" font-size="11" fill="#56d364" text-anchor="middle">Security</text>
+
+  <!-- Separator -->
+  <line x1="100" y1="334" x2="400" y2="334" stroke="#21262d" stroke-width="1"/>
+
+  <!-- Mini flow: Client → /register → Auth Server -->
+  <rect x="46" y="354" width="94" height="38" rx="6" fill="#161b22" stroke="#6366f1" stroke-width="1.2"/>
+  <text x="93" y="377" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#f0f6fc" text-anchor="middle" font-weight="500">Client</text>
+
+  <line x1="140" y1="373" x2="172" y2="373" stroke="#6366f1" stroke-width="1.5" marker-end="url(#ai)"/>
+
+  <rect x="172" y="354" width="110" height="38" rx="6" fill="#161b22" stroke="#22d3ee" stroke-width="1.2"/>
+  <text x="227" y="370" font-family="monospace" font-size="10" fill="#67e8f9" text-anchor="middle">POST</text>
+  <text x="227" y="384" font-family="monospace" font-size="10" fill="#67e8f9" text-anchor="middle">/register</text>
+
+  <line x1="282" y1="373" x2="314" y2="373" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#at)"/>
+
+  <rect x="314" y="354" width="120" height="38" rx="6" fill="#161b22" stroke="#8b5cf6" stroke-width="1.2"/>
+  <text x="374" y="370" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#f0f6fc" text-anchor="middle" font-weight="500">Auth</text>
+  <text x="374" y="384" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#f0f6fc" text-anchor="middle" font-weight="500">Server</text>
+
+  <!-- Response label -->
+  <text x="250" y="420" font-family="monospace" font-size="9" fill="#484f58" text-anchor="middle">201: client_id + client_secret + registration_access_token</text>
+
+  <!-- Footer -->
+  <text x="250" y="462" font-family="monospace" font-size="10" fill="#30363d" text-anchor="middle">rfc7591 · rfc7592 · oauth2.0</text>
+</svg>
