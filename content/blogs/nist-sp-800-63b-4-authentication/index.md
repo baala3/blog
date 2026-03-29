@@ -16,27 +16,25 @@ classes:
 - feature-mermaid
 ---
 
-"We have MFA" is not a security posture. It's a starting point. SMS OTP is MFA. A hardware key is MFA. They are not equivalent, and treating them as equivalent is how you end up with a system that passes an audit but falls to a $10 phishing kit. <!--more-->
-
-[NIST SP 800-63B-4](https://pages.nist.gov/800-63-4/sp800-63b.html) is the authentication volume of the 800-63-4 suite. It defines exactly what authenticator types qualify at each assurance level, what phishing resistance actually requires, and what your session and recovery policies need to look like. It also officially bans password composition rules and explicitly supports passkeys, two things that were murky or missing in the 2017 version.
+[NIST SP 800-63B-4](https://pages.nist.gov/800-63-4/sp800-63b.html) is the authentication volume of the 800-63-4 suite. It defines exactly what authenticator types qualify at each assurance level, what phishing resistance actually requires, and what your session and recovery policies need to look like. <!--more-->It officially bans password composition rules and explicitly supports passkeys, both of which were unclear or missing in the 2017 version.
 
 ---
 
 **Series: NIST SP 800-63-4**
-- Part 1: [SP 800-63-4 — The Framework, Assurance Levels, and Risk Management](/blogs/nist-sp-800-63-4-overview)
-- Part 2: [SP 800-63A-4 — Identity Proofing and Enrollment](/blogs/nist-sp-800-63a-4-identity-proofing)
-- **Part 3 (this blog):** SP 800-63B-4 — Authentication and Authenticator Management
-- Part 4: [SP 800-63C-4 — Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
+- Part 1: [SP 800-63-4 => The Framework, Assurance Levels, and Risk Management](/blogs/nist-sp-800-63-4-overview)
+- Part 2: [SP 800-63A-4 => Identity Proofing and Enrollment](/blogs/nist-sp-800-63a-4-identity-proofing)
+- **Part 3 (this blog):** SP 800-63B-4 => Authentication and Authenticator Management
+- Part 4: [SP 800-63C-4 => Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
 
 ---
 
 # The Problem 800-63B Is Solving
 
-Standard MFA was designed for a world where attackers tried to steal passwords. Credential stuffing, brute force, password reuse across breaches: all of that is neutralized when the user also needs a second factor.
+Traditional MFA was designed for a different threat model, one where attackers mainly tried to steal passwords. Attacks like credential stuffing, brute force, and password reuse across breaches are largely mitigated when users must provide a second factor.
 
-That world still exists, but it's not the main threat anymore. The dominant attack patterns now are:
+That threat still exists, but it’s no longer the main one. Today, many successful attacks focus on phishing users in real time, even when MFA is enabled.
 
-**Phishing with real-time proxies.** Adversary-in-the-middle (AiTM) toolkits (Evilginx, Modlishka, and their commercial successors) sit between the user and the legitimate site. The user types their password and TOTP code into what looks like the real site. The proxy forwards those credentials to the real site in real time, logs in, and harvests the session token. The MFA code was valid, it was used, and the attacker is now authenticated. TOTP doesn't help here.
+**Phishing with real-time proxies.** Adversary-in-the-middle (AiTM) toolkits (Evilginx, Modlishka, and their commercial successors) sit between the user and the legitimate site. The user types their password and TOTP code into what looks like the real site. The proxy forwards those credentials to the real site in real time, logs in, and captures the session token. The MFA code was valid, it was used, and the attacker is now authenticated. TOTP doesn't help here.
 
 ```mermaid
 sequenceDiagram
@@ -51,23 +49,24 @@ sequenceDiagram
     Note over P: Attacker holds a valid<br/>authenticated session
 ```
 
-**Push notification fatigue.** Flood a user with MFA push requests until they approve one to make it stop. No phishing site required.
+**Push notification fatigue:** Attackers repeatedly send MFA MFA push requests until they approve one to make just stop notifications. No phishing site required here.
 
-**SIM swap.** Convince a carrier to transfer the target's phone number to an attacker-controlled SIM. Now SMS OTP goes to the attacker.
+**SIM swap:** The attacker convinces the mobile carrier to transfer the victim’s phone number to a SIM they control. Once that happens, SMS OTP codes go directly to the attacker.
 
-The common thread: none of these attacks are blocked by MFA that isn't phishing-resistant. "You have MFA" only matters if the MFA can't be relayed, replayed, or socially engineered away.
+The common thread: MFA that isn’t phishing-resistant can still be bypassed.
+Saying “we have MFA” only matters if the second factor cannot be relayed, replayed, or socially engineered.
 
-800-63B-4 is structured around this distinction. It doesn't just categorize authenticator types by strength. It asks whether authentication is phishing-resistant, and makes that a hard requirement at the higher assurance levels.
+800-63B-4 is built around this distinction. Instead of only ranking authenticators by strength, it also asks a key question: "Is the authentication method phishing-resistant?". At higher assurance levels, phishing resistance becomes a hard requirement, not just a recommendation.
 
 ---
 
 # Authentication Assurance Levels
 
-**AAL1: Basic confidence.** Single-factor or multi-factor authentication. The verifier confirms the claimant controls an authenticator bound to the subscriber account. Most consumer logins are AAL1. Reauthentication is required every 30 days.
+**AAL1: Basic confidence.** Authentication requires one or more factors. The system verifies that the user controls an authenticator linked to their account. Most consumer logins are AAL1. Reauthentication is required every 30 days.
 
-**AAL2: High confidence.** Two distinct authentication factors required. A phishing-resistant authenticator option must be offered (though users can choose other options). Reauthentication every 24 hours, with a 1-hour inactivity timeout.
+**AAL2: High confidence.** Authentication requires two distinct factors. The system must also offer at least one phishing-resistant option, though users may choose other methods. Reauthentication every 24 hours, with a 1-hour inactivity timeout.
 
-**AAL3: Very high confidence.** Cryptographic key-based authentication using a hardware-bound, non-exportable private key. Phishing resistance is mandatory, not optional. Reauthentication every 12 hours, with a 15-minute inactivity timeout.
+**AAL3: Very high confidence.** Authentication requires hardware-based cryptographic authentication using a non-exportable private key. Phishing resistance is mandatory. Reauthentication every 12 hours, with a 15-minute inactivity timeout.
 
 | | AAL1 | AAL2 | AAL3 |
 |---|---|---|---|
@@ -76,7 +75,7 @@ The common thread: none of these attacks are blocked by MFA that isn't phishing-
 | Session timeout (absolute) | 30 days | 24 hours | 12 hours |
 | Inactivity timeout | Not specified | 1 hour | 15 minutes |
 
-The common mistake is deploying SMS OTP as a second factor and declaring AAL2 compliance. SMS OTP is a permitted authenticator at AAL2, but AAL2 also requires that a phishing-resistant option be offered. If SMS is the only option, you're not fully compliant. More on this in the authenticator sections below.
+The common mistake is deploying SMS OTP as a second factor and calling it AAL2. SMS OTP is allowed at AAL2, but the spec also requires that users be offered a phishing-resistant authenticator. If SMS is the only option, the system is not fully compliant. We’ll look more about these in next sections below.
 
 ---
 
@@ -86,31 +85,33 @@ The spec defines two categories: single-factor and multi-factor. Within each, th
 
 ## Single-Factor Authenticators
 
-**Memorized secret (password):** Something you know. The most common authenticator. Minimum 15 characters for single-factor use. Discussed in detail in the next section.
+**Memorized secret (password):** Something the user knows. This is the most common authenticator. For single-factor use, the minimum length is 15 characters.
 
-**Look-up secrets:** A pre-shared list of one-time codes (think backup codes or printed recovery codes). Valid at AAL1 and AAL2.
+**Look-up secrets:** A pre-generated list of one-time codes, such as backup or recovery codes. These can be stored or printed and used if the main authenticator is unavailable (valid at AA1 & AA2).
 
-**Out-of-band (OOB):** Authentication via a separate channel: SMS, voice call, or mobile push notification. The spec permits these at AAL1 and AAL2 but explicitly acknowledges their risks. Not phishing-resistant.
+**Out-of-band (OOB):** Authentication happens through a separate communication channel, such as SMS, voice call, or mobile push notification. Allowed at AAL1 and AAL2, but the spec clearly notes the security risks. These methods are not phishing-resistant.
 
-**Single-factor OTP:** A time-based (TOTP) or counter-based (HOTP) one-time code from a hardware token or authenticator app. Valid at AAL1 and AAL2. Not phishing-resistant.
+**Single-factor OTP:** A one-time code generated by an authenticator, typically TOTP or HOTP, using a hardware token or an authenticator app. Valid at AAL1 and AAL2, but also not phishing-resistant.
 
-**Single-factor cryptographic:** A hardware or software cryptographic device that requires proof of key possession. When the key is hardware-bound and non-exportable (a hardware security key used without a PIN), this qualifies at AAL1/AAL2 but not AAL3 on its own (AAL3 requires two factors).
+**Single-factor cryptographic:** A device that proves possession of a cryptographic key. This can be implemented in hardware or software. If private key is hardware bound and non exportable (for ex:, a hardware security key used without a PIN), it can qualify at AAL1 or AAL2. However, it does not meet AAL3 by itself, because AAL3 requires two factors.
 
 ## Multi-Factor Authenticators
 
-**Multi-factor OTP:** An OTP device that requires activation via a second factor before generating codes (PIN or biometric to unlock the token). Valid at AAL2.
+**Multi-factor OTP:** An OTP device that requires activation with a second factor (such as a PIN or biometric) before it generates the code. Valid at AAL2.
 
-**Multi-factor out-of-band:** A push authenticator that requires a PIN or biometric before approving the request. Not phishing-resistant.
+**Multi-factor out-of-band:** A push-based authenticator that requires the user to enter a PIN or use a biometric before approving the request. still not phishing-resistant.
 
-**Multi-factor cryptographic:** A hardware or software cryptographic device requiring activation (PIN, biometric). Hardware-bound and non-exportable variants satisfy AAL3 as a single authenticator.
+**Multi-factor cryptographic:** A cryptographic device that requires activation (PIN or biometric) before using the private key. This can be hardware or software based. When the key is hardware-bound and non-exportable, it can satisfy AAL3 as a single authenticator.
 
-**Biometric paired with physical authenticator:** A biometric that activates a cryptographic device. The biometric is not a separate factor: it's an activation mechanism for the physical authenticator.
+**Biometric paired with physical authenticator:** Here, the biometric unlocks a cryptographic device (for example, a fingerprint unlocking a security key or device credential). The biometric itself is not considered a separate factor. It simply acts as an activation mechanism for the physical authenticator.
 
 ## The Biometric Clarification
 
-Biometrics are not an independent authentication factor in this framework. A fingerprint or face scan doesn't prove possession of a key or knowledge of a secret. It unlocks access to a physical authenticator that does.
+In this framework, biometrics are not treated as a standalone authentication factor. A fingerprint or face scan doesn’t prove that the user possesses a cryptographic key or knows a secret. Instead, it unlocks access to a physical authenticator that performs the actual authentication.
 
-This matters for AAL claims. "We use Face ID" doesn't mean your system does biometric authentication at the authentication layer. It means the device requires a biometric to access the key stored on that device. The authentication factor is the key, activated by the biometric.
+This distinction matters when claiming assurance levels. For example, saying “we use Face ID” doesn’t mean your system performs biometric authentication at the protocol level. It usually means the device requires a biometric to unlock the private key stored on that device.
+
+In other words, the authentication factor is the key, and the biometric simply activates it.
 
 ## AAL Compatibility Matrix
 
@@ -129,27 +130,27 @@ This matters for AAL claims. "We use Face ID" doesn't mean your system does biom
 
 # The Password Rules Have Changed
 
-The 2017 guidelines started shifting password policy away from the composition-rule orthodoxy. 800-63B-4 finishes the job.
+Earlier guidelines started moving away from strict password composition rules. NIST SP 800-63B-4 finishes that shift and defines a simpler, more practical policy.
 
 **Minimum length:**
-- 15 characters for single-factor (password-only) use
+- 15 characters for single-factor (password-only) authentication
 - 8 characters when used as part of multi-factor authentication
 
-**No composition rules.** Verifiers must not require mixtures of character types (uppercase, lowercase, numbers, symbols). The security argument for composition rules was always weak: they push users toward predictable substitutions (`P@ssw0rd`, `Tr0ub4dor`) without meaningfully expanding the effective keyspace. They make passwords harder to remember without making them harder to crack.
+**No composition rules.** Verifiers must not require specific character combinations like uppercase letters, numbers, or symbols. Rules like “one uppercase, one number, one special character” don’t significantly increase security. In practice, users just make predictable substitutions like `P@ssw0rd` or `Tr0ub4dor`. This makes passwords harder to remember without making them much harder to crack.
 
-**No mandatory rotation** unless compromise is suspected or confirmed. Periodic rotation without cause also degrades security in practice: users increment a number at the end or cycle through a short list of variations.
+**No mandatory rotation** Passwords should not require periodic rotation unless there is evidence of compromise. Forced rotation often leads users to make small predictable changes (like incrementing a number at the end), which weakens security rather than improving it.
 
-**Blocklist requirement.** Verifiers must check new passwords against a list of known-compromised credentials. This means checking against breach databases like [Have I Been Pwned](https://haveibeenpwned.com/) or equivalent. Common passwords, dictionary words, and contextual guesses (username, service name) should also be blocked.
+**Blocklist requirement.** Verifiers must check new passwords against list of known-compromised credentials. This means checking against breach databases like [Have I Been Pwned](https://haveibeenpwned.com/) or something. Common passwords, dictionary words, and contextual guesses (username, service name) should also be blocked.
 
-**Accept all printable ASCII and Unicode.** No character restrictions. And critically: verifiers must support paste. Blocking paste is a direct attack on password manager usability, which degrades real-world security.
+**Accept all printable ASCII and Unicode.** Systems should accept all printable ASCII and Unicode characters and avoid unnecessary restrictions. Also, password paste must be allowed. Blocking paste makes password managers harder to use, which reduces real-world security.
 
-If your system still enforces `Password must contain at least one uppercase letter, one number, and one special character`, that's now explicitly out of spec. The fix is straightforward: remove the composition check, add a minimum length and a blocklist check.
+If your system still enforces `Password must contain at least one uppercase letter, one number, and one special character`, that's now explicitly out of spec. The fix is simple: remove the composition check, add a minimum length and blocklist check.
 
 ---
 
 # Phishing Resistance: What It Actually Means
 
-Phishing resistance means the authenticator's output is cryptographically bound to the specific origin it was issued for, so it can't be relayed to a different site.
+Phishing resistance means the authenticator's output is cryptographically bound to the specific site it was issued for, Because of this binding, the authentication response cannot be replayed or relayed to another site.
 
 The spec recognizes two mechanisms:
 
@@ -157,7 +158,7 @@ The spec recognizes two mechanisms:
 
 The authenticator's output is cryptographically bound to the verified domain name of the verifier. When a browser-based authenticator (like a passkey) generates a signature, it includes the origin (the `rpId` in [WebAuthn](https://www.w3.org/TR/webauthn-3/) terms). The signature is only valid for that specific origin.
 
-If an attacker sets up `yourbank-secure.com` and proxies the login, the passkey will refuse to sign: the origin doesn't match the registered `rpId`. The proxy gets nothing useful.
+If an attacker sets up `yourbank-secure.com` and proxies the login, the passkey will refuse to sign: the origin doesn't match the registered `rpId`. The proxy gets no usable authentication response, and the attack fails.
 
 This is how passkeys work. The private key is bound to the relying party ID at registration time. Authentication at a different origin produces a signature that the real server will reject, because the assertion was made for a different domain.
 
@@ -176,37 +177,37 @@ sequenceDiagram
 
 ## Channel Binding
 
-The authenticator's output is bound to the specific TLS session between the client and the verifier. Even if an attacker proxies the connection, the binding breaks at the TLS layer: the client's session is with the proxy, not the real server, so the bound output won't verify.
+In Channel Binding the authenticator's output is bound to the specific TLS session b/w client and verifier. Even if an attacker proxies the connection, the binding breaks at the TLS layer: the client's session is with the proxy, not the real server, so the bound output won't verify.
 
 Channel binding is stronger than verifier name binding because it operates at the transport layer, not the application layer. But it's also more complex to implement and less widely deployed.
 
 ## What Is Not Phishing-Resistant
 
-TOTP codes are not phishing-resistant. They're time-bounded, but they can be proxied in real time. An AiTM proxy receives the TOTP from the victim, forwards it to the real site immediately, and the code is valid.
+**TOTP codes:** Time-based one-time passwords can still be proxied in real time. An adversary-in-the-middle attack captures the code from the victim and immediately forwards it to the real site.
 
-Push notifications are not phishing-resistant. The approval is tied to the authentication request, not to a specific origin or session.
+**Push notifications** are not phishing-resistant. The approval is tied to the authentication request, not to a specific origin or session.
 
-SMS OTP is not phishing-resistant, and has additional risks (SIM swap, SS7 interception) on top of that.
+**SMS OTP** is not phishing-resistant, and has additional risks (SIM swap, SS7 interception) on top of that.
 
-At AAL2, you must offer a phishing-resistant authenticator option. At AAL3, the phishing-resistant authenticator is the only option.
+At AAL2, you must offer a phishing resistant authenticator option. At AAL3, the phishing resistant authenticator is the only option.
 
 ---
 
 # Syncable Authenticators (Passkeys) Are Now Explicitly Supported
 
-800-63-3 was ambiguous about whether authenticators with exportable private keys could meet its requirements. The concern was: if the key can leave the device, the device-possession guarantee weakens. Some security teams interpreted this as prohibiting passkeys entirely. Others allowed them with caveats. Neither was clearly right.
+Earlier versions of guidelines left some ambiguity around authenticators with exportable private keys. The concern was simple: if private key can leave the device, the guarantee of device possession becomes weaker. Because of this, some security teams avoided passkeys entirely, while others allowed them with restrictions.
 
-800-63B-4 resolves this: syncable authenticators are explicitly permitted at AAL2, subject to conditions.
+800-63B-4 clarifies this: syncable authenticators are explicitly permitted at AAL2, as long as certain conditions are met.
 
 **The conditions:**
 
-- Sync must be to an account or device bound to the subscriber. Apple iCloud Keychain syncing your passkeys to your other Apple devices is fine. Exporting a passkey to an arbitrary third party is not.
+- Sync must be tied to the subscriber’s account or devices. Apple iCloud Keychain syncing your passkeys to your other Apple devices is fine. Exporting a passkey to an arbitrary third party is not.
 - Sync must be end-to-end encrypted. The sync provider must not have access to the private key in plaintext.
-- The CSP must assess and accept the risk profile of the sync provider. This is a judgment call, but it means you can't just say "we support any passkey" and ignore where those keys are stored.
+- The CSP must evaluate the sync provider’s risk profile. Supporting passkeys means accepting where and how those keys are stored. It cannot be treated as completely neutral choice.
 
-**The AAL3 ceiling remains.** Non-exportable keys are still required at AAL3. A passkey synced via iCloud Keychain satisfies AAL2. A YubiKey or other hardware security key with a non-exportable key satisfies AAL3.
+**AAL3 still requires hardware-bound keys.** The restriction at AAL3 remains unchanged: private keys must be hardware bound and non exportable. So passkey synced via iCloud Keychain satisfies AAL2. A YubiKey or other hardware security key with non-exportable key satisfies AAL3.
 
-In practice: if you're building a consumer-facing application that needs AAL2, passkeys are the right default. They're phishing-resistant, they don't require users to manage a hardware token, and they handle device migration better than most alternatives. For internal tools or high-stakes systems that need AAL3, you need hardware.
+For most consumer applications targeting AAL2, passkeys are a strong default. They are phishing-resistant, easier for users than hardware tokens, and handle device migration more smoothly. For internal tools or high-risk systems requiring AAL3, dedicated hardware security keys are still necessary.
 
 If you want more depth on passkeys specifically, the [passkey introduction blog](/blogs/passkey-introduction) covers the WebAuthn registration and authentication ceremonies.
 
@@ -214,21 +215,21 @@ If you want more depth on passkeys specifically, the [passkey introduction blog]
 
 # Out-of-Band Authenticators and Their Limits
 
-SMS OTP, voice calls, and push notifications are all "out-of-band" authenticators: they use a separate communication channel from the primary login flow. The spec permits them at AAL1 and AAL2, but it's explicit about their weaknesses.
+SMS OTP, voice calls, and push notifications are all "out-of-band" authenticators: they use a separate communication channel from the primary login flow. The spec permits them at AAL1 and AAL2, but it also clearly documents their limitations.
 
-**SMS OTP** is vulnerable to SIM swap attacks (attacker takes over your phone number) and SS7-based interception (theoretical for most threat models, practical for high-value targets). The spec acknowledges these risks and permits SMS anyway at AAL2, with the requirement that a phishing-resistant option is also offered.
+**SMS OTP** is vulnerable to SIM swap attacks (attacker takes over victim’s phone number) and SS7-based interception (theoretical for most threat models, practical for high-value targets). The spec acknowledges these risks and permits SMS anyway at AAL2, with the requirement that phishing-resistant option is also required.
 
-The practical guidance: don't build SMS as your only MFA option at AAL2. It can be an option, but users who need higher assurance should have a path to a phishing-resistant authenticator.
+The practical guidance: don't build SMS as your only MFA option at AAL2. It can be an option, but users who need higher assurance should phishing-resistant authenticator option.
 
-**Push notifications** are convenient but not phishing-resistant. They're also vulnerable to approval fatigue attacks. The spec permits them at AAL2 as a second factor, but they don't satisfy the phishing-resistance offer requirement on their own.
+**Push notifications** are convenient but not phishing-resistant and can be abused through approval fatigue attacks. They are allowed at AAL2 as a second factor, but do not satisfy the phishing-resistant requirement on their own.
 
-**Same-device vs out-of-band.** The "out-of-band" security model assumes the second channel is independent of the first. If the user is logging in on their phone and the push notification goes to the same phone, you've lost the out-of-band property. The spec doesn't prohibit same-device flows, but it's worth understanding that the threat model is different: same-device delivery doesn't protect against malware that controls the device.
+**Same-device vs out-of-band.** The OOB model assumes the second channel is independent. If login and push approval happen on the same device, that separation disappears. The spec allows this, but the threat model changes: malware controlling the device could potentially control both factors.
 
 ---
 
 # Session Management
 
-Authentication produces a session. Sessions need lifecycle management. The spec is specific about timeout requirements at each AAL.
+Authentication creates session, and sessions need clear lifecycle rules. The spec defines timeout requirements at each AAL.
 
 **AAL1:** Reauthentication required at least every 30 days. No inactivity timeout specified (though good practice is to have one).
 
@@ -236,25 +237,25 @@ Authentication produces a session. Sessions need lifecycle management. The spec 
 
 **AAL3:** Reauthentication required after 12 hours regardless of activity. If inactive for 15 minutes, reauthentication is required.
 
-The distinction between an **absolute timeout** (session expires after X hours from creation) and an **idle timeout** (session expires after X minutes of no activity) matters here. AAL2 and AAL3 both require both. An active user who has been logged in for 25 hours at AAL2 must reauthenticate, even if they've been actively using the service.
+The spec distinguishes between **absolute timeouts** (session expires after a fixed time from creation) and **idle timeouts** (session expires after a period of inactivity). AAL2 and AAL3 require both. For example, at AAL2 a user must reauthenticate after 24 hours even if they have been continuously active.
 
 **Step-up authentication** is the right pattern for high-risk actions within a session. Rather than requiring the user to fully reauthenticate for every sensitive operation, you confirm they still control their authenticator at the moment of the sensitive action. Accessing payment settings, changing email address, or approving a large transaction are all candidates for step-up. The step-up challenge should be at the same AAL as the session.
 
-**Session binding** requirements: sessions must be bound to the assertion from the verifier, and the verifier must be the expected one (relevant for federated flows, covered in Blog 4).
+**Session binding** Sessions must be bound to verifier’s authentication assertion, and verifier must be the expected one (especially important in federated login flows, covered in blog4).
 
 ---
 
 # Account Recovery Without Undermining AAL
 
-Account recovery is where authentication security most often collapses. The effort that went into an AAL2 login flow is wasted if the recovery path bypasses it.
+Account recovery is where authentication security often breaks down. A strong AAL2 login flow doesn’t help if the recovery path bypasses it.
 
-The rule is straightforward: recovery must not allow access at a higher assurance level than what the recovery mechanism itself provides. If you recover an account with an email link (roughly AAL1 equivalent), you shouldn't immediately have full AAL2 access to the account. The session established through recovery should be appropriately constrained until the subscriber re-establishes their full authenticator.
+The rule is simple: recovery must not grant higher assurance level than the recovery method itself provides. For ex: If you recover an account with an email link (roughly AAL1 equivalent), you shouldn't immediately have full AAL2 access to the account. The session created through recovery should remain limited until the user re-establishes their authenticator.
 
-**Knowledge-based verification (security questions) is prohibited.** The same reasoning that prohibits KBV in identity proofing (Blog 2) applies here. The answers are often derivable from public records, social media, or previous data breaches. "What was your childhood pet's name?" is not a meaningful security control for account recovery.
+**Knowledge-based verification (security questions) is prohibited.** The same reasoning that prohibits KBV in identity proofing (Blog 2) applies here. The answers are often discoverable from public records, social media, or previous data breaches. "What was your childhood pet's name?" is not a meaningful security control for account recovery.
 
-**Acceptable recovery at AAL2** looks like: a verified communication channel (email or phone number established during enrollment), combined with requiring the subscriber to register a new authenticator after access is restored. The recovery step proves they control the registered contact, not that they can authenticate at AAL2 immediately.
+**Acceptable recovery at AAL2** typically uses a verified communication channel (such as the email or phone number registered during enrollment). After access is restored, the user must register a new authenticator. The recovery step proves control of the contact channel, not immediate AAL2 authentication.
 
-**Acceptable recovery at AAL3** is harder and more restrictive. Because AAL3 requires a specific hardware-bound key, losing that key is a serious event. Recovery options include: a pre-registered backup hardware key, recovery codes stored at enrollment time, or an in-person identity reverification process. The bar is high by design.
+**Acceptable recovery at AAL3** is more restrictive. Because AAL3 depends on a hardware-bound key, losing that key is a serious event. Recovery options include: a pre-registered backup hardware key, recovery codes stored at enrollment time, or an in-person identity reverification process.
 
 ---
 
@@ -262,12 +263,14 @@ The rule is straightforward: recovery must not allow access at a higher assuranc
 
 The practical takeaway from 800-63B-4 is a hierarchy of authenticator strength:
 
-1. **Hardware security key (non-exportable):** AAL3 capable. Phishing-resistant via verifier name binding. Required for the highest assurance use cases.
-2. **Passkey (platform authenticator, synced):** AAL2 capable. Phishing-resistant. The right default for consumer-facing systems that need to balance security and usability.
+1. **Hardware security key (non-exportable):** AAL3 capable and phishing-resistant via verifier name binding. Required for the highest assurance use cases.
+2. **Passkey (platform authenticator, synced):** AAL2 capable and Phishing-resistant. The right default for consumer facing systems that need to balance security and usability.
 3. **TOTP / authenticator app:** AAL2 capable, but not phishing-resistant. Better than SMS, not as good as a passkey.
-4. **SMS OTP / push notification:** AAL1/AAL2 permitted, with acknowledged weaknesses. Acceptable as one option; not acceptable as the only option at AAL2.
+4. **SMS OTP / push notification:** AAL1/AAL2 allowed, with acknowledged weaknesses. Acceptable as one option; not acceptable as the only option at AAL2.
 5. **Password alone:** AAL1 only, with specific length requirements and mandatory blocklist checking.
 
 If you're auditing an existing system: check whether your AAL2 offering includes a phishing-resistant option, verify your password policy doesn't enforce composition rules, confirm your session timeouts are correct for the AAL you're targeting, and make sure your recovery path doesn't undercut the assurance level you've built.
 
-Blog 4 covers what happens after authentication: how that authentication event is conveyed across trust boundaries via federation, what the assertion security requirements look like, and how the new subscriber-controlled wallet model changes the IdP's role.
+Blog 4 covers what happens after authentication: how that authentication event is passed across trust boundaries via federation, what the assertion security requirements look like, and how the new subscriber-controlled wallet model changes the IdP's role.
+
+bye, bye!!

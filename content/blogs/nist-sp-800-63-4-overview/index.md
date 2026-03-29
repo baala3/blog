@@ -22,10 +22,10 @@ Most engineers think about identity in two terms: the user is authenticated or t
 ---
 
 **Series: NIST SP 800-63-4**
-- **Part 1 (this blog):** The framework, assurance levels, and risk management model
-- Part 2: [SP 800-63A-4 — Identity Proofing and Enrollment](/blogs/nist-sp-800-63a-4-identity-proofing)
-- Part 3: [SP 800-63B-4 — Authentication and Authenticator Management](/blogs/nist-sp-800-63b-4-authentication)
-- Part 4: [SP 800-63C-4 — Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
+- **Part 1 (this blog):** 800-63-4 => The framework, assurance levels, and risk management model
+- Part 2: [SP 800-63A-4 => Identity Proofing and Enrollment](/blogs/nist-sp-800-63a-4-identity-proofing)
+- Part 3: [SP 800-63B-4 => Authentication and Authenticator Management](/blogs/nist-sp-800-63b-4-authentication)
+- Part 4: [SP 800-63C-4 => Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
 
 ---
 
@@ -37,8 +37,8 @@ NIST's framing is different. Identity failure causes concrete harm: financial lo
 
 SP 800-63-4 is the fourth major version of these guidelines, published in July 2025 after nearly four years of revisions and roughly 6,000 public comments. The previous version (800-63-3, published in 2017) held up reasonably well, but due to shift in threat landscape, significant updates were introduced:
 
-- **Fraud prevention** is now a first-class requirement, not an optional anymore. CSPs must run active fraud management programs.
-- **Deepfakes and injection attacks** are explicitly addressed. Remote identity proofing now has normative controls for synthetic media and virtual camera spoofing.
+- **Fraud prevention** is now mandatory, not an optional anymore. CSPs must run active fraud management programs, including death record checks, device fingerprinting, transaction analytics, and threat controls.
+- **Deepfakes and injection attacks** controls are required. Remote identity proofing must include detection of virtual cameras, device emulators, and AI-generated media.
 - **Syncable authenticators** (passkeys) are explicitly supported at AAL2, resolving the ambiguity in 800-63-3 that made some teams avoid them.
 - **Subscriber-controlled wallets** are introduced as a new federation model, reflecting the growing verifiable credentials ecosystem.
 - **Privacy and customer experience** requirements are strengthened throughout.
@@ -258,26 +258,10 @@ The pattern: **IAL is about enrollment-time identity proofing, AAL is about runt
 
 ---
 
-# What Changed from 800-63-3
-
-If you're familiar with the 2017 version, here's what's materially different:
-
-**Fraud management is now mandatory.** CSPs must establish comprehensive fraud programs, including death record checks, device fingerprinting, transaction analytics, and insider threat controls. In 800-63-3, fraud controls were largely guidance. In 800-63-4, they're requirements now.
-
-**Deepfake and injection attack controls are required.** Remote identity proofing must include detection of virtual cameras, device emulators, and AI-generated media. This is a direct response to how much synthetic media generation improved between 2017 and 2025.
-
-**Syncable authenticators (passkeys) are explicitly supported.** 800-63-3 was ambiguous about whether exportable keys could meet authenticator requirements. 800-63-4 explicitly permits syncable authenticators at AAL2, with specific conditions around encrypted sync and device binding.
-
-**Subscriber-controlled wallets are first class model.** The verifiable credentials ecosystem didn't really exist in 2017. The wallet model in 800-63-4 reflects where decentralized identity is heading, even if adoption is still early.
-
-**Privacy and customer experience requirements are stronger.** CSPs must assess their processes for access challenges, document mitigations, and periodically reassess. The spec explicitly requires that applicants not be penalized for needing accommodations.
-
----
-
 # Conclusion
 
-Overall these guidelines don't exactlt tells you exactly what to build. But gives you common vocabulary and structured way to think about trade offs. When someone says "we need stronger auth," the framework helps you ask: stronger in what way? For which users? Against which threats? With what impact if it fails?
+Overall these guidelines don't exactly tells you what to build. But gives you common vocabulary and structured way to think about trade offs. When someone says "we need stronger auth," the framework helps you ask: stronger in what way? For which users? Against which threats? With what impact if it fails?
 
 The compliance first instinct is to find minimum required level and implement that. The risk management approach is to understand what you're protecting, decide what level of confidence you actually need, and build accordingly, with documented reasoning you can revisit when things change.
 
-Blogs 2, 3 and 4 go deeper into each volume: identity proofing in 63A, authentication in 63B, and federation in 63C. Each one has its own set of requirements worth understanding in detail.
+upcoming blogs 2, 3 and 4 will go deeper into each volume: identity proofing in 63A, authentication in 63B, and federation in 63C. Each one has its own set of requirements worth understanding in detail...

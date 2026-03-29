@@ -1,7 +1,7 @@
 ---
 title: 'The nuts and bolts of oauth2.0 (part2)'
 date: "2023-06-15T10:52:44+09:00"
-url: "/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p2"
+url: "/blogs/oauth2-nuts-and-bolts-p2"
 description: ""
 tldr: ""
 image: "https://i.ibb.co/dsmwGmhR/image.png"
@@ -14,12 +14,12 @@ categories:
 
 This is part 2 of nuts and bolts of OAuth 2.0, continuing [part 1](https://blog.balashekhar.me/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1/). In this section, I'll explore the client credentials flow for machine-to-machine communication<!--more-->,  dive deep into OAuth scopes and their proper usage, get introduced to OpenID Connect and ID tokens, learn different access token types (reference vs self-encoded), and see how to handle revoked or invalid tokens in OAuth flows that we learned.
 
-Ok! let'z go..
+Ok! let's go..
 
 # OAuth Client Credentials flow
 
 This flow is much simpler compared to authorization code, since there’s no user involved at all. 
-The app just exchanges its own credentials (`client_id` and `client_secre`) with the auth server to get an `access token`, and then uses that token to call APIs. You might think, why not let API server just accept credentials directly? The idea is that API server shouldn’t care about who the caller is, it should only focus on validating an access token and responding. It’s the auth server’s job to handle the credential exchange and issue tokens.
+The app just exchanges its own credentials (`client_id` and `client_secret`) with the auth server to get an `access token`, and then uses that token to call APIs. You might think, why not let API server just accept credentials directly? The idea is that API server shouldn’t care about who the caller is, it should only focus on validating an access token and responding. It’s the auth server’s job to handle the credential exchange and issue tokens.
 
 Typical use cases of this flow include machine-to-machine communication (like one backend service talking to another), or when an app needs credentials to call special endpoints such as the `token introspection` API. In such cases, client credentials act like service account that represents the app itself rather than an individual user.
 
@@ -43,7 +43,7 @@ Sometimes people assume scopes can handle all types of user access control like 
 
 OAuth itself doesn’t tell you how to define scopes. To OAuth, scopes are just strings that flow through the protocol. The meaning of those strings is entirely up to service provider.
 
-A good way is to look at how big services do it. For ex: GitHub defines scopes like `repo:invite`, `repo:read`, `repo:write`. Others use URL fomated scopes like `example/scope/read`. What really matters is that once you define them, you also document them clearly so developers know what each scope means.
+A good way is to look at how big services do it. For ex: GitHub defines scopes like `repo:invite`, `repo:read`, `repo:write`. Others use URL formatted scopes like `example/scope/read`. What really matters is that once you define them, you also document them clearly so developers know what each scope means.
 
 For smaller apps, scopes can be very high-level (e.g: just `read` and `write`). But in larger systems like Google’s ecosystem, scopes are broken down per service (YouTube, Gmail, Drive, etc.), since those APIs are segmented and don’t directly depend on each other.
 
@@ -318,13 +318,13 @@ The authorization server exposes /introspection endpoint (often discoverable via
 
 This centralizes token validation and greatly simplifies the API server logic, the API doesn’t need to parse or understand the token format and just asks “is this valid?” and trusts the answer. The trade-off however, is network latency and overhead. Each validation call is network round trip, which add up in high-traffic especially in distributed systems. 
 
-next, we’ll see faster, more scalable approache to validate tokens that avoid making a network call for every request.
+next, we’ll see faster, more scalable approach to validate tokens that avoid making a network call for every request.
 
 ### 3. <u>Local Token Validation ("fast way")</u>
 
 Local Validation is preferred approach when performance and scalability are imp. While libraries and SDKs make this process easier, it’s useful to understand the underlying steps. First, the API server should never accept tokens with algorithm "none" (explicitly discouraged by the spec). Instead, it should only allow algorithms it’s configured to trust. Each JWT header contains key identifier (kid), which points to signing key used. The authorization server publishes its keys in metadata document (like well-known path), with jwks_uri field providing the location. By fetching this endpoint, the API server can look up the correct key to verify the token signature.
 
-Once signature is validated, the API server must check the token claims. Core claims include iss (issuer), aud (audience), exp (expiration), and iat (issued at), while additional claims may vary depending on API requirements. If all checks pass, the token is considered valid. However, it’s important to remember that local validation only proves the token was valid at the moment it was issued. It acts like `cached snapshot of system state`for, meaning later events (like token revocation or user logout) won’t be reflected unless additional mechanisms are in place.
+Once signature is validated, the API server must check the token claims. Core claims include iss (issuer), aud (audience), exp (expiration), and iat (issued at), while additional claims may vary depending on API requirements. If all checks pass, the token is considered valid. However, it’s important to remember that local validation only proves the token was valid at the moment it was issued. It acts like `cached snapshot of system state`, meaning later events (like token revocation or user logout) won’t be reflected unless additional mechanisms are in place.
 
 ### 4. <u>Best of both Worlds: Using API gateway/middleware</u>
 The API gateway handles all incoming traffic and performing local validation of tokens. This allows the majority of requests to be processed quickly without repeatedly calling the authorization server. However, local validation alone can’t detect revoked tokens, so, even revoked token can still pass this step.
@@ -349,9 +349,8 @@ User experience is as important as security when deciding access token lifetimes
 
 >Note: Access token lifetime is independent of user’s session on OAuth server. so even if user session is still valid, the token may expire, requires a fresh one.
 
-### 2. <u>Contexually choosing token</u>
+### 2. <u>Contextually choosing token</u>
 Token lifetimes can be bind contextually by the authorization server, varying based on the client, user, group, or scope. For ex: admin users may receive shorter-lived tokens to prioritize security (with enforced logins or MFA), while regular customers might get longer sessions for better UX. However, sensitive actions like checkout—can trigger issuance of a short lived scope specific token (e.g., scope=checkout valid for 1 hour), requiring reauthentication with new OAuth flow.
-lo
 
 ---
 
@@ -361,8 +360,8 @@ Access tokens can be revoked before their expiration, for ex: when an admin or u
 
 > Note:
 >
-> - As we know its importannt to indentify the sensitivity of API method and get judment whether we need to call for introspection endpoint or not (to filter out revoked tokens)
-> - reducing token lfetime means reducing the burden of API to worry whether or not its reponsing to revoked tokens incase of local validation.
+> - As we know its important to identify the sensitivity of API method and get judgment whether we need to call for introspection endpoint or not (to filter out revoked tokens)
+> - reducing token lifetime means reducing the burden of API to worry whether or not its responding to revoked tokens incase of local validation.
 
 
 *revocation endpoint*: OAuth 2.0 also defines a dedicated revocation endpoint, which allows apps to explicitly revoke access or refresh tokens. The exact behavior depends on the oauth server: for ex: revoking a refresh token may also cause all access tokens issued from it to be invalidated. This provides a centralized and standardized way for apps and servers to handle token invalidation securely.

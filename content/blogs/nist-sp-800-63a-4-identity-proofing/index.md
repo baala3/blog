@@ -15,19 +15,19 @@ classes:
 - feature-mermaid
 ---
 
-If you have integrated a KYC provider, you've probably been told something like: "the user uploads their ID, we scan it, we do a selfie match, done." That description is not wrong, but it skips over several things that matter when your threat model includes fraud at scale, synthetic media,<!--more-->or users who can't produce a standard government ID.
+[NIST SP 800-63A-4](https://pages.nist.gov/800-63-4/sp800-63a.html) is the identity proofing volume of the 800-63-4 suite. It defines exactly what "verified identity" means at each assurance level, what evidence qualifies, how to handle the cases that break the happy path, and what your fraud program needs to look like. <!--more--> 
 
-[NIST SP 800-63A-4](https://pages.nist.gov/800-63-4/sp800-63a.html) is the identity proofing volume of the 800-63-4 suite. It defines exactly what "verified identity" means at each assurance level, what evidence qualifies, how to handle the cases that break the happy path, and what your fraud program needs to look like. 
+If you have integrated a KYC provider, you've probably been told something like: "the user uploads their ID, we scan it, we do a selfie match, done." That description is not wrong, but it skips over several details that matter when your threat model includes fraud at scale, synthetic media, or users who can't produce a standard government ID.
 
-I will walks through the model in this blog.
+Ok, let start with part2 dive in.
 
 ---
 
 **Series: NIST SP 800-63-4**
-- Part 1: [SP 800-63-4 — The Framework, Assurance Levels, and Risk Management](/blogs/nist-sp-800-63-4-overview)
-- **Part 2 (this blog):** SP 800-63A-4 — Identity Proofing and Enrollment
-- Part 3: [SP 800-63B-4 — Authentication and Authenticator Management](/blogs/nist-sp-800-63b-4-authentication)
-- Part 4: [SP 800-63C-4 — Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
+- Part 1: [SP 800-63-4 => The Framework, Assurance Levels, and Risk Management](/blogs/nist-sp-800-63-4-overview)
+- **Part 2 (this blog):** SP 800-63A-4 => Identity Proofing and Enrollment
+- Part 3: [SP 800-63B-4 => Authentication and Authenticator Management](/blogs/nist-sp-800-63b-4-authentication)
+- Part 4: [SP 800-63C-4 => Federation and Assertions](/blogs/nist-sp-800-63c-4-federation)
 
 ---
 
@@ -83,7 +83,7 @@ Validation proves the document is real. Verification proves the person holding i
 
 No formal identity proofing required. The claimed identity may or may not correspond to a real person. Basic attribute validation is optional.
 
-IAL1 is appropriate when the consequences of fraudulent enrollment are low. A comment-based forum, a freemium SaaS tool, a public newsletter. The spec supports it explicitly, and a lot of systems are over-built relative to what their actual risk profile requires.
+IAL1 is appropriate when the consequences of fraudulent enrollment are low. A comment based form, a freemium SaaS tool, a public newsletter. The spec supports it explicitly, and a lot of systems are over-built relative to what their actual risk profile requires.
 
 ## IAL2
 
@@ -98,7 +98,7 @@ Maximum confidence. Requires:
 - Collection of biometrics (typically facial image)
 - The highest tier of evidence (see below)
 
-IAL3 is for high-stakes services: government benefits with significant financial value, access to sensitive federal systems, situations where the cost of a fraudulent enrollment is severe.
+IAL3 is for high stakes services: government benefits with significant financial value, access to sensitive federal systems, situations where the cost of a fraudulent enrollment is severe.
 
 | | IAL1 | IAL2 | IAL3 |
 |---|---|---|---|
@@ -111,7 +111,7 @@ IAL3 is for high-stakes services: government benefits with significant financial
 
 # Evidence Tiers: FAIR, STRONG, SUPERIOR
 
-The spec classifies identity evidence into three tiers based on how reliably it establishes a real identity.
+The spec also classifies identity evidence into three tiers based on how reliably it establishes a real identity.
 
 ## FAIR
 
@@ -169,24 +169,28 @@ One practical consequence: if you're using a third-party KYC provider that opera
 
 # Biometrics: Requirements and Constraints
 
-Biometrics in identity proofing are used for two purposes: **verification** (1:1 match between the applicant and their document) and **binding** (establishing a biometric that can be used for future recognition). The requirements differ slightly, but the baseline performance thresholds apply to both.
+Biometrics in identity proofing are used for two purposes: 
+- **verification** (1:1 match between the applicant and their document)
+- **binding** (establishing a biometric that can be used for future recognition). 
+
+The requirements differ slightly, but the baseline performance thresholds apply to both.
 
 **Performance thresholds:**
 - False match rate: no more than 1 in 10,000 (1:10,000)
 - False non-match rate: no more than 1 in 100 (1:100)
 - Demographic performance gap: no more than 25% variance in error rates across demographic groups
 
-The demographic threshold is not optional. A system that meets the false match rate for one group but performs significantly worse for others doesn't meet the spec. This requires testing across representative populations, not just aggregate benchmarks.
+The demographic requirement is important. If system performs well for one group but significantly worse for others, it does not meet the specification. This means testing must include representative populations, not just overall averages.
 
-**Independent testing is mandatory.** You can't self-certify biometric performance. The testing must be conducted by an independent party using methodologies aligned with [ISO/IEC 19795](https://www.iso.org/standard/41447.html) (biometric performance testing) and [ISO/IEC 30107-3](https://www.iso.org/standard/67381.html) (presentation attack detection).
+**Independent testing is mandatory.** Biometric performance cannot be self-certified. The testing must be done by an independent party using standards such as [ISO/IEC 19795](https://www.iso.org/standard/41447.html) (biometric performance testing) and [ISO/IEC 30107-3](https://www.iso.org/standard/67381.html) (presentation attack detection).
 
 **Consent and deletion:**
-- Explicit informed consent is required before collecting biometrics
-- Applicants must be told what the biometric will be used for, how long it will be retained, and when it will be deleted
-- Deletion policies must be documented and enforced
-- Exceptions for regulatory holds are permitted but must be documented
+- Applicants must give explicit informed consent before collecting biometrics.
+- They must be told how the biometric will be used, how long it will be stored, and when it will be deleted.
+- Organizations must Document and enforce biometric deletion policies.
+- They must also docuement any regulatory exceptions that require longer retention.
 
-If your KYC provider handles biometrics on your behalf, their performance documentation and testing reports become your compliance evidence. You can request them.
+If your KYC provider that handles biometrics for you, their performance reports and independent testing results become part of your compliance evidence. You can request these from them.
 
 ---
 
@@ -213,7 +217,7 @@ flowchart LR
 
 ## Required Controls
 
-For remote unattended proofing, the following controls are now normative (required, not recommended):
+For remote unattended proofing, the following controls are now required, (not recommended):
 
 - **Virtual camera detection:** The system must detect and reject sessions where a virtual camera driver is substituted for a physical camera.
 - **Device emulator detection:** The system must detect when the session is running inside an emulated device.
@@ -227,31 +231,31 @@ The goal is not about blocking a small number of sophisticated attackers. Deepfa
 
 # Exceptions: Trusted Referees, Minors, Edge Cases
 
-No proofing system that enforces standard requirements will work for everyone. The spec addresses this directly and frames equitable access as a requirement, not a courtesy.
+No identity proofing system works for everyone. The spec recognizes this and treats equitable access as a requirement, not a nice-to-have.
 
 ## Trusted Referees
 
-A trusted referee is trained and approved person (either a CSP employee or a contracted third party) who helps applicants who cannot meet the normal proofing requirements. This includes:
+A trusted referee is a trained and approved person (either a CSP employee or a contracted third party) who helps applicants who cannot complete the normal proofing process. This includes:
 
-- Disabled individuals who can't complete standard biometric capture
-- Unhoused individuals without a fixed mailing address
+- People with disabilities who cannot complete biometric capture
+- Unhoused individuals without a fixed address
 - Identity theft victims whose records are flagged or disputed
-- Elderly applicants unfamiliar with digital proofing flows
-- Non-citizens whose documents aren't in the CSP's standard evidence list
+- Elderly users unfamiliar with digital proofing flows
+- Non-citizens whose documents are not in the standard evidence list
 
-Trusted referees must be identity-proofed themselves, trained in document validation and facial comparison, and trained to detect social engineering attempts. They're a supervised exception path, not a workaround to proofing.
+Trusted referees must be identity-proofed themselves, trained in document validation and facial comparison, and trained to detect social engineering attempts. They are supervised exception path, not a shortcut around identity proofing.
 
 ## Applicant References
 
-An applicant reference is someone who vouches for the applicant when standard evidence isn't available. Unlike a trusted referee (who works for or is contracted by the CSP), an applicant reference is chosen by the applicant.
+An applicant reference is a person who vouches for the applicant when standard evidence is not available. Unlike trusted referees, the reference is chosen by the applicant, not the CSP.
 
-The constraint: the applicant reference must be identity-proofed to the same or higher IAL as the enrollment being attempted. You can't have an unverified person vouch for someone at IAL2.
+One key rule: the reference must be identity-proofed at the same or higher IAL as the enrollment being attempted. An unverified person cannot vouch for someone at IAL2.
 
 ## Automated Biometric Rejection Requires Manual Review
 
-This is a specific, important rule: if an automated biometric system rejects an applicant, that rejection cannot be final without human review to confirm it isn't a false non-match. Silent automated denials are prohibited.
+If an automated biometric system rejects an applicant, that decision cannot be final without human review. The goal is to confirm the rejection isn’t a false non-match.
 
-This matters operationally. Your proofing flow needs a path to manual escalation. If your KYC provider's API returns a rejection, you need a process for a trained agent to review the case before closing it.
+In practice, this means your proofing flow must support manual escalation. If a KYC provider’s API returns a rejection, a trained reviewer should be able to examine the case before closing it.
 
 ## Minors
 
@@ -261,34 +265,36 @@ CSPs must establish written policies for applicants under 18. For applicants und
 
 # Fraud Management Program Requirements
 
-Individual proofing controls can fail if attackers target them one by one. The spec requires CSPs to run a fraud management program, not just implement point controls.
+Individual proofing controls can fail if attackers target them one by one. The spec requires CSPs to run a fraud management program, not just rely on isolated checks.
 
 **Required elements:**
 
-- **Death record checking:** Cross-reference applicant identity against death records to detect synthetic or stolen identities of deceased individuals.
-- **Device fingerprinting and tenure evaluation:** Assess the device being used. A brand-new device with no usage history being used to enroll a high-value identity is a signal worth flagging.
-- **Transaction analytics:** Behavioral signals across the enrollment flow. Unusual completion times, repeated attempts with small variations, patterns that suggest automated tooling.
-- **Insider threat controls:** Proofing agents have access to sensitive data and can influence outcomes. Controls to detect agent-assisted fraud are required.
-- **Real-time fraud communication to RPs:** If a CSP detects fraud after enrollment, they must communicate that to relying parties in real time.
-- **Red team testing:** Periodic adversarial testing of the proofing system is required, not optional.
+- **Death record checking:** Compare applicant identity against death records to detect stolen or synthetic identities tied to deceased individuals.
+- **Device fingerprinting and tenure evaluation:** Evaluate the device used during enrollment. ex: a new device with no history attempting to enroll high-value identity is signal worth investigating.
+- **Transaction analytics:** Analyze behavior during the enrollment flow. Signals can include unusual completion times, repeated attempts with small variations, or patterns suggesting automation
+- **Insider threat controls:** Proofing agents have access to sensitive data and can influence outcomes. Systems must include controls to detect agent-assisted fraud.
+- **Real-time fraud communication to RPs:** If fraud is discovered after enrollment, the CSP must notify relying parties in real time.
+- **Red team testing:** Periodic adversarial testing of the proofing system is required to identify weaknesses.
 
-**SIM swap detection** is recommended (not required) as part of the fraud program, given its use in account takeover attacks that can follow enrollment.
+**SIM swap detection** Not mandatory, but strongly recommended because SIM swaps are often used in account takeover attacks after enrollment.
 
-**Knowledge-based verification (KBV) is prohibited for identity verification.** The spec explicitly bans using security questions or knowledge checks ("what was the name of your first car?") as a proofing mechanism. These have well-documented weaknesses: the answers are often derivable from public records, social media, or data breaches.
+**Knowledge-based verification (KBV) is prohibited for identity verification.** The spec explicitly bans using security questions or knowledge checks ("what was the name of your first car?") as a proofing mechanism. These checks are weak because the answers can often be found through public records, social media, or data breaches.
 
-KBV can still be used as a fraud signal (unusual answers might flag a suspicious session), but it cannot be a verification method. If your current IAL2 flow includes a KBV step as a primary verification control, that needs to change.
+KBV can still be used as a fraud signal, but it cannot be used to verify identity. If an IAL2 proofing flow relies on KBV as a primary verification step, it needs to be replaced.
 
 ---
 
 # Conclusion
 
-Most commercial KYC providers (Jumio, Onfido, Persona, Stripe Identity, etc.) cover a subset of what 800-63A-4 requires. They handle document scanning, OCR, facial comparison, and increasingly liveness detection. But compliance with the full spec requires more:
+Most commercial KYC providers (Jumio, Onfido, Persona, Stripe Identity, etc.) cover a subset of what 800-63A-4 requires. They handle document scanning, OCR, facial comparison, and increasingly liveness detection. But meeting the full specification usually requires more than what these tools provide out of the box:
 
 - Their biometric performance documentation, including demographic parity data
 - Evidence that their anti-injection controls meet the normative requirements (virtual camera detection, emulator detection)
-- Their policies on automated rejection and manual review paths
-- Their fraud reporting capabilities (can they notify you in real time if a proofed identity is later flagged?)
+- Clear policies for automated rejection and manual review
+- Fraud reporting capabilities, such as notifying you in real time if a previously proofed identity is later flagged
 
-The spec applies to the CSP, which is you, not just the vendor you use. Third-party tools are inputs to your proofing process. The compliance responsibility doesn't transfer with the contract.
+The specs applies to CSP, which is usually you, not the vendor. Third-party KYC tools are just components in your proofing pipeline. Using them does not transfer the compliance responsibility.
 
-Blog 3 picks up where enrollment ends: once you have a subscriber, how do you authenticate them at AAL1, AAL2, and AAL3?
+Ok, now identity proofing is done and you have a subscriber, how do you authenticate them at AAL1, AAL2, and AAL3? 
+
+we will see that in blog3...
