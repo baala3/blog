@@ -1,7 +1,7 @@
 ---
 title: 'The nuts and bolts of OAuth 2.0 (Part 1)'
 date: "2023-03-19T10:52:44+09:00"
-url: "/blogs/oauth2-nuts-and-bolts/oauth2-nuts-and-bolts-p1"
+url: "/blogs/oauth2-nuts-and-bolts-p1"
 description: ""
 tldr: ""
 image: "https://i.ibb.co/dsmwGmhR/image.png"
@@ -34,13 +34,13 @@ These approaches are not secure and credentials are open shared with random appl
 
 Later they standardised, this and released OAuth1 (in 2007).
 
-Over the years, when mobile apps are booming, the standards of oauth1 is reaching limitations when it comes to mobile apps, SPA’s and couldn’t handle wide variety of senarios. Also there is no separation b/w OAuth server and API server OAuth1 . 
+Over the years, when mobile apps are booming, the standards of oauth1 is reaching limitations when it comes to mobile apps, SPA’s and couldn’t handle wide variety of scenarios. Also there is no separation b/w OAuth server and API server OAuth1 . 
 
 Then comes OAuth2.0 (in 2012) to solve such problems (even for nativeApps, smart TV’s etc..)
 
 ### 2. <u>How OAuth improve application security</u>
 
-Imagine in your company, you are not using OAuth and multiple applications are depending on shared user DB. All applications handle user authentication by calling an API to authenticate with the auth server using Basic Auth. Its fine upto certain extent atleast for first-party, but when you want to also integrate third party apps to authenticate you have to somehow restrict sharing the credentials. also it quickly became problematic as systems scaled. 
+Imagine in your company, you are not using OAuth and multiple applications are depending on shared user DB. All applications handle user authentication by calling an API to authenticate with the auth server using Basic Auth. Its fine upto certain extent at least for first-party, but when you want to also integrate third party apps to authenticate you have to somehow restrict sharing the credentials. also it quickly became problematic as systems scaled. 
 
 **Problems with Direct Credential Handling:**
 
@@ -71,7 +71,7 @@ For example, like when checking into a hotel, You show ID and a credit card at t
 
 The front desk is the OAuth authorization server, verifying your identity. The door (resource server) only checks if the key card (access token) is valid, **not who you are**. The card simply lists which resources you can access, with an expiration date, just like an OAuth token grants limited access to specific data until it expires. 
 
-If you see in the above example even without app does’t know the exact user in question, app can still do things.
+If you see in the above example even without app doesn’t know the exact user in question, app can still do things.
 
 But if there are cases where application wants to know the user in question, oauth doesn’t provide such info(out of oauth’s scope). Here where OpenId connect comes in, which takes Oauth as foundation and adds user identity info on top. OpenId connect is just an extension of Oauth and the main way it does that is with a new kind of token called **ID token**.
 
@@ -128,7 +128,7 @@ POST https://authz-server/token
 
 This is a serious problem in terms of security especially for third party apps.
 
-In case of first party app it might be allowed, but there also problems like when introducing MFA’s. So, its always preferred to use redirect flow (where we can add consent scree).
+In case of first party app it might be allowed, but there also problems like when introducing MFA’s. So, its always preferred to use redirect flow (where we can add consent screen).
 
 Also OAuth sever cannot really know whether the actual user is involved in the flow or not. So this screens are introduced to get explicit consent from user for whatever the scope the OAuth client is requesting for. But this typically skips for first part apps or confidential clients.
 
@@ -148,9 +148,9 @@ Front channel Flow:(FCF)
 
 That’s we use `Redirect flow` by inserting user in between Auth server and Auth client introducing front channel.
 
-But in this flow, first application need to tell Auth server what it’s need to do, i.e, redirect to Auth Server for authentication and authorising scope and we use **front channel** and its completely fine, because noting in this req is sensitive. 
+But in this flow, first application need to tell Auth server what it’s need to do, i.e, redirect to Auth Server for authentication and authorising scope and we use **front channel** and its completely fine, because nothing in this req is sensitive. 
 
-But we are also sending **access token** back via front channel and its very risky since Auth server cannot guarantee whether application received the token or not. This flow is called `Implict Flow` OAuth2.0 specs. Even though its not recommended, its listed in OAuth spec for browsers had no other option (no CORS supported).
+But we are also sending **access token** back via front channel and its very risky since Auth server cannot guarantee whether application received the token or not. This flow is called `Implicit Flow` OAuth2.0 specs. Even though its not recommended, its listed in OAuth spec for browsers had no other option (no CORS supported).
 
 We have `Authorization code flow` to deliver access token in backchannel, we will discuss more about this later on.
 
@@ -163,9 +163,9 @@ In the case of Authorization code flow, the OAuth client first build URLrequest 
 
 But if an attacker get this code, he can also use this to call token endpoint for access token. So to prevent it, application also send `clientID` and `secret` to prove authenticate itself when getting access token. 
 
-But what about public client who cannot have `secret` ? well, here comes the PKCE (proof of key change) a unique secret that is generate before the start of OAuth flow, this ensures that client that initiated OAuth flow is the only client that is requesting the access token. And note that this doesn’t stop attacker to impersonate the Application.
+But what about public client who cannot have `secret` ? well, here comes the PKCE (proof of key exchange) a unique secret that is generate before the start of OAuth flow, this ensures that client that initiated OAuth flow is the only client that is requesting the access token. And note that this doesn’t stop attacker to impersonate the Application.
 
-And coming to `RedirectURI`, https scheme one’s are globally unique and its kind of part of app’s identity and at OAuth server apps register specific URI to redirect the user for particular `client ID` and https scheme redirect uri really helps for applications that doesn’t have `secret` .
+And coming to `RedirectURI`, https scheme ones are globally unique and its kind of part of app’s identity and at OAuth server apps register specific URI to redirect the user for particular `client ID` and https scheme redirect uri really helps for applications that doesn’t have `secret` .
 
 But incase of mobile APPs or SPA, custom URL schemes may not be globally unique and PKCE is the only option for now. So we need to make strict policies and scopes in such cases.
 
@@ -175,8 +175,8 @@ But incase of mobile APPs or SPA, custom URL schemes may not be globally unique 
 
 ## 1. OAuth for Server-side Applications
 
-#### a. <u>Registrating an application</u>
-The first step in the OAuth flow is to register your application with the OAuth server. Which is basically providing the basic app infomation like 
+#### a. <u>Registering an application</u>
+The first step in the OAuth flow is to register your application with the OAuth server. Which is basically providing the basic app information like 
 - App name
 - Description 
 - Logo
@@ -184,11 +184,11 @@ The first step in the OAuth flow is to register your application with the OAuth 
 - Application Type (e.g., web, mobile, SPA)
 - Redirect URI
 
-The exact requirements depends on OAuth server provider, but basically above is the info you needs to enter.
+The exact requirements depends on OAuth server provider, but basically above is the info you need to enter.
 
-The `Redirect URI` is particularly important, it tells OAuth server where to send code after user grant consent. This will enure security, you should also avoid using wildcards or parital matchings as these open the door to redirect attacks and token leakage. 
+The `Redirect URI` is particularly important, it tells OAuth server where to send code after user grant consent. This will ensure security, you should also avoid using wildcards or partial matchings as these open the door to redirect attacks and token leakage. 
 
-Also in case of public client we know that specifying redirectURI is very crutical and helps us a lot, if you had read part1.
+Also in case of public client we know that specifying redirectURI is very critical and helps us a lot, if you had read part1.
 
 Once you register the app, OAuth server will issue `ClientID` and `ClientSecret` for your app (depending on the type of app).
 
@@ -210,7 +210,7 @@ Below is overview of the flow:
 4. The Auth Server validates that the `code verifier` matches the original code challenge, confirming the request originates from same client that initiated the flow.
 5. Upon successful verification, Auth Server issues an `access token` (and optionally a refresh token).
 
-> Note: `PKCE(Proof Key for Code Exchange) code flow` is recommend even for server-side applications to avoid risks like `Authorization code injection` (where attacker sneaks their own login authorization code into the process, so the app ends up logging in the attacker instead of the real user)
+> Note: `PKCE(Proof Key for Code Exchange) code flow` is recommended even for server-side applications to avoid risks like `Authorization code injection` (where attacker sneaks their own login authorization code into the process, so the app ends up logging in the attacker instead of the real user)
 
 #### c. <u>Flow with Example</u>
 
@@ -239,7 +239,7 @@ GET https://authorization-server.com/auth?
     code_challenge_method=S256
 ```
 - response_type => authorization code flow
-- state =>  originally used for PKCE, but can you for app state, if no PKCE support make it a random value, this also protects CSRF attacks
+- state =>  originally used for PKCE, but can use for app state, if no PKCE support make it a random value, this also protects CSRF attacks
 
 Step 2. User Authentication & Consent
 - The user signs in and approves access.
@@ -365,7 +365,7 @@ Another problem browsers don’t provide a true secure storage API like mobile p
 
 -> <i>Auth flow is exactly same with native apps as both are public clients.</i>
 
-#### b. <u>Challenges of storing token sefely in browser</u>
+#### b. <u>Challenges of storing token safely in browser</u>
 
 Browsers don’t give us a truly secure storage option. Common approaches all have drawbacks:
 

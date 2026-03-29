@@ -12,7 +12,7 @@ categories:
 - OAuth
 ---
 
-Everyone understands the OIDC login flow correct. It's simple and staight-forward, you do the authorization code flow, validate the ID Token, set a session cookie, and done. Logout is where things becomes complex and they usually do it silently.<!--more-->
+Everyone mostly understands the OIDC login flow correct. It's simple and staight-forward, you do the authorization code flow, validate the ID Token, set a session cookie, and done. Logout is where things becomes a bit complex and they usually happen silently.<!--more-->
 
 The problem isn't that logout is conceptually hard. It's that OIDC login is a single redirect flow with one spec governing it. But Logout is distributed state invalidation problem spreaded across *four separate specs*, each with different transport mechanisms, different reliability profiles, and different ways to fail quietly in production.
 
@@ -93,7 +93,7 @@ Session Management relies on OP iframe reading browser storage (cookies or `loca
 
 Modern browsers treat the OP iframe as **third-party content** when it is embedded inside an RP page.
 
-* (Firefox 103+)[https://developer.mozilla.org/en-US/docs/Web/Privacy/State_Partitioning] enables **Total Cookie Protection**, which partitions storage by both the resource origin and the top-level site.
+* [Firefox 103+](https://developer.mozilla.org/en-US/docs/Web/Privacy/State_Partitioning) enables **Total Cookie Protection**, which partitions storage by both the resource origin and the top-level site.
 * Safari has similar protections through Intelligent Tracking Prevention.
 
 Because of this, the OP iframe running in `app1.example.com` sees a **different storage bucket** than the same iframe inside `app2.example.com`. It cannot see the OP’s real session state.
@@ -106,9 +106,9 @@ So, the OP often returns `"changed"` on every poll. The RP triggers `prompt=none
 
 `prompt=none` tells the OP: complete this authorization request without showing any UI. If you can't do that, return an error.
 
-You'll encounter it in two places. 
-- First, as the "what actually changed?" follow-up when session management polling returns `"changed"`. 
-- Second, as a way to silently extend sessions or check authentication state without forcing the user to interact.
+You'll use this it in two places. 
+- First, when RP wants to know "what actually changed?" after session management polling returns `"changed"`. 
+- Second, when RP wants to silently extend sessions or check authentication state without forcing the user to interact.
 
 The error codes the OP can return:
 
@@ -117,9 +117,9 @@ The error codes the OP can return:
 - `consent_required`: the user hasn't consented to the requested scopes
 - `account_selection_required`: the user has multiple accounts and must pick one
 
-The most common implementation bug happens when an app receives `login_required` and immediately redirects the user back to the login page while the local app session is still technically active. This often results in a "ping-pong" effect between the app and the provider.
+The most common implementation bug happens when an app receives `login_required` and immediately redirects the user back to login page while the local app session is still active. This often results in "ping-pong" effect between the app and the provider.
 
-The correct handling of `login_required` is:
+The correct way of handling `login_required` is:
 
 1. Clear the RP local session
 2. Decide whether to redirect to login proactively or just render a "session ended" state
@@ -140,13 +140,13 @@ The OP renders a page containing a set of iframes, one per RP that participated 
 
 The `iss` and `sid` query parameters are optional but linked: if either one is present, both must be present. The RP can use them to validate the request against the `sid` stored at login time.
 
-But the problem is what "clear the session" means. If the session is tracked by server-side session ID in a cookie, clearing it requires the RP's endpoint to `Set-Cookie` with an expired or empty value in the response. That part works, the browser processes `Set-Cookie` headers regardless of third-party context.
+But the problem is what "clear the session" means. If the session is tracked by server-side session ID in a cookie, clearing it requires the RP's endpoint to `Set-Cookie` with an expired or empty value in the response. That will works, the browser processes `Set-Cookie` headers regardless of third-party context.
 
-But if your RP stores any session state in `localStorage`, `sessionStorage`, or any JavaScript accessible storage, clearing it requires JavaScript to run in iframe context. That's where **third-party storage partitioning** bites you again.(i.e, JS in iframe can't see the same storage bucket with actual tab user using). Also in this case, the failure is silent and RP endpoint responds 200 but user is still logged in their own tab.
+But if your RP stores any session state in `localStorage`, `sessionStorage`, or any JavaScript accessible storage, clearing it requires JavaScript to run in iframe context. That's where **third-party storage partitioning** bites you again.(i.e, JS in iframe can't see the same storage bucket with actual tab user using). In this case, the failure is silent and RP endpoint responds 200 but user is still logged in their own tab.
 
 ![Front-channel logout: OP-rendered iframes, what works, and what fails silently](./front-channel-logout.svg)
 
-The spec's guidance: "include defensive code to detect this situation, and if possible, notify the End-User that the requested RP logouts could not be performed." (but nobody does this).
+The spec's guides: "include defensive code to detect this situation, and if possible, notify the End-User that the requested RP logouts could not be performed." (but mostly nobody does this).
 
 **When front-channel is acceptable:** server rendered applications that manage session state purely through server-side sessions and HttpOnly cookies. The `Set-Cookie: session_id=; Max-Age=0` response in the iframe header is enough.
 
@@ -310,7 +310,7 @@ For replay prevention, a Redis key with TTL works well. The minimum TTL you need
 
 ---
 
-# What a Production Logout Stack Looks Like
+# What a Production Logout Flow Looks Like
 
 The minimum logout implementation:
 
@@ -359,4 +359,4 @@ Logout is annoying to implement correct, because the failure modes are invisible
 
 Beign said that backchannel logout is straightforward once you understand it, and it's the only mechanism that respects the browser privacy issues entirely. Build your logout stack around it, treat everything else as a supplement, and store `sid` at login. Everything else follows from there. 
 
-Good luck!! Logging out!!!
+Good luck!! Logging out here!!!
