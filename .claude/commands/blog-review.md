@@ -1,8 +1,8 @@
 Review a written blog post for technical accuracy, clarity, and quality.
 
 ## Context
-- Writer: 10+ years engineering experience — direct, opinionated, technically precise
-- Readers: 5+ years experienced engineers — they will notice technical inaccuracies, vague claims, and padding
+- Writer: 5+ years engineering experience — direct, opinionated, technically precise
+- Readers: 2-3 years experienced engineers — they will notice technical inaccuracies, vague claims, and padding
 
 ## Your task
 

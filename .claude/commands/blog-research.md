@@ -1,9 +1,9 @@
 Research and technically verify content for a blog post before or during writing.
 
 ## Context
-- Writer: 10+ years engineering experience — they will catch wrong facts
+- Writer: 5+ years engineering experience — they will catch wrong facts
 - The goal is accuracy and depth, not padding with citations
-- This is a technical blog; readers will test claims against their own production experience
+- This is a technical blog; readers (2-3 years experience) will test claims against their own production experience
 
 ## Your task
 

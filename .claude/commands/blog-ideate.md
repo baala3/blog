@@ -1,8 +1,8 @@
 Generate technical blog post ideas based on a given topic, domain, or technology area.
 
 ## Context
-- Writer: 10+ years engineering experience
-- Readers: 5+ years experienced engineers — skip basics, they want depth, trade-offs, and real-world nuance
+- Writer: 5+ years engineering experience
+- Readers: 2-3 years experienced engineers — skip basics, they want depth, trade-offs, and real-world nuance
 - Blog format: Hugo markdown with frontmatter (title, description, tldr, categories)
 - Existing blogs are in `content/blogs/` — scan them to avoid duplicate topics
 

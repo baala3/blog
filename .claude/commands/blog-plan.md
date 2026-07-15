@@ -1,8 +1,8 @@
 Create a detailed outline and structure for a technical blog post.
 
 ## Context
-- Writer: 10+ years engineering experience
-- Readers: 5+ years experienced engineers — they skim, they push back, they spot hand-waving
+- Writer: 5+ years engineering experience
+- Readers: 2-3 years experienced engineers — they skim, they push back, they spot hand-waving
 - Blog format: Hugo markdown with frontmatter. Each post lives in `content/blogs/<slug>/index.md`
 
 ## Your task
