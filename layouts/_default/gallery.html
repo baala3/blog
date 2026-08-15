@@ -10,9 +10,18 @@
         </div>
       {{- end -}}
     </div>
-  </div></section>
+  </div>
+
+  <div class="gallery-lightbox">
+    <img src="" alt="" class="gallery-lightbox-image">
+  </div>
+  </section>
 
   <style>
+    body {
+      overflow-x: hidden;
+    }
+
     .gallery-container {
       width: 100vw;
       margin-left: calc(-50vw + 50%);
@@ -48,12 +57,72 @@
       .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      
+
       .gallery-image {
         height: 100%;
       }
     }
+
+    .gallery-image {
+      cursor: zoom-in;
+    }
+
+    .gallery-lightbox {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease;
+    }
+
+    .gallery-lightbox.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .gallery-lightbox-image {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+    }
+
+    .gallery-lightbox.open .gallery-lightbox-image {
+      transform: scale(1);
+    }
   </style>
+
+  <script>
+    jQuery(function ($) {
+      var $lightbox = $('.gallery-lightbox');
+      var $lightboxImage = $('.gallery-lightbox-image');
+
+      $('.gallery-image').on('click', function () {
+        $lightboxImage.attr('src', $(this).attr('src')).attr('alt', $(this).attr('alt'));
+        $lightbox.addClass('open');
+      });
+
+      $lightbox.on('click', function () {
+        $lightbox.removeClass('open');
+      });
+
+      $(document).on('keydown', function (e) {
+        if (e.key === 'Escape') {
+          $lightbox.removeClass('open');
+        }
+      });
+    });
+  </script>
 </section>
 {{ end }}
 

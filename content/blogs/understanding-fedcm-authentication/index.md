@@ -17,33 +17,38 @@ classes:
 - feature-mermaid
 ---
 
-Third-party cookies are disappearing, and many "Sign in with X" flows built on embedded IdP iframes depended on them. [FedCM](https://developers.google.com/privacy-sandbox/fedcm) (Federated Credential Management) is browser's replacement: instead of the RP embedding the IdP and reading its cookies, the browser handles the identity flow and returns an identity token. <!--more-->
+As we know, third-party cookies are disappearing from modern browsers, and cookie sharing introduces security and privacy concerns. To address this, [FedCM](https://developers.google.com/privacy-sandbox/fedcm) (Federated Credential Management) allows the browser to mediate communication between the Identity Provider (IdP) and the Relying Party (RP), eliminating the need for third-party cookie sharing.<!--more-->
 
-From user's perspective, FedCM looks like a replacement for traditional OAuth/OIDC sign-in. But under the hood it's very different. There's no `PKCE`, no `state`, no `refresh tokens`, and no authorization code flow. FedCM solves a real privacy problem, but it doesn't replace OAuth/OIDC's security model. Adopting it without understanding those differences can weaken your authentication flow.
+In this post, I'll explain how FedCM works using [demo](https://github.com/baala3/fedcm-101), what the IdP and RP need to implement, and where it differs from OAuth/OIDC.
 
-In this post, I'll explain how FedCM works, what the IdP and RP need to implement, and where it differs from OAuth/OIDC.
-
->I'm using [fedcm-101](https://github.com/baala3/fedcm-101), a reference implementation with a Go-based IdP and RP.
-
----
+<img src="frieren_flow.jpg" style="display: block; margin: 0 auto; max-width: 100%;"/>
 
 ## Why FedCM exists
 
-Before FedCM, federated sign-in relied on OAuth/OIDC redirects or IdP iframes embedded on the RP's page. Those iframes needed to read the IdP's first-party cookie from a third-party context to determine whether the user was already signed in.
+<div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+<div style="flex: 1 1 60%; min-width: 280px;">
 
-As browsers phase out third-party cookies to prevent cross-site tracking, this approach breaks. But simply removing third-party cookies isn't an option because federated sign-in is still a legitimate use case.
+Federated sign-in generally relies on OAuth/OIDC redirects or IdP iframes embedded on the RP's page. Those iframes needed to read the IdP's first-party cookie from a third-party context to determine whether the user was already signed in. As browsers phase out third-party cookies to **prevent cross-site tracking**, this approach breaks. But simply removing third-party cookies isn't an option because federated sign-in is still legitimate use case.
 
-FedCM solves this by moving the identity handshake into the browser. The browser mediates the sign-in flow, keeping the RP and IdP isolated from each other's cookies while preserving a seamless sign-in experience.
+FedCM idea is by moving the identity handshake into the browser. The browser mediates the sign-in flow, keeping the RP and IdP isolated from each other's cookies while giving a seamless sign-in experience.
 
----
+From a user's POV, it looks like replacement for OAuth/OIDC sign-in. But, it's not. FedCM does not use `PKCE`, `state`, `refresh tokens`, the authorization code flow, or other OAuth/OIDC protocol mechanisms. Also, FedCM is not part of OAuth or OpenID Connect and was not designed to replace their security model. Instead, it is browser API that complements existing identity protocols by providing a more privacy preserving way to initiate federated sign-in.
+
+</div>
+<div style="flex: 1 1 30%; min-width: 200px;">
+
+<img src="flow.png" style="display: block; margin: 0 auto; max-width: 100%;"/>
+
+</div>
+</div>
 
 ## The three parties, and what each one is allowed to see
 
-FedCM has three actors, and the motto is: **the RP and the IdP never talk to each other directly.** Everything routes through the browser.
+FedCM has three parties, and the goal is: **RP and IdP never talk to each other directly.** Everything goes through the browser.
 
 - **RP (Relying Party)**: the site the user is signing into. It calls `navigator.credentials.get()` and never talks to the IdP.
 - **IdP (Identity Provider)**: the account authority. It exposes a fixed set of well-known JSON endpoints and never talks to the RP.
-- **The browser**: does the actual fetching (attaching the IdP's own first-party cookies, since from the browser's point of view this is a first-party request), and renders the account chooser natively, outside either page's DOM. Neither page can style it, script it, or screenshot it.
+- **The browser**: does the actual fetching (attaching the IdP's own first-party cookies, since from the browser's point of view this is a first-party request), and renders the account chooser natively, outside either page's DOM. No page can style it, script it, or screenshot it.
 
 ```mermaid
 graph LR
@@ -63,9 +68,9 @@ graph LR
   FedCM -- "4 . resolves promise with token" --> SP
 ```
 
-## vocabulary
+---
 
-FedCM reuses some OAuth/OIDC-sounding words, but assigns them slightly different meanings.
+## vocabulary
 
 | Term | Meaning |
 |---|---|
@@ -161,6 +166,8 @@ Access-Control-Allow-Origin: http://localhost:8081   (the exact RP origin, not *
 Access-Control-Allow-Credentials: true               (only on the credentialed ones)
 ```
 
+---
+
 ## Building the RP: what's actually needed
 
 The RP side is much simpler. From the IdP's perspective, the RP is just a `client_id`, and there are no FedCM-specific server endpoints the RP has to implement. Everything FedCM-related happens in the browser. The backend only needs to verify the token it receives and create a normal cookie session.
@@ -198,9 +205,11 @@ If any of these conditions fail, the promise simply rejects. The expected behavi
 
 **What the RP doesn't need:** The RP doesn't need any FedCM-specific server APIs, CORS configuration, knowledge of the IdP's cookies or user database, or a revocation webhook. If the user revokes access at the IdP, future `navigator.credentials.get()` calls simply stop returning a token. The RP detects this naturally during the next sign-in attempt.
 
+---
+
 ## The four flows, end to end
 
-With both sides ready, here's how the pieces binds across the flow. "Browser (FedCM)" below is browser's internal machinery: the account chooser and the fetches it makes on the RP's behalf.
+With both sides ready, here's how the pieces works across the flow. "Browser (FedCM)" below is browser's internal machinery: the account chooser and the fetches it makes on the RP's behalf.
 
 **First-time sign-in** (no existing IdP session, no prior grant):
 
@@ -313,7 +322,7 @@ This last one is the mirror image of the disconnect flow: the same grant row can
 
 ## FedCM vs. OAuth/OIDC: the actual gap
 
-**FedCM is not a replacement for OAuth/OIDC.** It solves a browser privacy problem caused by the removal of third-party cookies. OAuth/OIDC authorization flows remain the same, FedCM simply replaces cookie-dependent browser interactions around them, such as front-channel logout, personalized sign-in buttons ("Continue as Alice"), and silent session refresh.
+**As i said before, FedCM is not a replacement for OAuth/OIDC.** It solves browser privacy problem caused by removal of third-party cookies. OAuth/OIDC authorization flows remain the same, FedCM simply replaces cookie-dependent browser interactions, such as front-channel logout, personalized sign-in buttons ("Continue as Alice"), and silent session refresh.
 
 Here's the diff:
 
@@ -325,7 +334,7 @@ Here's the diff:
 | Scoped access tokens for calling back into the IdP's APIs | None. FedCM only produces an identity token, not an authorization grant for anything else. |
 | Standardized revocation/introspection | Only `disconnect_endpoint`, and it revokes the FedCM grant, not any access token a real OIDC flow might have issued separately. |
 
-The demo repo makes this clear: `id_assertion_endpoint` returns a JWT directly to browser, and although the RP generates a nonce, nothing in protocol requires the assertion to be bound to it. That's not just limitation of the demo it's a gap in FedCM itself.
+The demo makes this clear: `id_assertion_endpoint` returns a JWT directly to browser, and although the [RP generates a nonce](https://github.com/baala3/fedcm-101/blob/1b93fb79b533c22a316edc7b79f3ea45965fb4c9/internal/idp/handlers_assertion.go#L50), nothing in protocol requires the assertion to be bound to it. That's not just limitation of the demo it's a gap in FedCM itself.
 
 When designing an assertion endpoint, there are two approaches, and neither maps cleanly to OAuth/OIDC:
 
@@ -333,14 +342,12 @@ When designing an assertion endpoint, there are two approaches, and neither maps
 
 - **Return an opaque code for backend exchang.** This resembles the authorization code flow, but FedCM provides no `PKCE` or `state` equivalent to bind the code to the original get() request. The RP must build its own request-binding mechanism.
 
-In both cases, you end up reimplementing protections that OAuth/OIDC already standardized with `PKCE` and `state`. FedCM doesn't provide those guarantees, so every IdP has to solve the problem independently. If you're evaluating FedCM for production, this is one of the most important security trade-offs to consider.
+In both cases, you end up reimplementing protections that OAuth/OIDC already standardized with `PKCE` and `state`. FedCM doesn't provide those guarantees, so every IdP has to solve the problem independently.
 
 ---
 
 ## So when is it actually worth adopting?
 
-The decision is simple: does your RP and IdP already share cookies? If they're same-site or under the same parent domain, FedCM adds little value. A first-party cookie already tells you whether the user is signed in, so FedCM mostly introduces extra complexity.
+It works best when the RP only needs to verify the user's identity, not obtain long-lived API access. In that case, FedCM replaces cookie-dependent iframes with a browser-managed sign-in flow while still relying on OAuth/OIDC underneath.
 
-FedCM is most useful for true third-party identity providers, where third-party cookies are unavailable. It works best when the RP only needs to verify the user's identity, not obtain long-lived API access. In that case, FedCM replaces cookie-dependent iframes with a browser-managed sign-in flow while still relying on OAuth/OIDC underneath.
-
-The key takeaway is that FedCM solves specific problem—third-party cookies breaking federated signin and it solves it well. But it doesn't include the request binding and replay protections that OAuth/OIDC has refined over the years, so if you're building an IdP, those security guarantees are your responsibility.
+The key takeaway is that FedCM solves specific problem third-party cookies breaking federated signin and it solves it well. But it doesn't include the request binding and replay protections that OAuth/OIDC has refined over the years, so if you're building this, those security guarantees are your responsibility.

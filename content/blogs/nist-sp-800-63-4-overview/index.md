@@ -154,6 +154,8 @@ The wallet model shifts control to the subscriber. The RP trusts the CSP's signa
 
 # The Three Assurance Axes
 
+<img src="frieren_al.jpg" style="display: block; margin: 10px auto;"/>
+
 This is the main idea of the framework. Identity assurance is not one thing. It's three independent properties, each of which can be at a different level depending on what your service needs.
 
 ## IAL: Identity Assurance Level
@@ -203,6 +205,8 @@ The mistake is assuming that stronger authentication means stronger identity pro
 # Digital Identity Risk Management (DIRM)
 
 The framework doesn't just provide set of levels and "pick one." It describes a five-step process for deciding which levels are right for your service.
+
+<img src="eren_dirm.jpg" style="display: block; margin: 10px auto;"/>
 
 ## Step 1: Define the Online Service
 
