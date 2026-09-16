@@ -1,0 +1,142 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0d1a"/>
+      <stop offset="100%" stop-color="#11142a"/>
+    </linearGradient>
+    <linearGradient id="accentBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#a5b4fc"/>
+    </marker>
+    <marker id="arrowMuted" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#4b5563"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- grid -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="80" x2="1200" y2="80"/>
+    <line x1="0" y1="160" x2="1200" y2="160"/>
+    <line x1="0" y1="240" x2="1200" y2="240"/>
+    <line x1="0" y1="320" x2="1200" y2="320"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="480" x2="1200" y2="480"/>
+    <line x1="0" y1="560" x2="1200" y2="560"/>
+    <line x1="150" y1="0" x2="150" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="450" y1="0" x2="450" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="750" y1="0" x2="750" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1050" y1="0" x2="1050" y2="630"/>
+  </g>
+
+  <!-- glow blobs -->
+  <ellipse cx="120" cy="80" rx="260" ry="160" fill="#6366f1" fill-opacity="0.09"/>
+  <ellipse cx="1080" cy="560" rx="300" ry="180" fill="#8b5cf6" fill-opacity="0.08"/>
+  <ellipse cx="900" cy="120" rx="220" ry="120" fill="#22d3ee" fill-opacity="0.05"/>
+
+  <rect x="0" y="0" width="1200" height="6" fill="url(#accentBar)"/>
+
+  <!-- title -->
+  <text x="60" y="66" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="700" fill="#f5f5fa">Testing Passkeys with a Virtual Authenticator</text>
+  <text x="60" y="98" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#9ca3af">Automating real WebAuthn sign-in flows with Chrome DevTools Protocol</text>
+
+  <!-- tag pills -->
+  <g font-family="monospace" font-size="13" font-weight="600">
+    <rect x="60" y="116" width="112" height="28" rx="14" fill="#6366f1" fill-opacity="0.18" stroke="#6366f1" stroke-width="1"/>
+    <text x="116" y="134" fill="#c7d2fe" text-anchor="middle">WEBAUTHN</text>
+
+    <rect x="182" y="116" width="120" height="28" rx="14" fill="#8b5cf6" fill-opacity="0.18" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="242" y="134" fill="#ddd6fe" text-anchor="middle">PLAYWRIGHT</text>
+
+    <rect x="312" y="116" width="72" height="28" rx="14" fill="#22d3ee" fill-opacity="0.15" stroke="#22d3ee" stroke-width="1"/>
+    <text x="348" y="134" fill="#a5f3fc" text-anchor="middle">CDP</text>
+
+    <rect x="394" y="116" width="124" height="28" rx="14" fill="#6366f1" fill-opacity="0.18" stroke="#6366f1" stroke-width="1"/>
+    <text x="456" y="134" fill="#c7d2fe" text-anchor="middle">E2E TESTING</text>
+  </g>
+
+  <!-- flow diagram -->
+  <g>
+    <!-- box 1 -->
+    <rect x="60" y="200" width="240" height="92" rx="10" fill="#161a34" stroke="#4338ca" stroke-width="1.5"/>
+    <text x="180" y="238" font-family="monospace" font-size="14" font-weight="700" fill="#c7d2fe" text-anchor="middle">Playwright</text>
+    <text x="180" y="260" font-family="monospace" font-size="14" font-weight="700" fill="#c7d2fe" text-anchor="middle">Test</text>
+    <text x="180" y="278" font-family="system-ui, sans-serif" font-size="11" fill="#7c86a8" text-anchor="middle">drives real Chromium</text>
+
+    <!-- box 2 -->
+    <rect x="340" y="200" width="240" height="92" rx="10" fill="#161a34" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="460" y="238" font-family="monospace" font-size="14" font-weight="700" fill="#ddd6fe" text-anchor="middle">CDP</text>
+    <text x="460" y="260" font-family="monospace" font-size="14" font-weight="700" fill="#ddd6fe" text-anchor="middle">WebAuthn Domain</text>
+    <text x="460" y="278" font-family="system-ui, sans-serif" font-size="11" fill="#7c86a8" text-anchor="middle">newCDPSession(page)</text>
+
+    <!-- box 3 -->
+    <rect x="620" y="200" width="240" height="92" rx="10" fill="#161a34" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="740" y="238" font-family="monospace" font-size="14" font-weight="700" fill="#ede9fe" text-anchor="middle">Virtual</text>
+    <text x="740" y="260" font-family="monospace" font-size="14" font-weight="700" fill="#ede9fe" text-anchor="middle">Authenticator</text>
+    <text x="740" y="278" font-family="system-ui, sans-serif" font-size="11" fill="#7c86a8" text-anchor="middle">ctap2 / internal / resident key</text>
+
+    <!-- box 4 -->
+    <rect x="900" y="200" width="240" height="92" rx="10" fill="#161a34" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="1020" y="238" font-family="monospace" font-size="14" font-weight="700" fill="#a5f3fc" text-anchor="middle">MFID</text>
+    <text x="1020" y="260" font-family="monospace" font-size="14" font-weight="700" fill="#a5f3fc" text-anchor="middle">Sign-in</text>
+    <text x="1020" y="278" font-family="system-ui, sans-serif" font-size="11" fill="#7c86a8" text-anchor="middle">conditional mediation</text>
+
+    <!-- arrows -->
+    <line x1="300" y1="246" x2="336" y2="246" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="318" y="232" font-family="monospace" font-size="10" fill="#818cf8" text-anchor="middle">enable</text>
+
+    <line x1="580" y1="246" x2="616" y2="246" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="598" y="232" font-family="monospace" font-size="10" fill="#a78bfa" text-anchor="middle">add</text>
+
+    <line x1="860" y1="246" x2="896" y2="246" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="878" y="232" font-family="monospace" font-size="10" fill="#67e8f9" text-anchor="middle">get()</text>
+  </g>
+
+  <!-- code snippet panel -->
+  <g>
+    <rect x="60" y="330" width="500" height="238" rx="10" fill="#0d1024" stroke="#2e3352" stroke-width="1.5"/>
+    <circle cx="84" cy="354" r="5" fill="#ef4444"/>
+    <circle cx="102" cy="354" r="5" fill="#eab308"/>
+    <circle cx="120" cy="354" r="5" fill="#22c55e"/>
+    <text x="84" y="386" font-family="monospace" font-size="13" fill="#818cf8">await client.send(</text>
+    <text x="100" y="408" font-family="monospace" font-size="13" fill="#a5b4fc">'WebAuthn.addVirtualAuthenticator',</text>
+    <text x="100" y="430" font-family="monospace" font-size="13" fill="#e5e7eb">{</text>
+    <text x="118" y="452" font-family="monospace" font-size="13"><tspan fill="#67e8f9">protocol</tspan><tspan fill="#e5e7eb">: </tspan><tspan fill="#86efac">'ctap2'</tspan><tspan fill="#e5e7eb">,</tspan></text>
+    <text x="118" y="474" font-family="monospace" font-size="13"><tspan fill="#67e8f9">transport</tspan><tspan fill="#e5e7eb">: </tspan><tspan fill="#86efac">'internal'</tspan><tspan fill="#e5e7eb">,</tspan></text>
+    <text x="118" y="496" font-family="monospace" font-size="13"><tspan fill="#67e8f9">hasResidentKey</tspan><tspan fill="#e5e7eb">: </tspan><tspan fill="#fca5a5">true</tspan><tspan fill="#e5e7eb">,</tspan></text>
+    <text x="118" y="518" font-family="monospace" font-size="13"><tspan fill="#67e8f9">isUserVerified</tspan><tspan fill="#e5e7eb">: </tspan><tspan fill="#fca5a5">true</tspan><tspan fill="#e5e7eb">,</tspan></text>
+    <text x="118" y="540" font-family="monospace" font-size="13"><tspan fill="#67e8f9">automaticPresenceSimulation</tspan><tspan fill="#e5e7eb">: </tspan><tspan fill="#fca5a5">true</tspan></text>
+    <text x="100" y="558" font-family="monospace" font-size="13" fill="#e5e7eb">});</text>
+  </g>
+
+  <!-- stages panel -->
+  <g>
+    <rect x="590" y="330" width="550" height="238" rx="10" fill="#12162e" stroke="#2e3352" stroke-width="1.5"/>
+    <text x="614" y="362" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#c7d2fe" letter-spacing="1">THREE-STAGE TEST FLOW</text>
+
+    <circle cx="628" cy="398" r="14" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="628" y="403" font-family="monospace" font-size="13" font-weight="700" fill="#c7d2fe" text-anchor="middle">1</text>
+    <text x="652" y="403" font-family="system-ui, sans-serif" font-size="14" fill="#e5e7eb">Sign in once, save the session</text>
+
+    <circle cx="628" cy="444" r="14" fill="#7c3aed" fill-opacity="0.2" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="628" y="449" font-family="monospace" font-size="13" font-weight="700" fill="#ddd6fe" text-anchor="middle">2</text>
+    <text x="652" y="449" font-family="system-ui, sans-serif" font-size="14" fill="#e5e7eb">Register a passkey &amp; export credential.json</text>
+
+    <circle cx="628" cy="490" r="14" fill="#22d3ee" fill-opacity="0.2" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="628" y="495" font-family="monospace" font-size="13" font-weight="700" fill="#a5f3fc" text-anchor="middle">3</text>
+    <text x="652" y="495" font-family="system-ui, sans-serif" font-size="14" fill="#e5e7eb">Inject credential into feature tests</text>
+
+    <line x1="628" y1="412" x2="628" y2="430" stroke="#4b5563" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <line x1="628" y1="458" x2="628" y2="476" stroke="#4b5563" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+    <rect x="614" y="522" width="502" height="34" rx="8" fill="#78350f" fill-opacity="0.25" stroke="#f59e0b" stroke-width="1"/>
+    <text x="865" y="544" font-family="monospace" font-size="12.5" font-weight="600" fill="#fcd34d" text-anchor="middle">⚠ Chromium only — CDP WebAuthn domain not in Firefox / WebKit</text>
+  </g>
+</svg>
