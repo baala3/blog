@@ -14,8 +14,6 @@ categories:
 - testing
 ---
 
-> Also published on the [Money Forward Engineering Blog](https://global.moneyforward-dev.jp/2026/09/09/testing-passkeys-with-a-virtual-authenticator/).
-
 If you've signed in to Moneyforward-ID you might have seen we support passkeys. A passkey is basically a private key sitting inside your device, and it only gets used with your consent when you log into a site. That's great for security: clean sign-in, and no credential ever leaks onto the internet.
 <!--more-->
 
@@ -218,3 +216,5 @@ The main thing to watch out for is tool support. This approach is Chromium-only,
 Hopefully this gives you a starting point for testing passkeys.
 
 Thanks for reading till here, and happy testing!!
+
+> Also published on the [Money Forward Engineering Blog](https://global.moneyforward-dev.jp/2026/09/09/testing-passkeys-with-a-virtual-authenticator/).
