@@ -15,7 +15,7 @@ categories:
 - Security
 ---
 
-Enterprise IAM assumes whoever's on the other end of a login is a human. AI agents break that assumption, not with some clever new attack, but by walking straight through shortcuts we've always taken: screen-level permissions instead of API-level ones, one consent prompt per app, identity lifecycles tied to HR events instead of agent lifecycles.<!--more-->
+Enterprise IAM assumes that the other end of the login request is a human. AI agents circumvent these checks by using existing lower-level UI endpoints (as opposed to API-level ones), consent once per application (rather than per permission type), or operate along different lifecycle signals (e.g., bound to HR events rather than agent lifecycle).<!--more-->
 
 **[OpenID TechNight vol.23 ~ AI x API x Enterprise](https://openid.connpass.com/event/391821/)**, organized by [nov-san](https://x.com/nov) of OpenID Foundation Japan, spent three talks on exactly that gap, and what different company teams are doing about it.
 
@@ -42,12 +42,12 @@ Easy to agree with, harder to build: most enterprise permissions are still tied 
 
 ```text
 Sales User
-   ✓ Customer Screen        (legacy: UI-level grant)
+✓ Customer Screen    (legacy: UI-level grant)
 
 vs.
 
 read:customer
-create:invoice             (needed: API-level grant)
+create:invoice       (needed: API-level grant)
 ```
 
 A single screen bundles several data fields together, so mapping that to MCP scopes means breaking resources down far smaller than the system was built for. Building this in practice hits four blockers:
@@ -68,8 +68,8 @@ slides: https://speakerdeck.com/terara/freee-mcpwo-local-remote-dechu-sitewakatu
 Talk 1 looked at MCP from inside an enterprise adopting it. Talk 2 is about building a remote MCP server for other companies to connect to, so every governance question Komatsu raised is one Terara has to actually ship. freee-mcp started local for fast validation, then went remote once proven. His framing: local vs. remote isn't a maturity ladder, it's a trade-off in *where responsibility sits*.
 
 ```text
-Local MCP:   User's machine → Local MCP server → API      (credentials stay local)
-Remote MCP:  AI platform / many clients → Vendor-hosted MCP server → Vendor's APIs
+Local MCP:  User's machine → Local MCP server → API   (credentials stay local)
+Remote MCP: AI platform / many clients → Vendor-hosted MCP server → Vendor's APIs
 ```
 
 Going remote doesn't change where the server runs, it changes who owns client trust, redirect URI validation, token boundaries, consent, and audit. Since freee is multi-tenant B2B SaaS, that's another layer of complexity on top.
@@ -119,20 +119,20 @@ The flow:
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant C as MCP Client
-    participant IdP as IdP
-    participant RS as Target Resource's Auth Server
-    participant R as Resource
+participant U as User
+participant C as MCP Client
+participant IdP as IdP
+participant RS as Target Resource's Auth Server
+participant R as Resource
 
-    U->>IdP: Login
-    IdP-->>C: ID token (identity only)
-    C->>IdP: Exchange ID token for ID-JAG (scoped to target resource)
-    Note over IdP: Checked against admin-defined policy
-    IdP-->>C: Short-lived ID-JAG (not a bearer token)
-    C->>RS: Present ID-JAG
-    RS-->>C: Bearer access token
-    C->>R: Access resource with access token
+U->>IdP: Login
+IdP-->>C: ID token (identity only)
+C->>IdP: Exchange ID token for ID-JAG (scoped to target resource)
+Note over IdP: Checked against admin-defined policy
+IdP-->>C: Short-lived ID-JAG (not a bearer token)
+C->>RS: Present ID-JAG
+RS-->>C: Bearer access token
+C->>R: Access resource with access token
 ```
 
 ### A few things worth knowing
