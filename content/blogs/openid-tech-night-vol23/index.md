@@ -15,7 +15,7 @@ categories:
 - Security
 ---
 
-Enterprise IAM assumes that the other end of the login request is a human. AI agents circumvent these checks by using existing lower-level UI endpoints (as opposed to API-level ones), consent once per application (rather than per permission type), or operate along different lifecycle signals (e.g., bound to HR events rather than agent lifecycle).<!--more-->
+Enterprise IAM assumes whoever's on the other end of a login is a human. AI agents break that assumption, not with some clever new attack, but by walking straight through shortcuts we've always taken: screen-level permissions instead of API-level ones, one consent prompt per app, identity lifecycles tied to HR events instead of agent lifecycles.<!--more-->
 
 **[OpenID TechNight vol.23 ~ AI x API x Enterprise](https://openid.connpass.com/event/391821/)**, organized by [nov-san](https://x.com/nov) of OpenID Foundation Japan, spent three talks on exactly that gap, and what different company teams are doing about it.
 
