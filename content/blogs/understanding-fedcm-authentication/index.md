@@ -17,22 +17,20 @@ classes:
 - feature-mermaid
 ---
 
-As we know, third-party cookies are disappearing from modern browsers, and cookie sharing introduces security and privacy concerns. To address this, [FedCM](https://developers.google.com/privacy-sandbox/fedcm) (Federated Credential Management) allows the browser to mediate communication between the Identity Provider (IdP) and the Relying Party (RP), eliminating the need for third-party cookie sharing.<!--more-->
+As browsers move to limit third-party cookies and tracking, conventional federated identity flows which require third-party cookies can cause privacy and compatibility issues. [FedCM](https://developers.google.com/privacy-sandbox/fedcm) (Federated Credential Management) addresses this by letting the browser mediate the communication between the Identity Provider (IdP) and the Relying Party (RP) so that federated sign-in can be performed without third-party cookies.<!--more-->
 
-In this post, I'll explain how FedCM works using [demo](https://github.com/baala3/fedcm-101), what the IdP and RP need to implement, and where it differs from OAuth/OIDC.
-
-<img src="frieren_flow.jpg" style="display: block; margin: 0 auto; max-width: 100%;"/>
+I'll explain how this works with a [demo](https://github.com/baala3/fedcm-101), what an IdP and an RP need to implement, and what distinguishes it from OAuth/OIDC.
 
 ## Why FedCM exists
 
 <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
 <div style="flex: 1 1 60%; min-width: 280px;">
 
-Federated sign-in generally relies on OAuth/OIDC redirects or IdP iframes embedded on the RP's page. Those iframes needed to read the IdP's first-party cookie from a third-party context to determine whether the user was already signed in. As browsers phase out third-party cookies to **prevent cross-site tracking**, this approach breaks. But simply removing third-party cookies isn't an option because federated sign-in is still legitimate use case.
+Federated sign-in generally relies on OAuth/OIDC redirects or IdP iframes embedded on the RP's page. These iframes needed to read the IdP's first-party cookie from a third-party context in order to determine if the user was already signed in. As browsers phase out third-party cookies and prevent cross-site tracking, this breaks eventually. But, simply removing third-party cookies is not an option, because federated sign-in is legitimate use case.
 
-FedCM idea is by moving the identity handshake into the browser. The browser mediates the sign-in flow, keeping the RP and IdP isolated from each other's cookies while giving a seamless sign-in experience.
+FedCM idea is by moving the identity handshake into the browser. This way the browser mediates the sign-in flow, keeping the RP and IdP isolated from each other's cookies, while providing a seamless sign-in experience.
 
-From a user's POV, it looks like replacement for OAuth/OIDC sign-in. But, it's not. FedCM does not use `PKCE`, `state`, `refresh tokens`, the authorization code flow, or other OAuth/OIDC protocol mechanisms. Also, FedCM is not part of OAuth or OpenID Connect and was not designed to replace their security model. Instead, it is browser API that complements existing identity protocols by providing a more privacy preserving way to initiate federated sign-in.
+From a user's POV, this is like replacement for OAuth/OIDC sign-in. But, it's not. FedCM does not use `PKCE`, `state`, `refresh tokens`, the authorization code flow, or other OAuth/OIDC protocol mechanisms. Also, it is not a part of OAuth or OpenID Connect and was not designed to replace their security model. But, it is browser API that complements existing identity protocols by providing a more privacy preserving way to initiate federated sign-in.
 
 </div>
 <div style="flex: 1 1 30%; min-width: 200px;">
@@ -44,11 +42,11 @@ From a user's POV, it looks like replacement for OAuth/OIDC sign-in. But, it's n
 
 ## The three parties, and what each one is allowed to see
 
-FedCM has three parties, and the goal is: **RP and IdP never talk to each other directly.** Everything goes through the browser.
+FedCM has three parties, and the goal is: have no direct communication. Everything is done through the browser.
 
-- **RP (Relying Party)**: the site the user is signing into. It calls `navigator.credentials.get()` and never talks to the IdP.
-- **IdP (Identity Provider)**: the account authority. It exposes a fixed set of well-known JSON endpoints and never talks to the RP.
-- **The browser**: does the actual fetching (attaching the IdP's own first-party cookies, since from the browser's point of view this is a first-party request), and renders the account chooser natively, outside either page's DOM. No page can style it, script it, or screenshot it.
+- **RP (Relying Party)**:  the site which user signs into. It calls `navigator.credentials.get()` and has no communication with the IdP.
+- **IdP (Identity Provider)**:  the account authority. It exposes a set of well-known JSON endpoints, and has no communication with the RP.
+- **The browser**: does actual fetches (attaching IdP's own first-party cookies, since from the browser's point of view it's a first-party request), and has a native account chooser rendered outside either page's DOM. No page can style it, script it, screenshot it.
 
 ```mermaid
 graph LR
@@ -85,9 +83,9 @@ graph LR
 
 ## Why so many separate endpoints
 
-At first, five endpoints for single sign-in flow feels excessive. But each endpoint has different trust level and access to different information, allowing the browser to enforce different security and privacy rules.
+At first, five endpoints for single sign-in flow feels excessive. But each endpoint has different trust level and access to different information, this allows the browser to enforce different security and privacy rules.
 
-- **Uncredentialed, no RP context** (well-known, config): Safe to fetch before the browser knows which RP is requesting them. They simply answer, "Does this IdP exist, and how is it configured?"
+- **Uncredentialed, no RP context** (well-known, config): This will be fetched before the browser knows which RP is requesting them. They simply answer, "Does this IdP exist, and how is it configured?"
 - **Uncredentialed, RP-aware** (client metadata): The response isn't sensitive, but the request includes the RP's identity. That's why newer Chrome and Edge versions require the well-known file to pin `accounts_endpoint` and `login_url`, preventing an IdP from quietly serving RP-specific account endpoints as a tracking mechanism.
 - **Credentialed, not RP-aware** (accounts): This request includes the IdP's session cookie but deliberately hides which RP is asking. That prevents the IdP from tailoring the account list per RP in a way that could be used for fingerprinting.
 - **Credentialed, RP-aware, mutating** (assertion, disconnect): These endpoints need to know the RP so the IdP can issue or revoke a grant. Both are `POST` requests and only run after explicit user action—either selecting an account or disconnecting the RP.
@@ -172,7 +170,7 @@ Access-Control-Allow-Credentials: true               (only on the credentialed o
 
 The RP side is much simpler. From the IdP's perspective, the RP is just a `client_id`, and there are no FedCM-specific server endpoints the RP has to implement. Everything FedCM-related happens in the browser. The backend only needs to verify the token it receives and create a normal cookie session.
 
-Requesting a credential is just:
+How to Request credential:
 
 ```js
 navigator.credentials.get({
@@ -187,7 +185,7 @@ navigator.credentials.get({
 });
 ```
 
-The RP only needs to know the IdP's `configURL` and its own `clientId`. Everything else comes from the IdP's config document. The `nonce` passed via `params`, and this single call triggers the entire browser-managed FedCM flow.
+Here RP only needs to know the IdP's `configURL` and its own `clientId`. Everything else comes from the IdP's config document. The `nonce` passed via `params`, and this single call triggers the entire browser-managed FedCM flow.
 
 >note: Only one **navigator.credentials.get()** request can be active per page. Starting another before the first finishes throws NotAllowedError. The usual fix is to use an AbortController and cancel the previous request before starting a new one.
 
@@ -209,7 +207,7 @@ If any of these conditions fail, the promise simply rejects. The expected behavi
 
 ## The four flows, end to end
 
-With both sides ready, here's how the pieces works across the flow. "Browser (FedCM)" below is browser's internal machinery: the account chooser and the fetches it makes on the RP's behalf.
+With both sides ready, here's how the flows works together. "Browser (FedCM)" below is browser's internal machinery: the account chooser and the fetches it makes on the RP's behalf.
 
 **First-time sign-in** (no existing IdP session, no prior grant):
 
@@ -324,8 +322,6 @@ This last one is the mirror image of the disconnect flow: the same grant row can
 
 **As i said before, FedCM is not a replacement for OAuth/OIDC.** It solves browser privacy problem caused by removal of third-party cookies. OAuth/OIDC authorization flows remain the same, FedCM simply replaces cookie-dependent browser interactions, such as front-channel logout, personalized sign-in buttons ("Continue as Alice"), and silent session refresh.
 
-Here's the diff:
-
 | OAuth/OIDC concept | FedCM equivalent |
 |---|---|
 | Authorization code + backend token exchange | None. `id_assertion_endpoint` returns a token directly to the browser in one shot. |
@@ -338,7 +334,7 @@ The demo makes this clear: `id_assertion_endpoint` returns a JWT directly to bro
 
 When designing an assertion endpoint, there are two approaches, and neither maps cleanly to OAuth/OIDC:
 
-- **Return an ID token directly.** This is what the demo does. It's similar to OAuth's implicit flow, where a token is exposed to browser JavaScript—a pattern the OAuth ecosystem has largely moved away from.
+- **Return an ID token directly.** This is what the demo does. It's similar to OAuth's implicit flow, where a token is exposed to browser JavaScript which is a pattern the OAuth ecosystem has largely moved away from.
 
 - **Return an opaque code for backend exchang.** This resembles the authorization code flow, but FedCM provides no `PKCE` or `state` equivalent to bind the code to the original get() request. The RP must build its own request-binding mechanism.
 
